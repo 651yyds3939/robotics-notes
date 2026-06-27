@@ -1,0 +1,12 @@
+{
+    "ros.distro": "noetic",
+    "python.autoComplete.extraPaths": [
+        "/opt/ros/noetic/lib/python3/dist-packages"
+    ],
+    "python.analysis.extraPaths": [
+        "/opt/ros/noetic/lib/python3/dist-packages"
+    ],
+    "pasteImage.path": "${currentFileDir}/images",
+    "pasteImage.prefix": "images/",
+    "pasteImage.namePrefix": "kuavo_" // 以后粘贴图片会自动命名为 kuavo_时间戳.png
+}
