@@ -96,13 +96,13 @@ docker inspect <容器ID或名字> | grep -C 5 "Source" | grep -v "/dev"
 
 #### 2. 宿主机与容器的“跨空搬运”（数据位）
 
-无需通过 Git 或 U 盘，直接在两个物理隔离的文件系统间传输权重模型或日志。
+无需通过 [Git](./git_github.md) 或 U 盘，直接在两个物理隔离的文件系统间传输权重模型或日志。
 
 ```bash
 # 从容器往外拿（例：提取训练日志到宿主机）
 docker cp <容器名>:/root/fast_lio_ws ~/
 
-# 往容器里送（例：把新炼好的 ONNX 模型送入部署 environment）
+# 往容器里送（例：把新炼好的 [ONNX 模型](./edge_deployment.md) 送入部署 environment）
 docker cp ~/my_file.txt <容器名>:/root/
 
 ```

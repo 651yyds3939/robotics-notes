@@ -140,7 +140,7 @@ source ~/.zshrc
 ### 6.2 Zellij 多路复用器
 
 * 替代 `Tmux` 的现代化分屏工具，原生支持鼠标点击与面板拖拽。
-* 适合需要同时运行 `roscore`、编译节点和查看日志的复杂机器人开发场景。在 Zsh 下直接输入 `zellij` 即可启动。
+* 适合需要同时运行 `roscore`、编译节点和查看日志的复杂机器人开发场景 👉 见 [ROS 架构逻辑](../robotics/ros_logic.md)。在 Zsh 下直接输入 `zellij` 即可启动。
 
 ---
 

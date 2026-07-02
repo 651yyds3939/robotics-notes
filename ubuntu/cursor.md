@@ -1,5 +1,7 @@
 # Cursor AI IDE 环境配置与使用笔记
 
+> 👉 相关：[具身智能工程工具箱](../robotics/tools.md) · [AI 编程 Agent](./AI_Coding_Agent.md) · [环境排障](../robotics/environment.md)
+
 **Cursor 安装教程参考：** [CSDN 教程链接](https://blog.csdn.net/wangyx1234/article/details/149124333?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_baidulandingword~default-9-149124333-blog-154054036.235^v43^pc_blog_bottom_relevance_base3&spm=1001.2101.3001.4242.6&utm_relevant_index=12)
 
 ---

@@ -1,6 +1,6 @@
 # 🚀 Ubuntu 资源获取与系统清理全指南 (2026 极致实战版)
 
-本指南专为机器人开发者（ROS2, Isaac Sim, AI）设计，特别针对 16G 内存系统优化。
+本指南专为机器人开发者（[ROS2](../robotics/ros2_process.md), [Isaac Sim](../robotics/robot_modeling.md), AI）设计，特别针对 16G 内存系统优化。
 
 ---
 

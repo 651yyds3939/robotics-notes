@@ -25,13 +25,13 @@ $$earth \rightarrow map \rightarrow odom \rightarrow base\_link \rightarrow \{se
 
 ### 核心逻辑解析：
 1.  **map → odom (定位层)**
-    * **负责节点：** SLAM 算法或 AMCL 定位。
+    * **负责节点：** [SLAM](./slam.md) 算法或 AMCL 定位。
     * **主要任务：** 消除里程计的累积误差。当定位系统发现“里程计认为我在 A，但实际我在 B”时，它会通过调整 map 到 odom 的偏置来修正。
 2.  **odom → base_link (运动层)**
     * **负责节点：** 底层驱动（轮式里程计、视觉里程计）。
     * **主要任务：** 提供高频、平滑的位姿反馈。保证机器人控制时不会因为定位修正而产生剧烈抖动。
 3.  **base_link → sensor (结构层)**
-    * **负责节点：** `robot_state_publisher` (通常读取 URDF 文件)。
+    * **负责节点：** `robot_state_publisher` (通常读取 [URDF](./robot_modeling.md) 文件)。
     * **主要任务：** 描述硬件安装位置。例如：激光雷达安装在底盘中心前方 10cm。
 
 ---
@@ -39,7 +39,7 @@ $$earth \rightarrow map \rightarrow odom \rightarrow base\_link \rightarrow \{se
 ## 4. 为什么需要这么复杂的层级？
 
 * **解决“瞬移”问题：** 如果直接从 `map` 连到 `base_link`，定位算法修正误差时，机器人会在地图上“闪现”，导致导航算法（Local Planner）崩溃。有了 `odom` 作为中间层，机器人能在局部保持平滑运动。
-* **传感器数据融合：** 通过 `base_link` 到 `sensor` 的变换，机器人可以把“前方 1 米的障碍物（雷达坐标系）”瞬间转换成“地图坐标 $(x, y)$（地图坐标系）”，从而进行全局路径规划。
+* **传感器数据融合：** 通过 `base_link` 到 `sensor` 的变换，机器人可以把“前方 1 米的障碍物（雷达坐标系）”瞬间转换成“地图坐标 $(x, y)$（地图坐标系）”，从而进行[全局路径规划](./path_planning.md)。
 
 ---
 

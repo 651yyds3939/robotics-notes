@@ -105,7 +105,7 @@
 - ROS 1（Noetic - 主从节点 TCP/IP 机制）
 - ROS 2（Humble/Iron - DDS 去中心化通信）
 - `ros2_control`：硬件抽象层，统一管理真实硬件与仿真切换
-- 👉 入门模板：[ROS2 最小工作空间](./robotics/ros_code_template/ros2_code_ws/) · [ROS1 工作空间](./robotics/ros_code_template/ros1_code_ws/)
+- 👉 入门模板：[ROS2 最小工作空间](./robotics/ros_code_template/ros2_code_ws/) · [ROS1 工作空间](./robotics/ros_code_template/ros1_code_ws/) · [工作空间文件速查](./robotics/doc_concept.md)
 
 ### 2.3 核心算法与框架
 

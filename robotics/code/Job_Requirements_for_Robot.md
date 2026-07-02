@@ -145,7 +145,7 @@
 * **终极数学：** 概率论（贝叶斯估计）、**李群与李代数**（处理三维旋转的必备工具）、多视图几何。
 * **核心框架：** 激光 SLAM (LOAM 家族, Cartographer) 或 视觉 SLAM (ORB-SLAM 家族, VINS-Mono)。
 * **后端优化：** 图优化理论，熟练使用 g2o、GTSAM、Ceres 构建并求解位姿图 (Pose Graph)。
-* **滤波理论：** 扩展卡尔曼滤波 (EKF)、误差状态卡尔曼滤波 (ESKF) 及其在多传感器融合中的应用。
+* **滤波理论：** 扩展卡尔曼滤波 (EKF)、误差状态卡尔曼滤波 (ESKF) 及其在[多传感器融合](../sensor_fusion.md)中的应用。
 
 ### 2. LeetCode 靶向刷题
 
@@ -167,7 +167,7 @@
 
 * **语言切换：** 以 **Python** 为绝对主导（训练），但需懂基础 C++（部署）。
 * **深度学习底座：** 熟练掌握 PyTorch 或 JAX，Transformer 架构。
-* **强化学习算法：** MDP (马尔可夫决策过程)、Q-Learning、DQN，以及目前主流的 Actor-Critic 家族（**PPO**, SAC）。
+* **强化学习算法：** MDP (马尔可夫决策过程)、Q-Learning、DQN，以及目前主流的 Actor-Critic 家族（**[PPO](../RL.md)**, SAC）。
 * **仿真器生态：** 极其熟练地使用物理仿真平台，如 Isaac Gym (NVIDIA), MuJoCo, PyBullet。
 * **Sim-to-Real 技术：** 域随机化 (Domain Randomization)、模仿学习 (Imitation Learning)、数据驱动模型预测。
 
