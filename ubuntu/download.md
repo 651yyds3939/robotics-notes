@@ -9,17 +9,17 @@
 
 ```bash
 # --- Git 基础 ---
-git clone <url>                # 克隆仓库
-git pull origin <branch>       # 拉取最新代码
-git clone --recursive <url>    # 递归克隆（带子模块，机器人开发常用）
+git clone <url> # 克隆仓库
+git pull origin <branch> # 拉取最新代码
+git clone --recursive <url> # 递归克隆（带子模块，机器人开发常用）
 
 # --- 强制对齐远程仓库 (本地乱了时的救命稻草) ---
 git fetch --all
-git reset --hard origin/main   # 放弃所有本地修改，强制同步远程
+git reset --hard origin/main # 放弃所有本地修改，强制同步远程
 
 # --- VCS (多仓库管理，ROS必备) ---
-vcs import src < my.repos      # 批量导入 .repos 文件中的仓库
-vcs pull src                   # 批量拉取所有仓库更新
+vcs import src < my.repos # 批量导入 .repos 文件中的仓库
+vcs pull src # 批量拉取所有仓库更新
 
 ```
 
@@ -37,9 +37,9 @@ docker pull <image_name>:<tag>
 docker pull docker.1ms.run/nvcr.io/nvidia/isaac-sim:4.2.0
 
 # --- 镜像管理 ---
-docker images                  # 查看本地所有镜像
-docker ps -a                   # 查看所有容器（包括已停止的）
-docker tag <old> <new>         # 重命名标签（适配脚本）
+docker images # 查看本地所有镜像
+docker ps -a # 查看所有容器（包括已停止的）
+docker tag <old> <new> # 重命名标签（适配脚本）
 
 ```
 
@@ -51,16 +51,16 @@ docker tag <old> <new>         # 重命名标签（适配脚本）
 
 ```bash
 # --- APT (系统级) ---
-sudo apt update && sudo apt install <package>  # 安装
-sudo apt-get download <package>                # 仅下载 .deb 包不安装
+sudo apt update && sudo apt install <package> # 安装
+sudo apt-get download <package> # 仅下载 .deb 包不安装
 
 # --- Pip (Python) ---
 pip install <package>
-pip install -e .                               # 以可编辑模式安装本地包
+pip install -e . # 以可编辑模式安装本地包
 
 # --- Conda (环境管理) ---
-conda create -n <name> python=3.10             # 创建环境
-conda env create -f environment.yml            # 从配置文件恢复环境
+conda create -n <name> python=3.10 # 创建环境
+conda env create -f environment.yml # 从配置文件恢复环境
 
 ```
 
@@ -72,11 +72,11 @@ conda env create -f environment.yml            # 从配置文件恢复环境
 
 ```bash
 # --- Wget ---
-wget -c <url>                  # 断点续传（网络不稳时必用）
-wget -b <url>                  # 后台下载，关掉终端也能跑
+wget -c <url> # 断点续传（网络不稳时必用）
+wget -b <url> # 后台下载，关掉终端也能跑
 
 # --- Curl ---
-curl -C - -O <url>             # 断点续传下载
+curl -C - -O <url> # 断点续传下载
 
 ```
 
@@ -88,20 +88,20 @@ curl -C - -O <url>             # 断点续传下载
 
 ```bash
 # --- Docker 深度清理 (清理下载残留、废弃容器) ---
-docker system prune -a         # 删除所有未使用的镜像、容器和网络
-docker builder prune           # 清理构建缓存（能腾出好几个G）
-docker rmi <image_id>          # 强制删除指定镜像
+docker system prune -a # 删除所有未使用的镜像、容器和网络
+docker builder prune # 清理构建缓存（能腾出好几个G）
+docker rmi <image_id> # 强制删除指定镜像
 
 # --- 系统清理 (APT) ---
-sudo apt autoremove            # 删除不再需要的依赖包
-sudo apt clean                 # 清除 /var/cache/apt/archives 下的缓存包
+sudo apt autoremove # 删除不再需要的依赖包
+sudo apt clean # 清除 /var/cache/apt/archives 下的缓存包
 
 # --- Python 缓存清理 (Isaac Sim 依赖包非常大) ---
-pip cache purge                # 清理 Pip 下载缓存
-conda clean --all              # 清理 Conda 无用包和索引缓存
+pip cache purge # 清理 Pip 下载缓存
+conda clean --all # 清理 Conda 无用包和索引缓存
 
 # --- Git 清理 ---
-git clean -df                  # 递归删除仓库中未跟踪的文件
+git clean -df # 递归删除仓库中未跟踪的文件
 
 ```
 
@@ -112,9 +112,9 @@ git clean -df                  # 递归删除仓库中未跟踪的文件
 随时监控，防止磁盘写满导致系统崩溃。
 
 ```bash
-df -h                          # 查看磁盘分区剩余空间
-du -sh * | sort -h             # 查看当前目录下文件夹大小并排序
-watch -n 2 df -h               # 每 2 秒刷新一次空间，下载大文件时盯着它用
+df -h # 查看磁盘分区剩余空间
+du -sh * | sort -h # 查看当前目录下文件夹大小并排序
+watch -n 2 df -h # 每 2 秒刷新一次空间，下载大文件时盯着它用
 
 ```
 

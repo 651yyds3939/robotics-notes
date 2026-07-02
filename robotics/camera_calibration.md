@@ -9,7 +9,7 @@
 
 ## 第 0 章：相机标定一句话
 
-> **大白话**：相机拍出来的照片是"变形的"（广角镜头的桶形畸变）。标定就是让你知道"照片上那个点在真实世界 3D 空间的哪个方向"。标定完了，YOLO 检测到的像素框才能转化成机器人坐标系下的抓取目标点。
+> **大白话**：相机拍出来的照片是"变形的"（广角镜头的桶形畸变）。标定用于确定「像素点在相机/世界坐标系中的方向」。标定完了，YOLO 检测到的像素框才能转化成机器人坐标系下的抓取目标点。
 
 ---
 
@@ -61,14 +61,14 @@ import numpy as np
 
 # 准备棋盘格（如 9×6 内角点，格子 25mm）
 pattern_size = (9, 6)
-square_size = 0.025  # 米
+square_size = 0.025 # 米
 
 # 检测角点并标定
 ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(
-    objpoints,      # 棋盘格角点的世界 3D 坐标
-    imgpoints,      # 检测到的图像 2D 角点
-    image_size,     # 图像分辨率
-    None, None
+ objpoints, # 棋盘格角点的世界 3D 坐标
+ imgpoints, # 检测到的图像 2D 角点
+ image_size, # 图像分辨率
+ None, None
 )
 
 # 矫正图像

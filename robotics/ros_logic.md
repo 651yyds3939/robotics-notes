@@ -111,7 +111,7 @@ ROS 2 使用 Python Launch（`launch_ros`），可编程分支，比 ROS 1 XML l
 
 ## 七、与专题笔记的导航关系
 
-| 你想… | 去看 |
+| 若需… | 去看 |
 |--------|------|
 | 搞清 Topic/Service/Action 怎么选 | [`ros_communication.md`](./ros_communication.md) |
 | 创建第一个 ROS2 包并编译 | [`ros2_process.md`](./ros2_process.md) · [`ros_code_template/`](./ros_code_template/) · [工作空间文件速查](./doc_concept.md) |

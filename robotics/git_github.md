@@ -9,16 +9,16 @@
 ## 一、 Git 三层架构与快照机制
 
 与 Windows 的复制粘贴不同，Git 采用的是**快照（Snapshot）加差分**机制，极度轻量。代码在本地存在于三个核心区域：
-1.  **工作区（Working Directory）**：你当前在 VS Code 里编辑的文件。
-2.  **暂存区（Staging Area / Index）**：执行 `git add` 后，文件被打包准备上车。这给了你反悔的机会。
-3.  **本地仓库（Local Repository）**：执行 `git commit` 后，代码正式写入 `.git` 隐藏目录，生成了一个不可篡改的 SHA-1 哈希值（如 `3cd6834`）。
-*   **GitHub 的角色**：它只是一个装有 Git 环境的远端服务器，`git push` 就是把本地 `.git` 里的历史记录同步过去。
+1. **工作区（Working Directory）**：工作区中正在编辑的文件。
+2. **暂存区（Staging Area / Index）**：执行 `git add` 后，文件被打包准备上车。可在提交前调整。
+3. **本地仓库（Local Repository）**：执行 `git commit` 后，代码正式写入 `.git` 隐藏目录，生成了一个不可篡改的 SHA-1 哈希值（如 `3cd6834`）。
+* **GitHub 的角色**：它只是一个装有 Git 环境的远端服务器，`git push` 就是把本地 `.git` 里的历史记录同步过去。
 
 ---
 
 ## 二、 基础实战：从零重建纯净仓库推送到 GitHub
 
-当你 clone 了别人的大型项目，想修改后上传到自己的 GitHub，但遭遇大文件（`.git` 过大）或嵌套子仓库污染时，请严格按照此流程操作。
+clone 含大文件历史的项目时，想修改后上传到自己的 GitHub，但遭遇大文件（`.git` 过大）或嵌套子仓库污染时，请严格按照此流程操作。
 
 **🚨 铁律：Git 只适合存代码，严禁存放 `.bag`, `.tar.gz`, `build/`, `log/`。**
 
@@ -73,11 +73,11 @@ git branch -M main
 ```
 
 ### 2.5 GitHub 绑定与推送 (Token 认证)
-*   **创建仓库**：在 GitHub 创建私有仓库，**不要勾选** README/gitignore/license 初始化。
-*   **Token 登录**：GitHub 已禁止密码推送，必须生成 `Tokens (classic)`（勾选 `repo` 权限）。
-*   **推流**：
+* **创建仓库**：在 GitHub 创建私有仓库，**不要勾选** README/gitignore/license 初始化。
+* **Token 登录**：GitHub 已禁止密码推送，必须生成 `Tokens (classic)`（勾选 `repo` 权限）。
+* **推流**：
 ```bash
-git remote add origin [https://github.com/你的用户名/仓库名.git](https://github.com/你的用户名/仓库名.git)
+git remote add origin [https://github.com/<用户名>/<仓库名>.git](https://github.com/<用户名>/<仓库名>.git)
 git push -u origin main
 # 登录时 Password 输入 Token
 
@@ -98,23 +98,23 @@ git diff
 ```
 
 ### 第一阶段：处理当前现场（根据需求二选一）
-*   **方案 A：纯净重置（放弃修改）**
-    ```bash
-    sudo chown -R $USER:$USER .  # 解决 Docker 遗留的权限锁
-    git checkout .               # 清除追踪文件修改
-    git clean -fd                # 强制清理未追踪的新文件（慎用！）
-    ```
-*   **方案 B：打包带走（暂存本地修改）**
-    ```bash
-    git stash -u                 # 强力暂存（包含新建的未追踪文件）
-    git stash list               # 确认入库
-    ```
+* **方案 A：纯净重置（放弃修改）**
+ ```bash
+ sudo chown -R $USER:$USER . # 解决 Docker 遗留的权限锁
+ git checkout . # 清除追踪文件修改
+ git clean -fd # 强制清理未追踪的新文件（慎用！）
+ ```
+* **方案 B：打包带走（暂存本地修改）**
+ ```bash
+ git stash -u # 强力暂存（包含新建的未追踪文件）
+ git stash list # 确认入库
+ ```
 
 ### 第二阶段：刷新与精准跳跃
 ```bash
-git fetch --all              # 强制刷新远程最新状态
-git branch -a                # 查看本地与远程路线图
-git checkout <目标分支名>      # 例如 git checkout main
+git fetch --all # 强制刷新远程最新状态
+git branch -a # 查看本地与远程路线图
+git checkout <目标分支名> # 例如 git checkout main
 ```
 
 ### 第三阶段：同步外包模型（极其致命的子模块陷阱！）
@@ -125,14 +125,14 @@ git submodule update --init --recursive
 
 ### 第四阶段：恢复现场（仅针对选了“方案 B”的人）
 ```bash
-git stash pop                # 弹出修改并应用（若有 Merge conflict 需去 VSCode 解决冲突）
+git stash pop # 弹出修改并应用（若有 Merge conflict 需去 VSCode 解决冲突）
 ```
 
 ---
 
 ## 四、 细节警惕：大小写的绝对严谨
-*   Windows 不区分大小写（`readme.md` = `README.md`）。
-*   Linux 的 Ext4 文件系统严格校验 ASCII 码。因此，官方的 `readme.md` 和你自创的 `READEME.md` 可以完美并存在同一个文件夹里，只是在红锁权限遮蔽下，图形界面可能优先折叠了你新创建的那个。
+* Windows 不区分大小写（`readme.md` = `README.md`）。
+* Linux 的 Ext4 文件系统严格校验 ASCII 码。因此，官方的 `readme.md` 与自建 `READEME.md` 可以完美并存在同一个文件夹里，只是在红锁权限遮蔽下，图形界面可能未显示新建文件。
 
 ---
 
@@ -165,16 +165,16 @@ find ~/ -mmin -60 -type f
 
 ```bash
 # --- Git 基础 ---
-git clone <url>                # 克隆仓库
-git pull origin <branch>       # 拉取最新代码
-git clone --recursive <url>    # 递归克隆（带子模块，机器人开发常用）
+git clone <url> # 克隆仓库
+git pull origin <branch> # 拉取最新代码
+git clone --recursive <url> # 递归克隆（带子模块，机器人开发常用）
 
 # --- 强制对齐远程仓库 (本地乱了时的救命稻草) ---
 git fetch --all
-git reset --hard origin/main   # 放弃所有本地修改，强制同步远程
+git reset --hard origin/main # 放弃所有本地修改，强制同步远程
 
 # --- VCS (多仓库管理，ROS必备) ---
-vcs import src < my.repos      # 批量导入 .repos 文件中的仓库
-vcs pull src                   # 批量拉取所有仓库更新
+vcs import src < my.repos # 批量导入 .repos 文件中的仓库
+vcs pull src # 批量拉取所有仓库更新
 
 ```

@@ -24,15 +24,15 @@
 $$earth \rightarrow map \rightarrow odom \rightarrow base\_link \rightarrow \{sensors/actuators\}$$
 
 ### 核心逻辑解析：
-1.  **map → odom (定位层)**
-    * **负责节点：** [SLAM](./slam.md) 算法或 AMCL 定位。
-    * **主要任务：** 消除里程计的累积误差。当定位系统发现“里程计认为我在 A，但实际我在 B”时，它会通过调整 map 到 odom 的偏置来修正。
-2.  **odom → base_link (运动层)**
-    * **负责节点：** 底层驱动（轮式里程计、视觉里程计）。
-    * **主要任务：** 提供高频、平滑的位姿反馈。保证机器人控制时不会因为定位修正而产生剧烈抖动。
-3.  **base_link → sensor (结构层)**
-    * **负责节点：** `robot_state_publisher` (通常读取 [URDF](./robot_modeling.md) 文件)。
-    * **主要任务：** 描述硬件安装位置。例如：激光雷达安装在底盘中心前方 10cm。
+1. **map → odom (定位层)**
+ * **负责节点：** [SLAM](./slam.md) 算法或 AMCL 定位。
+ * **主要任务：** 消除里程计的累积误差。当定位系统发现“里程计认为我在 A，但实际我在 B”时，它会通过调整 map 到 odom 的偏置来修正。
+2. **odom → base_link (运动层)**
+ * **负责节点：** 底层驱动（轮式里程计、视觉里程计）。
+ * **主要任务：** 提供高频、平滑的位姿反馈。保证机器人控制时不会因为定位修正而产生剧烈抖动。
+3. **base_link → sensor (结构层)**
+ * **负责节点：** `robot_state_publisher` (通常读取 [URDF](./robot_modeling.md) 文件)。
+ * **主要任务：** 描述硬件安装位置。例如：激光雷达安装在底盘中心前方 10cm。
 
 ---
 
@@ -48,15 +48,15 @@ $$earth \rightarrow map \rightarrow odom \rightarrow base\_link \rightarrow \{se
 在调试自己的机器人的过程中（比如 ESP32 小车或仿真环境），以下命令是“救命稻草”：
 
 * **查看 TF 树结构：**
-    ```bash
-    ros2 run tf2_tools view_frames
-    ```
+ ```bash
+ ros2 run tf2_tools view_frames
+ ```
 * **查看具体两个坐标系的转换关系：**
-    ```bash
-    ros2 run tf2_ros tf2_echo map base_link
-    ```
+ ```bash
+ ros2 run tf2_ros tf2_echo map base_link
+ ```
 * **在 Rviz2 中可视化：**
-    直接添加 `TF` 插件，可以看到各个坐标轴随机器人摆动的实时动态。
+ 直接添加 `TF` 插件，可以看到各个坐标轴随机器人摆动的实时动态。
 
 ---
 

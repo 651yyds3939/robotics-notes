@@ -8,7 +8,7 @@
 
 ## 第 0 章：边缘部署一句话
 
-> **大白话**：你在 GPU 上训出来的 [RL 策略](./RL.md) 是一个几百 MB 的 PyTorch checkpoint。机器人胸口的 NUC 或 Orin 没有 RTX 4090，只有 CPU 或嵌入式 GPU。你需要把策略"瘦身"成一个小巧的东西（ONNX/TensorRT），能在 1ms 内出结果。
+> **大白话**：GPU 上训练得到的 [RL 策略](./RL.md) 常为数百 MB 的 PyTorch checkpoint。机载 NUC/Orin 无桌面级 GPU，需将策略压缩为 ONNX/TensorRT），能在 1ms 内出结果。
 
 ---
 
@@ -29,17 +29,17 @@ policy.load_state_dict(actor_state)
 policy.eval()
 
 # 定义虚构的输入尺寸（必须和训练时的 obs 维度一致）
-dummy_input = torch.randn(1, 115)  # S49 舞蹈: 115维观测
+dummy_input = torch.randn(1, 115) # S49 舞蹈: 115维观测
 
 # 导出 ONNX
 torch.onnx.export(
-    policy,
-    dummy_input,
-    "kuavo_policy.onnx",
-    input_names=["observations"],
-    output_names=["actions"],
-    opset_version=11,           # 兼容性关键参数
-    dynamic_axes=None           # 固定 batch=1，不要动态轴
+ policy,
+ dummy_input,
+ "kuavo_policy.onnx",
+ input_names=["observations"],
+ output_names=["actions"],
+ opset_version=11, # 兼容性关键参数
+ dynamic_axes=None # 固定 batch=1，不要动态轴
 )
 ```
 
@@ -77,9 +77,9 @@ TensorRT 是 NVIDIA 的推理优化引擎，对 ONNX 模型做图优化、层融
 ```bash
 # 命令行导出（推荐，自动处理版本兼容）
 trtexec --onnx=kuavo_policy.onnx \
-        --saveEngine=kuavo_policy.trt \
-        --fp16 \
-        --workspace=2048
+ --saveEngine=kuavo_policy.trt \
+ --fp16 \
+ --workspace=2048
 ```
 
 ### 2.2 Orin NX 部署注意
@@ -90,7 +90,7 @@ trtexec --onnx=kuavo_policy.onnx \
 
 ---
 
-## 第 3 章：你的 Sim2Real 部署全链路
+## 第 3 章：Sim2Real 部署全链路
 
 ```text
 PyTorch checkpoint (.pt)

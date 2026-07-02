@@ -10,22 +10,22 @@ cd ~/ros2_ws
 根据使用的语言，选择不同的编译类型：
 
 * **2.1 C++ (ament_cmake):**
-    ```bash
-    cd ~/ros2_ws/src
-    ros2 pkg create --build-type ament_cmake cpp_node_pkg --dependencies rclcpp
-    ```
+ ```bash
+ cd ~/ros2_ws/src
+ ros2 pkg create --build-type ament_cmake cpp_node_pkg --dependencies rclcpp
+ ```
 * **2.2 Python (ament_python):**
-    ```bash
-    cd ~/ros2_ws/src
-    ros2 pkg create --build-type ament_python py_node_pkg --dependencies rclpy
-    ```
+ ```bash
+ cd ~/ros2_ws/src
+ ros2 pkg create --build-type ament_python py_node_pkg --dependencies rclpy
+ ```
 
 ---
 
 #### 3. 创建节点与编写代码-以最基础的空节点为例子，具体节点模板见`code_ws`
 
 * **3.1 C++ 节点:** 在 `cpp_node_pkg/src` 下创建 `my_node.cpp`。
-    ```cpp
+ ```cpp
     #include "rclcpp/rclcpp.hpp"
     int main(int argc, char **argv) {
         rclcpp::init(argc, argv);
@@ -37,40 +37,40 @@ cd ~/ros2_ws
     ```
 
 * **3.2 Python 节点:** 在 `py_node_pkg/py_node_pkg` (第二个同名文件夹) 下创建 `my_py_node.py`。
-    ```python
-    import rclpy
-    from rclpy.node import Node
+ ```python
+ import rclpy
+ from rclpy.node import Node
 
-    def main(args=None):
-        rclpy.init(args=args)
-        node = Node("py_node")
-        node.get_logger().info("Hello ROS2 from Python!")
-        rclpy.shutdown()
+ def main(args=None):
+ rclpy.init(args=args)
+ node = Node("py_node")
+ node.get_logger().info("Hello ROS2 from Python!")
+ rclpy.shutdown()
 
-    if __name__ == '__main__':
-        main()
-    ```
+ if __name__ == '__main__':
+ main()
+ ```
 
 ---
 
 #### 4. 修改配置文件
 
 * **4.1 C++ (CMakeLists.txt):**
-    ```cmake
-    add_executable(cpp_executable src/my_node.cpp)
-    ament_target_dependencies(cpp_executable rclcpp)
-    install(TARGETS cpp_executable DESTINATION lib/${PROJECT_NAME})
-    ```
+ ```cmake
+ add_executable(cpp_executable src/my_node.cpp)
+ ament_target_dependencies(cpp_executable rclcpp)
+ install(TARGETS cpp_executable DESTINATION lib/${PROJECT_NAME})
+ ```
 
 * **4.2 Python (setup.py):**
-    找到 `entry_points` 字典，添加控制台脚本：
-    ```python
-    entry_points={
-        'console_scripts': [
-            'py_executable = py_node_pkg.my_py_node:main',
-        ],
-    },
-    ```
+ 找到 `entry_points` 字典，添加控制台脚本：
+ ```python
+ entry_points={
+ 'console_scripts': [
+ 'py_executable = py_node_pkg.my_py_node:main',
+ ],
+ },
+ ```
 
 ---
 
@@ -89,13 +89,13 @@ source install/setup.bash
 
 #### 7. 运行节点 (Run)
 * **7.1运行 C++ 节点:**
-    ```bash
-    ros2 run cpp_node_pkg cpp_executable
-    ```
+ ```bash
+ ros2 run cpp_node_pkg cpp_executable
+ ```
 * **7.2运行 Python 节点:**
-    ```bash
-    ros2 run py_node_pkg py_executable
-    ```
+ ```bash
+ ros2 run py_node_pkg py_executable
+ ```
 
 #### 8. 查看节点状态 (Node List)
 ```bash

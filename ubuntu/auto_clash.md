@@ -1,8 +1,3 @@
-我已经将暂时关闭和禁用 Clash 服务的相关终端指令补充到了笔记的 **3.2 节**和 **第五部分 (SOP)** 中，其余内容和排版完全保持了原样。
-
-你可以直接复制下面这份完整的笔记进行替换：
-
-```markdown
 ---
 
 # Ubuntu 开发环境代理调度与自动化配置完全手册
@@ -76,7 +71,7 @@ wget -O config.yaml "你的订阅链接"
 务必加上 `--user-agent` 伪装成 Clash 客户端，否则有的机场会返回一堆乱码（Base64）。
 
 ```bash
-wget --user-agent="clash-meta/v1.18.0" -O peiqian.yaml "你的机场订阅链接URL"
+wget --user-agent="clash-meta/v1.18.0" -O peiqian.yaml "机场订阅链接URL"
 
 ```
 
@@ -147,7 +142,7 @@ After=network.target
 
 [Service]
 Type=simple
-User=%i  # 替换为你的用户名
+User=%i # 替换为你的用户名
 WorkingDirectory=~/clash
 ExecStart=~/clash/clash -d .
 Restart=on-failure
@@ -161,13 +156,13 @@ WantedBy=multi-user.target
 ### 3.2 服务控制指令
 
 ```bash
-sudo systemctl daemon-reload       # 重载配置
-sudo systemctl enable clash        # 开机自启
-sudo systemctl start clash         # 立即启动
-sudo systemctl restart clash       # 修改/切换配置后执行重启
-journalctl -u clash -f             # 实时查看运行日志
-sudo systemctl stop clash          # 暂时关闭服务 (停止运行)
-sudo systemctl disable clash       # 禁用开机自启
+sudo systemctl daemon-reload # 重载配置
+sudo systemctl enable clash # 开机自启
+sudo systemctl start clash # 立即启动
+sudo systemctl restart clash # 修改/切换配置后执行重启
+journalctl -u clash -f # 实时查看运行日志
+sudo systemctl stop clash # 暂时关闭服务 (停止运行)
+sudo systemctl disable clash # 禁用开机自启
 
 
 ```
@@ -215,6 +210,3 @@ source ~/.bashrc
 3. **应用更改**：执行 `sudo systemctl restart clash`。
 4. **暂时关闭代理**：执行 `sudo systemctl stop clash` 彻底关闭后台服务（若当前终端已开启代理，需配合执行 `proxy_off` 恢复直连）。
 
-```
-
-```

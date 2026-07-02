@@ -1,10 +1,30 @@
 # 机器人全链路系统 (Full-Stack Robotics System)
 
-> **使用说明**：在 VS Code 中打开此文件，按 `Ctrl+Shift+O` 即可调出大纲面板查看完整树状结构。
+> **使用说明**（与 [README.md](./README.md) 一致）
 >
-> 📂 **GitHub 开源**：[robotics-notes](https://github.com/651yyds3939/robotics-notes)（通用知识库）· [kuavo-dev-notes](https://github.com/651yyds3939/kuavo-dev-notes)（人形机器人二次开发实战，54篇文档）
+> 本文件是**机器人全链路系统**的主索引，按九大层组织：感知 → 决策 → 控制 → 执行 → 通信 → 工程化。导图内已加入可点击链接：
+> - **👉 专题笔记** → 本仓库 [`robotics/`](./robotics/) / [`ubuntu/`](./ubuntu/)（相对路径）
+> - **👉 实战案例** → 独立仓库 [kuavo-dev-notes](https://github.com/651yyds3939/kuavo-dev-notes)（**GitHub 绝对链接**；两仓库分工见 [README「链接规范」](./README.md#链接规范两仓库分工)）
 >
-> 💡 不同形态机器人的运动学特性与区别 👉 [机器人分类与特性对比](./robotics/robot_types.md)
+> **推荐阅读顺序**：① 本导图建立全链路地图 → ② 按节点进专题笔记 → ③ 环境/工具查 [`ubuntu/`](./ubuntu/) → ④ 写代码用 [`ros_code_template/`](./robotics/ros_code_template/)。
+>
+> **三种查看方式**
+>
+> | 方式 | 做法 |
+> |------|------|
+> | **大纲视图** | VS Code / Cursor 打开本文件，按 `Ctrl+Shift+O` 浏览树状结构 |
+> | **Markmap（推荐）** | 安装扩展 **Markmap** → 右键本文件 → **Open in Markmap** → 交互展开并点击链接 |
+> | **浏览器离线 HTML** | 打开 [`robot_system_photo.html`](./robot_system_photo.html)（数据预渲染 + 本地 `assets/markmap/`，**无需联网**） |
+>
+> **HTML 离线版提示**（详见过 [README「用浏览器打开 HTML 版」](./README.md#用浏览器打开-html-版离线)）：
+> - 终端：`xdg-open /path/to/robotics-notes/robot_system_photo.html`（将路径改为本机实际目录）
+> - 须从 **`robotics-notes/` 仓库根目录内**打开，勿单独拷贝 HTML，否则 `assets/markmap/` 会失效
+> - 若主区域空白、仅见右下角工具栏：点 **「适应屏幕」**，或 `Ctrl + Shift + R` 刷新
+> - 修改本 `.md` 后运行 `./regenerate_robot_system_html.sh` 可更新 HTML；完全同步仍推荐 **Markmap 直接打开本文件**
+>
+> 📂 **GitHub**：[robotics-notes](https://github.com/651yyds3939/robotics-notes)（本库 · 通用理论/架构/工具链）· [kuavo-dev-notes](https://github.com/651yyds3939/kuavo-dev-notes)（Kuavo 4 Pro 实机/仿真二次开发，54 篇实战文档）
+>
+> 💡 不同形态机器人 👉 [机器人分类与特性对比](./robotics/robot_types.md)
 
 ---
 
@@ -112,9 +132,9 @@
 #### 2.3.1 具身智能与 VLA (Embodied AI / VLA)
 
 - **VLA 架构迭代实战**：
-  - V1 → ASR + LLM 意图提取 → JSON 指令 → 硬编码状态机执行（9 终端）
-  - V2 → py_trees [行为树](./robotics/ros_logic.md) 重构（行为封装为独立节点，可组合替换）👉 实战见 [行为树版 VLA](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.2.tree_VLA_grasp.md)
-  - V3 → MCP Tool Call（LLM 直接调用 `detect/grasp/speak` 函数，自主编排调用链）
+ - V1 → ASR + LLM 意图提取 → JSON 指令 → 硬编码状态机执行（9 终端）
+ - V2 → py_trees [行为树](./robotics/ros_logic.md) 重构（行为封装为独立节点，可组合替换）👉 实战见 [行为树版 VLA](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.2.tree_VLA_grasp.md)
+ - V3 → MCP Tool Call（LLM 直接调用 `detect/grasp/speak` 函数，自主编排调用链）
 - **LLM/VLM**：任务分解与推理（Qwen2-7B / Gemini），Ghost_words 幻觉拦截
 - **模仿学习 (IL)**：ACT / Diffusion Policy，视觉→动作端到端映射，脑体分离解耦架构（大脑 PyTorch + 身体 [Docker](./robotics/docker.md) [ROS](./robotics/ros_logic.md)）
 - **深度学习基础设施**：PyTorch / [TensorRT / ONNX Runtime](./robotics/edge_deployment.md)
@@ -308,19 +328,19 @@
 #### 7.1.3 大脑与小脑通信（上位机 ↔ 下位机） 👉 [ROS 通信原理](./robotics/ros_communication.md) · [TF 树笔记](./robotics/tf_tree.md)
 
 - **物理连接**：
-  - 内部千兆以太网（机身骨架集成）
-  - 静态 IP 局域网（下位机 `192.168.26.1`，上位机 `192.168.26.12`）
+ - 内部千兆以太网（机身骨架集成）
+ - 静态 IP 局域网（下位机 `192.168.26.1`，上位机 `192.168.26.12`）
 - **双机组网铁律**：
-  - `ROS_MASTER_URI` 统一绑定下位机（`http://kuavo_master:11311`）
-  - 各自暴露 `ROS_IP` 防止节点串台
-  - 物理千兆网线直连，禁用 WiFi 传输控制指令
+ - `ROS_MASTER_URI` 统一绑定下位机（`http://kuavo_master:11311`）
+ - 各自暴露 `ROS_IP` 防止节点串台
+ - 物理千兆网线直连，禁用 WiFi 传输控制指令
 - **跨机用户权限隔离**：
-  - 下位机运动节点：`root`（EtherCAT 总线需最高权限）
-  - 下位机逻辑节点（TTS/行为树）：`lab` 普通用户（防 root 权限污染）
-  - 上位机视觉/语音节点：`leju_kuavo` 用户
+ - 下位机运动节点：`root`（EtherCAT 总线需最高权限）
+ - 下位机逻辑节点（TTS/行为树）：`lab` 普通用户（防 root 权限污染）
+ - 上位机视觉/语音节点：`leju_kuavo` 用户
 - **故障模式**：
-  - 网络闪断 → ROS Topic 静默 → 机器人原地锁死（安全兜底）
-  - 上位机死机 → 下位机独立运行 [WBC](./robotics/dynamics_control.md) 维持站立（不依赖上位机保活）
+ - 网络闪断 → ROS Topic 静默 → 机器人原地锁死（安全兜底）
+ - 上位机死机 → 下位机独立运行 [WBC](./robotics/dynamics_control.md) 维持站立（不依赖上位机保活）
 - **传输协议**：UDP（低延迟控制指令）· TCP（可靠配置传输）
 - **核心数据流**：上位机下发视觉目标坐标 + 任务指令 → 下位机回传底盘状态 + 硬件报警
 - 👉 实战案例：[上下位机网络配置](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/16.Internet.md)
@@ -374,12 +394,12 @@
 ### 9.4 容器化、版本控制与 C++ 工程 👉 [Docker 笔记](./robotics/docker.md) · [Git/GitHub 笔记](./robotics/git_github.md)
 
 - **Docker**：容器化部署，Namespace 隔离 + Cgroups 限流，Volume 挂载
-  - 👉 深度实战：[Docker 全生命周期 + 午夜排雷案例](./robotics/robotics_architecture_master_guide.md)
+ - 👉 深度实战：[Docker 全生命周期 + 午夜排雷案例](./robotics/robotics_architecture_master_guide.md)
 - **Git**：工作区/暂存区/本地仓库三层架构，子模块指针机制，`git stash -u` 保护魔改笔记
-  - 👉 日常速查：[Git 拉取、子模块与系统清理](./robotics/git_pull.md)
+ - 👉 日常速查：[Git 拉取、子模块与系统清理](./robotics/git_pull.md)
 - **C++ 工程化**（读/写机器人底层源码）
-  - 👉 [Linux C++ 工业级项目方向](./robotics/linux_C++_project.md)
-  - 👉 编程基础：[机器人底层 C++ 指南](./robotics/code/robotics_C++.md) · [C++ 语法补充](./robotics/code/C++_grammar_supplement.md) · [DSA 基础](./robotics/code/DSA_C++_Basics.md) · [DSA 树专题](./robotics/code/DSA_tree.md) · [机器人岗位技能对照](./robotics/code/Job_Requirements_for_Robot.md)
+ - 👉 [Linux C++ 工业级项目方向](./robotics/linux_C++_project.md)
+ - 👉 编程基础：[机器人底层 C++ 指南](./robotics/code/robotics_C++.md) · [C++ 语法补充](./robotics/code/C++_grammar_supplement.md) · [DSA 基础](./robotics/code/DSA_C++_Basics.md) · [DSA 树专题](./robotics/code/DSA_tree.md) · [机器人岗位技能对照](./robotics/code/Job_Requirements_for_Robot.md)
 - **ROS 代码模板**：[ROS2 最小工作空间](./robotics/ros_code_template/ros2_code_ws/) · [ROS1 工作空间](./robotics/ros_code_template/ros1_code_ws/)
 - CI/CD：GitHub Actions / GitLab CI（自动构建 + 仿真测试管道）
 - 👉 开发工具链：[终端命令速查](./robotics/terminal_command.md) · [终端工具](./ubuntu/Terminal_tools.md) · [Conda 环境管理](./ubuntu/conda.md) · [代码阅读技巧](./robotics/code_read_skill.md) · [系统集成笔记](./robotics/robot_system_integration.md)
@@ -390,6 +410,6 @@
 
 ---
 
-> **Architect's Note**：这份思维导图不是一次写成的，而是在 Kuavo 4 Pro 人形机器人上经历了数百次实机调试、炸机排障和架构重构后逐层沉淀下来的。每一层背后都有至少一篇实战笔记支撑。
+> **备注**：这份思维导图不是一次写成的，而是在 Kuavo 4 Pro 人形机器人上经历了数百次实机调试、炸机排障和架构重构后逐层沉淀下来的。每一层背后都有至少一篇实战笔记支撑。
 >
 > 通用知识库：[robotics-notes](https://github.com/651yyds3939/robotics-notes) · 项目实战：[kuavo-dev-notes](https://github.com/651yyds3939/kuavo-dev-notes)

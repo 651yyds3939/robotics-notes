@@ -20,8 +20,8 @@
 | **MJCF** (MuJoCo XML) | MuJoCo 仿真器原生格式 | 比 URDF 更灵活，支持 tendon、equality constraint |
 | **USD** (Universal Scene Description) | Isaac Sim 原生格式 | Pixar 的工业级场景描述，支持物理材质、光线追踪 |
 
-> **URDF→MJCF**：MuJoCo 可自动编译 URDF，但会丢失部分高级特性（如 tendon）。  
-> **URDF→USD**：Isaac Sim 通过 URDF Importer 运行时转换，这是你 S49 训练比 S46 慢 63% 的根因（S46 用的是预烘焙 USD，S49 走运行时转换）。
+> **URDF→MJCF**：MuJoCo 可自动编译 URDF，但会丢失部分高级特性（如 tendon）。 
+> **URDF→USD**：Isaac Sim 通过 URDF Importer 运行时转换，S49 训练较 S46 慢 63% 的根因（S46 用的是预烘焙 USD，S49 走运行时转换）。
 
 ---
 
@@ -90,11 +90,11 @@
 
 ---
 
-## 第 4 章：你的 S49 实战——三体撕裂与手动缝合
+## 第 4 章：S49 实战——三体撕裂与手动缝合
 
-你遇到的核心问题是 **S49 真机 vs S42/S46 训练资产 vs 部署包骨架**的"三体撕裂"：
+遇到的核心问题是 **S49 真机 vs S42/S46 训练资产 vs 部署包骨架**的"三体撕裂"：
 
-| 资产 | 版本对齐情况 | 你的缝合操作 |
+| 资产 | 版本对齐情况 | 对齐/缝合操作 |
 |------|------------|-------------|
 | 真机 URDF | S49 独有（26-DOF 精简链） | 手动创建 `biped_s49_26dof_lite.urdf` |
 | 训练 .info 文件 | 官方只给到 S46 | 手动修改关节数、电机限位、刚度阻尼 |

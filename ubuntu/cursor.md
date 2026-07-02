@@ -16,7 +16,7 @@
 * **推荐环境：** 在 Ubuntu 20.04/22.04 下，直接使用 `AppImage` 格式，配合终端快捷指令运行，是最干净、灵活且不污染系统的解决方案。
 
 ## 3. 如何同步 VS Code 配置到 Cursor
-由于底层同源，你可以轻松把原有的开发环境“搬运”过来：
+与 VS Code 同源，可将原有开发配置迁移如下：
 * **内置引导提示：** 初次安装并打开 Cursor 时，启动界面会直接弹窗提供“一键导入 VS Code 扩展与设置”的引导。
 * **命令面板同步：** 使用快捷键打开命令面板（`Ctrl + Shift + P`），搜索并选择 `Import Settings`（导入设置）相关选项进行同步。
 * **手动硬核迁移：** 直接定位到原软件的配置目录，手动复制 `settings.json`（全局配置文件）和 `keybindings.json`（快捷键映射表）到 Cursor 的对应目录下，实现最精准的环境对齐。
@@ -30,7 +30,7 @@
 ```zsh
 # Cursor 快速启动函数
 cur() {
-    /opt/cursor.appimage --no-sandbox "$@" > /dev/null 2>&1 &
+ /opt/cursor.appimage --no-sandbox "$@" > /dev/null 2>&1 &
 }
 
 ```
@@ -41,7 +41,7 @@ cur() {
 
 * `/opt/cursor.appimage`：软件存放的绝对路径（需提前使用 `chmod +x` 赋予可执行权限）。
 * `--no-sandbox`：解除 Ubuntu 沙盒限制。很多 AppImage 直接运行会因系统沙盒机制报错，添加此参数可确保稳定启动。
-* `"$@"`：参数透传。允许你在命令行指定要挂载的当前目录 `.` 或具体文件，原封不动传给 IDE。
+* `"$@"`：参数透传。可在命令行指定要挂载的当前目录 `.` 或具体文件，原封不动传给 IDE。
 * `> /dev/null 2>&1`：日志黑洞。将程序的正常运行日志和报错信息全数丢弃，保持终端界面纯净。
 * `&`：后台静默运行。将进程与当前终端剥离，敲下回车后终端立刻释放，随时可以输入下一条编译或运行指令。
 
@@ -88,7 +88,7 @@ sudo ln -sf /usr/share/cursor/cursor /usr/bin/cursor
 
 ### 第二步：彻底释放文件权限（核心关键）
 
-由于刚才使用了 `sudo`，必须将所有权交还给你当前的用户，否则 AI 助手将没有权限真正改写设备特征代码。
+使用 `sudo` 解压后，须将目录所有权改回当前用户，否则辅助工具可能无法写入配置。
 
 在终端运行以下命令：
 
@@ -101,7 +101,7 @@ sudo chown -R $USER:$USER /usr/share/cursor
 
 此时管道和权限已经全部彻底打通，请在辅助软件中完成逻辑闭环：
 
-1. **完全关闭** 你的 Cursor 软件。
+1. **完全关闭** Cursor。
 2. 打开 **AI 助手** 界面，此时最上方应该会自动识别并显示绿色的 **`● 已安装`**（`✓ 已找到 /usr/bin`）。
 3. 如果下方的注入状态是灰色的，请点击右侧紫色的 **「注入 Cursor」** 按钮，确保其变为绿色的 **`● 已注入`**。
 *(如果之前注入过，建议先点一次「还原 Cursor」再点「注入 Cursor」以确保补丁在正确权限下写入)*。
@@ -132,24 +132,24 @@ pkill -f "Cursor"
 ```
 
 2. **在终端执行本地 Python 脚本（利用 UUID 强制随机生成全套新机器特征）**：
-   ```bash
-   python3 -c "
-   import json, os, uuid
-   path = os.path.expanduser('~/.config/Cursor/User/globalStorage/storage.json')
-   os.makedirs(os.path.dirname(path), exist_ok=True)
-   try:
-       with open(path, 'r') as f: data = json.load(f)
-   except:
-       data = {}
-   data['telemetry.machineId'] = uuid.uuid4().hex
-   data['telemetry.macMachineId'] = uuid.uuid4().hex
-   data['telemetry.devDeviceId'] = str(uuid.uuid4())
-   data['telemetry.sqmId'] = '{' + str(uuid.uuid4()).upper() + '}'
-   for k in list(data.keys()):
-       if 'auth' in k.lower() or 'token' in k.lower(): del data[k]
-   with open(path, 'w') as f: json.dump(data, f, indent=2)
-   print('🎉 本地硬件标识符强制重置成功！')
-   "
+ ```bash
+ python3 -c "
+ import json, os, uuid
+ path = os.path.expanduser('~/.config/Cursor/User/globalStorage/storage.json')
+ os.makedirs(os.path.dirname(path), exist_ok=True)
+ try:
+ with open(path, 'r') as f: data = json.load(f)
+ except:
+ data = {}
+ data['telemetry.machineId'] = uuid.uuid4().hex
+ data['telemetry.macMachineId'] = uuid.uuid4().hex
+ data['telemetry.devDeviceId'] = str(uuid.uuid4())
+ data['telemetry.sqmId'] = '{' + str(uuid.uuid4()).upper() + '}'
+ for k in list(data.keys()):
+ if 'auth' in k.lower() or 'token' in k.lower(): del data[k]
+ with open(path, 'w') as f: json.dump(data, f, indent=2)
+ print('🎉 本地硬件标识符强制重置成功！')
+ "
 
 ```
 
@@ -164,10 +164,10 @@ chmod 444 ~/.config/Cursor/User/globalStorage/storage.json
 ```
 
 4. **阻止其自动下载更新补丁**：
-   ```bash
-   rm -rf ~/.config/cursor-updater
-   touch ~/.config/cursor-updater
-   chmod 444 ~/.config/cursor-updater
+ ```bash
+ rm -rf ~/.config/cursor-updater
+ touch ~/.config/cursor-updater
+ chmod 444 ~/.config/cursor-updater
 
 ```
 
@@ -178,7 +178,7 @@ chmod 444 ~/.config/Cursor/User/globalStorage/storage.json
 ### 常见疑问与避坑指南
 
 * **本地聊天记录会丢吗？**
-不会。Cursor 基于 VS Code，项目和本地的 Chat/Composer 聊天记录保存在项目专属的 `workspaceStorage` 中，重置设备 ID 和删除缓存不会影响你的代码和本地工作区历史。
+不会。Cursor 基于 VS Code，项目和本地的 Chat/Composer 聊天记录保存在项目专属的 `workspaceStorage` 中，重置设备 ID 和删除缓存不会影响代码和本地工作区历史。
 * **为什么一定要用浏览器无痕模式注册？**
-如果不用无痕模式，浏览器本地残留的 Cookie 会让 Cursor 官网识别出你就是之前那个被锁的用户。新账号在注册的瞬间就会在云端被标记成同一台设备，导致一登录就再次弹窗。
+如果不用无痕模式，浏览器本地残留的 Cookie 会让 Cursor 官网可能识别为同一设备。新账号在注册的瞬间就会在云端被标记成同一台设备，导致一登录就再次弹窗。
 * **切记：** 使用 AI 助手期间，**绝对不要**在 Cursor 软件内部点击 `Log out` 退出登录，一切换号操作均在助手面板点击「获取账号并登录」完成。

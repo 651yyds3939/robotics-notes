@@ -1,6 +1,6 @@
-打开VPN指令： `~/clash$    ./clash -d .`
+打开VPN指令： `~/clash$ ./clash -d .`
 
-新建文件指令  `touch 文件名称`
+新建文件指令 `touch 文件名称`
 
 打开base环境`conda activate base`
 打开base里面的ros2环境`conda activate ros2`
@@ -18,9 +18,9 @@ wget http://fishros.com/install -O fishros && . fishros
 
 ## 1. 环境准备与初始化 (仅需执行一次)
 # 配置全局身份标识（建议与 GitHub 账号一致）
-git config --global user.name "你的用户名"
-git config --global user.email "你的邮箱@example.com"
-# 进入你的 ROS2 工作空间并初始化仓库
+git config --global user.name "<用户名>"
+git config --global user.email "<邮箱>@example.com"
+# 进入 ROS2 工作空间并初始化仓库
 cd ~/d2lros2/chapt5/chapt5_ws
 git init
 

@@ -2,7 +2,7 @@
 
 > **项目代号**：Kuavo Humanoid SDK & [FAST-LIO SLAM](./slam.md) 部署验证
 > **运行环境**：Lenovo Legion R9000P (Ubuntu 20.04/22.04) / ROS Noetic / Docker 
-> **核心里程碑**：从“调包侠”向“系统架构师”蜕变的技术沉淀
+> **核心里程碑**：从模块调用到系统架构的工程化沉淀
 > **手册说明**：本手册融汇了 Docker/ROS 环境排雷、Git 多分支与子模块协同、官方仓库无损同步更新，以及本地污染仓库重建与 GitHub 远程推送的完整体系工作流。
 
 ---
@@ -78,14 +78,14 @@ rospack find fast_lio
 Docker 不是虚拟机，它是利用 Linux 内核特性实现的**进程隔离**。理解它，是进入企业级机器人开发的第一道门槛。
 
 ### 2.1 核心基石：Namespaces 与 Cgroups
-* **Namespaces（命名空间）**：Docker 的“障眼法”。它让容器内的进程以为自己拥有独立的 PID（进程号 1）、独立的网络接口和独立的文件系统。你在 Docker 里看到的 `/`（根目录），其实只是宿主机硬盘深处（`/var/lib/docker/overlay2/`）的一个普通文件夹。
+* **Namespaces（命名空间）**：Docker 的“障眼法”。它让容器内的进程以为自己拥有独立的 PID（进程号 1）、独立的网络接口和独立的文件系统。容器内看到的 `/`（根目录），其实只是宿主机硬盘深处（`/var/lib/docker/overlay2/`）的一个普通文件夹。
 * **Cgroups（控制组）**：Docker 的“紧箍咒”。它限制这个容器最多只能用宿主机多少 CPU 核心和多少内存。
 
 ### 2.2 挂载逻辑（Volume Mounting）：跨越次元的传送门
 Docker 容器一旦销毁，里面的数据就会灰飞烟灭（无状态化）。为了保留代码，必须使用挂载。
 * **映射指令**：`-v ~/kuavo-ros-opensource:/root/kuavo_ws`
 * **底层机制（Bind Mount）**：Docker 强制将容器内的 `/root/kuavo_ws` 目录的 inode 指针，强行指向宿主机的 `~/kuavo-ros-opensource`。
-* **唯一入口铁律**：容器启动时，入口就已经焊死。如果你在宿主机把代码放在了 `kuavo-clean`，而容器挂载的是 `kuavo-ros-opensource`，那么容器内部绝无可能看到 `kuavo-clean` 里的东西。这就好比投影仪只能照着一张幻灯片。
+* **唯一入口铁律**：容器启动时，入口就已经焊死。若宿主机代码目录为 `kuavo-clean`，而容器挂载的是 `kuavo-ros-opensource`，那么容器内部绝无可能看到 `kuavo-clean` 里的东西。这就好比投影仪只能照着一张幻灯片。
 
 ### 2.3 核心实战：Docker 容器全生命周期操作指南
 在拥有了镜像和挂载概念后，必须严格按照以下标准流程管理容器，特别是涉及到 GPU 物理穿透与图形界面调用时。
@@ -103,23 +103,23 @@ docker load -i kuavo_opensource_mpc_wbc_img_v1.3.0.tar.gz
 ```
 
 **Step 3: 第一次初始化（创建带 GPU 穿透的新容器）**
-这是最高危的阶段。为了避免物理计算挤占 CPU 导致 `[nodelet_manager]` 报错奔溃，如果你使用自己的命令或修改官方 `run.sh` 脚本，**必须**确保注入显卡穿透与 X11 显示参数：
+这是最高危的阶段。为了避免物理计算挤占 CPU 导致 `[nodelet_manager]` 报错奔溃，若自定义启动命令或修改官方 `run.sh` 脚本，**必须**确保注入显卡穿透与 X11 显示参数：
 ```bash
 docker run -it \
-  --name kuavo_sim_final \
-  --gpus all \                                    # 关键：分配所有物理 GPU 算力
-  --env="NVIDIA_DRIVER_CAPABILITIES=all" \        # 关键：开启图形渲染支持
-  --env="DISPLAY" \                               # 传递系统显示变量
-  --env="QT_X11_NO_MITSHM=1" \
-  --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \   # 映射 X11 套接字用于 GUI
-  --volume="~/kuavo-ros-opensource:/root/kuavo_ws" \
-  kuavo_opensource_mpc_wbc_img:1.3.0 /bin/bash
+ --name kuavo_sim_final \
+ --gpus all \ # 关键：分配所有物理 GPU 算力
+ --env="NVIDIA_DRIVER_CAPABILITIES=all" \ # 关键：开启图形渲染支持
+ --env="DISPLAY" \ # 传递系统显示变量
+ --env="QT_X11_NO_MITSHM=1" \
+ --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \ # 映射 X11 套接字用于 GUI
+ --volume="~/kuavo-ros-opensource:/root/kuavo_ws" \
+ kuavo_opensource_mpc_wbc_img:1.3.0 /bin/bash
 ```
 
 **Step 4: 日常开发（已有容器的唤醒与接入）**
 如果容器已经成功创建并配置过显卡，日常使用只需两步，**千万不要重复执行新建命令**：
 ```bash
-# 1. 查看本地所有容器历史（包括已退出的，找到你的目标容器名字，如 kuavo_sim_final）
+# 1. 查看本地所有容器历史（包括已退出的），找到目标容器名，如 kuavo_sim_final
 docker ps -a 
 
 # 2. 唤醒后台休眠的容器
@@ -141,9 +141,9 @@ docker inspect kuavo_sim_final | grep -i nvidia
 
 ### 2.4 权限错位综合征：那个讨厌的“红色小锁”
 * **身份的割裂**：
-  * **宿主机（外界）**：你是普通用户 `$USER`，系统底层身份代码为 `UID 1000`。
-  * **Docker（内部）**：你是超级管理员 `root`，身份代码为 `UID 0`。
-* **锁的诞生**：当你在 Docker 内部执行 `catkin_make` 或 `touch` 创建文件时，Linux 内核会把这些文件的拥有者标记为 `UID 0`。当你回到宿主机图形界面，Ubuntu 发现你是 `UID 1000`，为了保护 `root` 的财产，直接给你挂上红锁，甚至拒绝刷新文件夹内容（导致“文件消失”的错觉）。
+ * **宿主机（外界）**：进程以普通用户 `$USER`，系统底层身份代码为 `UID 1000`。
+ * **Docker（内部）**：进程以 root `root`，身份代码为 `UID 0`。
+* **锁的诞生**：容器内 `catkin_make`/`touch` 创建的文件属主常为 `UID 0`（root）。回到宿主机（用户 `UID 1000`）后，为保护 root 文件，普通用户无法修改 root 所属文件，甚至拒绝刷新文件夹内容（导致“文件消失”的错觉）。
 * **终极解药**：永远记得在宿主机使用 `sudo chown -R $USER:$USER <目录>` 把文件的所有权抢回来。
 
 ### 2.5 高阶终端指令速查：Docker 暴力拆解与挂载寻踪
@@ -195,17 +195,17 @@ find ~/ -mmin -60 -type f
 在大型机器人团队协作中，Git 不仅仅是用来备份的，它是管理代码冲突、追溯 Bug 责任的“司法系统”。
 
 ### 3.1 核心概念：三个区域与两种初始化
-* **工作区（Working Directory）**：你当前在 VS Code 里编辑的文件。
-* **暂存区（Staging Area / Index）**：执行 `git add` 后，文件被打包准备上车。这给了你反悔的机会。
+* **工作区（Working Directory）**：工作区中正在编辑的文件。
+* **暂存区（Staging Area / Index）**：执行 `git add` 后，文件被打包准备上车。可在提交前调整。
 * **本地仓库（Local Repository）**：执行 `git commit` 后，代码正式写入 `.git` 隐藏目录，生成了一个不可篡改的 SHA-1 哈希值。
 * **获取仓库**：`git clone` 下来的文件夹本身已是 Git 仓库；如果是普通的**新建文件夹**，则需要先执行 `git init`。
 
 ### 3.2 致命陷阱：大小写敏感与子模块嵌套
-* **大小写的绝对严谨**：Windows 不区分大小写（`readme.md` = `README.md`）。Linux 的 Ext4 文件系统严格校验 ASCII 码。因此，官方的 `readme.md` 和你自创的 `READEME.md` 可以完美并存在同一个文件夹里，但在红锁遮蔽下可能会引发错觉。
-* **子模块（Submodule）的指针机制**：人形机器人代码通常是嵌套的（如主仓库里嵌套了 `FAST_LIO`）。主仓库不会记录 `FAST_LIO` 里的代码，只记录一个“指针”（Commit ID）。如果你在子模块里写了代码但未提交，一旦执行 `git submodule update`，Git 会极其冷血地把你本地的子仓库强行回滚到指针状态，导致修改灰飞烟灭。
+* **大小写的绝对严谨**：Windows 不区分大小写（`readme.md` = `README.md`）。Linux 的 Ext4 文件系统严格校验 ASCII 码。因此，官方的 `readme.md` 与自建 `READEME.md` 可以完美并存在同一个文件夹里，但在红锁遮蔽下可能会引发错觉。
+* **子模块（Submodule）的指针机制**：人形机器人代码通常是嵌套的（如主仓库里嵌套了 `FAST_LIO`）。主仓库不会记录 `FAST_LIO` 里的代码，只记录一个“指针”（Commit ID）。若在子模块内修改未提交，一旦执行 `git submodule update`，Git 会将本地子模块回滚到指针状态，导致修改灰飞烟灭。
 
 ### 3.3 痛点解决：重建纯净仓库（处理巨无霸 10G 项目）
-> **场景**：你 clone 了一个包含 `.bag` 等海量大文件历史的项目，导致 `.git` 文件夹体积达到数 GB（已污染），使得 push 极其缓慢甚至失败。需要彻底重建一个干净的 Git 历史。
+> **场景**：clone 含 `.bag` 等海量大文件历史的项目，导致 `.git` 文件夹体积达到数 GB（已污染），使得 push 极其缓慢甚至失败。需要彻底重建一个干净的 Git 历史。
 
 **Step 1: 复制项目并断绝旧历史**
 ```bash
@@ -287,7 +287,7 @@ sudo chown -R $USER:$USER .
 # 2. 清除已追踪文件的修改（恢复官方原状）
 git checkout .
 
-# 3. 清除未追踪的新文件（慎用！你的新脚本和日志将被永久物理删除）
+# 3. 清除未追踪的新文件（慎用！未跟踪的新文件将被删除）
 git clean -fd
 ```
 
@@ -307,14 +307,14 @@ git fetch --all
 git branch -a
 
 # 2. 精准跳跃
-git checkout <目标分支名>  
+git checkout <目标分支名> 
 
 # 3. 【核心排坑】强制同步所有子模块！对齐模型和 3D 文件！
 git submodule update --init --recursive
 ```
 
 ### 4.4 第三阶段：“无损”同步官方最新更新 (Pull)
-当官方主线有了更新，为了不覆盖你的心血笔记：
+当官方主线有了更新，为避免覆盖本地笔记：
 ```bash
 # 1. 把自己的心血锁进保险箱
 git stash -u
@@ -327,12 +327,12 @@ git submodule update --init --recursive
 ```
 
 ### 4.5 第四阶段：恢复个人的修改现场 (Pop)
-无论是切换到了新分支，还是刚 `pull` 完代码，现在可以把你的笔记和修改拿出来了。
+无论是切换到了新分支，还是刚 `pull` 完代码，可将本地笔记与修改重新应用。
 ```bash
 # 弹出并应用暂存的代码
 git stash pop
 ```
-> ⚠️ **注意**：如果执行后提示 `Merge conflict`，说明你带过来的代码和新环境冲突。请在 VS Code 中搜索 `<<<<<<<` 手动解决冲突。
+> ⚠️ **注意**：如果执行后提示 `Merge conflict`，表示合并分支与当前环境存在冲突。请在 VS Code 中搜索 `<<<<<<<` 手动解决冲突。
 
 ### 4.6 工业级实战一键连招速查
 **场景一：放弃所有魔改，纯净跳转分支**
@@ -357,7 +357,7 @@ git stash pop
 <a id="第五章github-云端同步与-token-认证推送"></a>
 ## 第五章：GitHub 云端同步与 Token 认证推送
 
-经过前面三章的处理，你现在有了一个极度纯净的本地 Git 仓库，最后一步就是将它推送到你个人的 GitHub。
+完成前三章后，本地 Git 仓库已整理完毕，最后一步是推送到 GitHub 远程仓库。
 
 ### 5.1 创建远程仓库
 在 GitHub 网页端新建仓库：
@@ -368,7 +368,7 @@ git stash pop
 ### 5.2 绑定本地与修正分支
 ```bash
 # 绑定云端地址
-git remote add origin [https://github.com/你的用户名/仓库名.git](https://github.com/你的用户名/仓库名.git)
+git remote add origin [https://github.com/<用户名>/<仓库名>.git](https://github.com/<用户名>/<仓库名>.git)
 
 # 修正主分支名称（现在的 GitHub 默认用 main 而非 master）
 git branch -M main
@@ -391,7 +391,7 @@ git config --global credential.helper store
 git push -u origin main
 ```
 终端弹出认证时：
-* `Username`: 输入你的 GitHub 账号名。
+* `Username`: 输入 GitHub 用户名。
 * `Password`: 粘贴刚刚生成的 Token（注意：终端里粘贴密码是没有任何字符显示的，直接回车即可）。
 
 ### 5.4 常见推送排障总结
@@ -404,7 +404,7 @@ git push -u origin main
 <a id="第六章实战案例2026年4月21日午夜排雷逐帧复盘"></a>
 ## 第六章：实战案例：2026年4月21日“午夜排雷”逐帧复盘
 
-这是一次典型的从初学者向架构师跨越的实战战役，集齐了 Linux 混合开发中最经典的几个坑，供后人警醒。
+这是一次典型的从初学者工程实践的实战战役，集齐了 Linux 混合开发中最经典的几个坑，供后人警醒。
 
 ### 案情一：135个包的编译沼泽
 * **病因**：在 `~/kuavo_ws` 内直接 `catkin_make`，遭遇 `apriltag` 等 plain cmake 包阻击。
@@ -414,9 +414,9 @@ git push -u origin main
 ### 案情二：“消失的笔记”与红锁降临
 * **病因**：在新建空间后，图形界面中发现 `READEME.md` 笔记和修改的代码全部消失，且文件夹带有一把红色小锁。
 * **排查**：
-  1. 使用 `sudo find / -name "my_first_package"` 全局扫描发现，心血文件并未丢失，而是留在了另一个平行副本 `~/kuavo-clean` 中。
-  2. 为什么在 `kuavo-ros-opensource` 里找不到？因为 Docker `docker run -v` 挂载的是后者。
-  3. 为什么带锁？因为所有的编译操作均在 Docker (`root`) 环境下运行，导致宿主机 (`$USER`) 丧失了文件所有权。
+ 1. 使用 `sudo find / -name "my_first_package"` 全局扫描发现，心血文件并未丢失，而是留在了另一个平行副本 `~/kuavo-clean` 中。
+ 2. 为什么在 `kuavo-ros-opensource` 里找不到？因为 Docker `docker run -v` 挂载的是后者。
+ 3. 为什么带锁？因为所有的编译操作均在 Docker (`root`) 环境下运行，导致宿主机 (`$USER`) 丧失了文件所有权。
 * **破局**：在宿主机果断使用 `chown` 夺回权限，并精准将 `kuavo-clean` 中的文件跨目录 `cp` 转移到正在被 Docker 挂载的目录中。
 
 ### 案情三：Docker 内外的结界相对论
@@ -426,6 +426,6 @@ git push -u origin main
 
 ---
 
-> **Architect's Final Note:**
+> **备注：**
 > 代码随时会崩，环境变量随时会串，网络也许会断，但只要深刻理解了这套底层逻辑（Namespaces 隔离机制、Git 增量快照、ROS 工作空间本质），任何开发环境的报错都只不过是终端里的一串无序字符。掌控系统底层，方能随心所欲。
 ```

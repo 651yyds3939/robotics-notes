@@ -12,7 +12,7 @@
 
 | 路径 / 文件 | ROS 1 (catkin) | ROS 2 (colcon) | 作用 |
 |-------------|----------------|----------------|------|
-| **`src/`** | ✅ 必有 | ✅ 必有 | **源码区**：你写的功能包、克隆的第三方包、子模块都在这。**唯一应长期维护的目录**。 |
+| **`src/`** | ✅ 必有 | ✅ 必有 | **源码区**：功能包、克隆的第三方包、子模块都在这。**唯一应长期维护的目录**。 |
 | **`build/`** | ✅ | ✅ | **编译中间产物**：`.o`、CMake 缓存、`CMakeCache.txt`。可 `rm -rf build` 后重编。 |
 | **`devel/`** | ✅ | ❌（ROS2 无 devel） | **开发 overlay**：`source devel/setup.bash` 后当前终端能 `rosrun/roslaunch`。ROS2 用 `install/` 代替。 |
 | **`install/`** | 可选 | ✅ 默认 | **安装前缀**：`colcon build` 把可执行文件、launch、msg 装到这里；`source install/setup.bash` 生效。 |
@@ -30,7 +30,7 @@
 
 ### 2.1 包「身份证」（必看）
 
-| 文件 | 作用 | 你要做什么 |
+| 文件 | 作用 | 维护说明 |
 |------|------|------------|
 | **`package.xml`** | 包的**元数据**：名字、版本、作者、**依赖列表**（`depend`/`build_depend`/`exec_depend`）。ROS 工具靠它解析依赖图。 | 加新依赖（如 `rclcpp`、`sensor_msgs`）必须改这里。 |
 | **`CMakeLists.txt`** | **C++ 包的组装说明书**：找源文件、链库、生成可执行节点、安装 launch/config。ament_cmake 包的核心。 | 新增 `.cpp` 节点、msg、库时改这里。不是可执行程序本身。 |
@@ -147,10 +147,10 @@
 
 ## 十、阅读顺序建议
 
-1. 打开 **`package.xml`** → 知道包叫什么、依赖谁。  
-2. 看 **`CMakeLists.txt` 或 `setup.py`** → 知道有哪些节点、装哪些文件。  
-3. 看 **`launch/`** → 知道运行时启动了谁。  
-4. 看 **`config/*.yaml`** → 知道参数从哪来。  
+1. 打开 **`package.xml`** → 知道包叫什么、依赖谁。 
+2. 看 **`CMakeLists.txt` 或 `setup.py`** → 知道有哪些节点、装哪些文件。 
+3. 看 **`launch/`** → 知道运行时启动了谁。 
+4. 看 **`config/*.yaml`** → 知道参数从哪来。 
 5. 再进 **`src/`** 读算法——配合 [代码阅读技巧](./code_read_skill.md)。
 
 ---

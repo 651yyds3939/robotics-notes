@@ -7,7 +7,7 @@
 | :--- | :--- | :--- | :--- |
 | **第一层：容器** | 终端模拟器 (Terminal Emulator) | **Terminator**, GNOME Terminal | 提供显示窗口、字体渲染、基础配色。**Terminator** 的核心优势是自带原生分屏。 |
 | **第二层：管家** | 复用器 (Multiplexer) | **Zellij**, Tmux | 运行在容器内部。即使终端关了，它里面的任务也能在后台跑。**Zellij** 接管了更高级的分屏和会话逻辑。 |
-| **第三层：外壳** | Shell | Bash, **Zsh**, Fish | 负责解释并执行你的命令（如 `ls`, `cd`, `python`）。 |
+| **第三层：外壳** | Shell | Bash, **Zsh**, Fish | 负责解释并执行命令（如 `ls`, `cd`, `python`）。 |
 | **第四层：皮肤** | 提示符 (Prompt) | **Starship**, Oh My Zsh | 让 Shell 的那行 `user@host:~$` 变得既漂亮又充满上下文信息（如 Git 分支、Conda 环境）。 |
 | **第五层：应用** | 命令行工具 (CLI Tools) | **LazyGit**, **Zoxide**, `cur` | 运行在 Shell 里的具体生产力程序。 |
 
@@ -98,7 +98,7 @@ fc-cache -fv
 
 ## 5. 目录瞬移神器：Zoxide
 
-**功能**：替代传统的 `cd` 命令，通过记忆你的访问历史，实现输入部分目录名即可跨层级“瞬移”。
+**功能**：基于访问历史的目录跳转，输入部分路径名即可快速切换。
 
 ### 5.1 极速安装 (Conda 方式)
 
@@ -121,7 +121,7 @@ source ~/.zshrc
 
 ### 5.3 常见误区与使用方法
 
-* **误区**：装完后输入 `z --version` 会报错 `no match found`，因为 `z` 是路径跳转指令，系统以为你要跳转到一个叫 `--version` 的文件夹。查版本需使用原名 `zoxide --version`。
+* **误区**：装完后输入 `z --version` 会报错 `no match found`，因为 `z` 是路径跳转指令，shell 会将其解析为目录名。查版本应使用 `zoxide --version`。
 * **用法**：
 
 1. 先用传统的 `cd ~/kuavo-ros-opensource` 进入一次目标文件夹（建立数据库记忆）。
@@ -181,22 +181,22 @@ import os
 from gi.repository import Nautilus, GObject
 
 class TerminatorExtension(GObject.GObject, Nautilus.MenuProvider):
-    def launch_terminator(self, menu, file):
-        path = file.get_location().get_path()
-        if path:
-            os.system(f'terminator --working-directory="{path}" &')
+ def launch_terminator(self, menu, file):
+ path = file.get_location().get_path()
+ if path:
+ os.system(f'terminator --working-directory="{path}" &')
 
-    def get_background_items(self, window, file):
-        item = Nautilus.MenuItem(name='TerminatorBg', label='Open in Terminator', icon='utilities-terminal')
-        item.connect('activate', self.launch_terminator, file)
-        return [item]
+ def get_background_items(self, window, file):
+ item = Nautilus.MenuItem(name='TerminatorBg', label='Open in Terminator', icon='utilities-terminal')
+ item.connect('activate', self.launch_terminator, file)
+ return [item]
 
-    def get_file_items(self, window, files):
-        if len(files) != 1 or not files[0].is_directory():
-            return []
-        item = Nautilus.MenuItem(name='TerminatorFile', label='Open in Terminator', icon='utilities-terminal')
-        item.connect('activate', self.launch_terminator, files[0])
-        return [item]
+ def get_file_items(self, window, files):
+ if len(files) != 1 or not files[0].is_directory():
+ return []
+ item = Nautilus.MenuItem(name='TerminatorFile', label='Open in Terminator', icon='utilities-terminal')
+ item.connect('activate', self.launch_terminator, files[0])
+ return [item]
 EOF
 
 ```

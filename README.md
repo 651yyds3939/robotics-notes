@@ -1,6 +1,6 @@
 # robotics-notes
 
-机器人**通用**知识库与 Ubuntu 开发环境笔记，与具体机型无关。  
+机器人**通用**知识库与 Ubuntu 开发环境笔记，与具体机型无关。 
 侧重概念、架构、控制/感知/工程化链路；**不含**某一品牌人形机器人的魔改代码与真机排障。
 
 人形机器人（Kuavo 4 Pro）二次开发实战见独立仓库 [kuavo-dev-notes](https://github.com/651yyds3939/kuavo-dev-notes)（与本文库为**两个 GitHub 仓库**，跨库链接请用 GitHub 地址，见下方「链接规范」）。
@@ -42,7 +42,7 @@
 - **👉 专题笔记** → 本仓库相对路径（通用理论）
 - **👉 实战案例** → kuavo 仓库 GitHub 链接（Kuavo 真机/魔改）
 
-维护跨库链接时，可复用下列前缀（`master` 换成你的默认分支即可）：
+维护跨库链接时，可复用下列前缀（`master` 换成仓库实际默认分支即可）：
 
 ```text
 # kuavo 实战文档
@@ -87,20 +87,20 @@ https://github.com/651yyds3939/robotics-notes/blob/master/robotics/<文件名>.m
 
 1. **文件管理器** — 进入本仓库目录，双击 `robot_system_photo.html`。
 2. **终端**（推荐，路径最不容易错）：
-   ```bash
-   xdg-open /home/lwy/Notes/robotics-notes/robot_system_photo.html  # 将 lwy 与路径改为本机实际用户名与目录
-   ```
-   指定浏览器示例（路径同上，按需选用）：
+ ```bash
+ xdg-open /home/lwy/Notes/robotics-notes/robot_system_photo.html # 将 lwy 与路径改为本机实际用户名与目录
+ ```
+ 指定浏览器示例（路径同上，按需选用）：
 
-   Google Chrome：
-   ```bash
-   google-chrome /home/lwy/Notes/robotics-notes/robot_system_photo.html  # 将 lwy 与路径改为本机实际用户名与目录
-   ```
+ Google Chrome：
+ ```bash
+ google-chrome /home/lwy/Notes/robotics-notes/robot_system_photo.html # 将 lwy 与路径改为本机实际用户名与目录
+ ```
 
-   Firefox：
-   ```bash
-   firefox /home/lwy/Notes/robotics-notes/robot_system_photo.html  # 将 lwy 与路径改为本机实际用户名与目录
-   ```
+ Firefox：
+ ```bash
+ firefox /home/lwy/Notes/robotics-notes/robot_system_photo.html # 将 lwy 与路径改为本机实际用户名与目录
+ ```
 3. **Cursor / VS Code** — 在文件树中右键 `robot_system_photo.html` → **Reveal in File Explorer**（或 **Open with… → 系统默认浏览器**）。
 4. **浏览器内** — `Ctrl + O`，选择上述路径下的 `robot_system_photo.html`。
 

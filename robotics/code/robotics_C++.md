@@ -5,7 +5,7 @@
 
 ---
 
-## 🗺️ 模块一：核心技能地图（你要打哪几场仗？）
+## 🗺️ 模块一：核心技能地图
 
 不要用“互联网纯软件开发”的思路去学机器人的 C++。这里的核心是**实时性**、**空间感知**与**数学计算**。
 
@@ -16,7 +16,7 @@
 | **内存与生命周期** | **RAII 机制、智能指针** (`shared_ptr`, `unique_ptr`)、值传递 vs 引用传递 `&` | 高频传感器数据流转，避免内存泄漏导致节点崩溃。 |
 | **并发与多线程** | `std::thread`, `std::mutex` (互斥锁), `std::atomic`, `std::condition_variable` | 多任务并行系统（如：主线程跑控制，子线程接收雷达数据）。 |
 | **STL 容器与性能** | `std::vector` (必须懂 `reserve` 预分配), `std::deque` (双端队列), `std::unordered_map` | 在 1000Hz 的控制循环里，绝对不能让 `vector` 发生动态扩容（会引起致命卡顿）。 |
-| **工程化工具** | **CMake** (`CMakeLists.txt`), 编译链接机制 | 把 Eigen、OpenCV、ROS 包链接到你的代码里。 |
+| **工程化工具** | **CMake** (`CMakeLists.txt`), 编译链接机制 | 把 Eigen、OpenCV、ROS 包链接到代码里。 |
 
 ### 2. 机器人的“大脑”：数据结构与算法重点
 
@@ -148,9 +148,9 @@ find_package(Eigen3 REQUIRED)
 
 # 3. 告诉编译器，头文件（菜单）在哪里
 include_directories(
-  include
-  ${catkin_INCLUDE_DIRS}
-  ${EIGEN3_INCLUDE_DIR}
+ include
+ ${catkin_INCLUDE_DIRS}
+ ${EIGEN3_INCLUDE_DIR}
 )
 
 # 4. 把 .cpp 源文件打包成一个可执行的 ROS 节点程序（造车）
@@ -165,7 +165,7 @@ target_link_libraries(mpc_node ${catkin_LIBRARIES})
 
 ## ☠️ 模块九：崩溃自救 —— 段错误 (Segfault) 排雷指南
 
-Python 报错会告诉你行号，而 C++ 运行时崩溃通常只留下一句冰冷的：`Segmentation fault (core dumped)`。
+Python 报错含行号，而 C++ 运行时崩溃通常只留下一句冰冷的：`Segmentation fault (core dumped)`。
 
 遇到段错误，立刻排查以下**三大作死行为**：
 

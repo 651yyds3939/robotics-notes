@@ -8,7 +8,7 @@
 
 ## 第 0 章：状态估计一句话
 
-> **大白话**：你的眼睛说你没动，你的脚说走了两步，你的耳朵说你转了 3°——它们都在撒谎（传感器噪声）。状态估计就是当法官，综合所有证人的不完美证词，给出一个最合理的位置判决。
+> **大白话**：各传感器（视觉/里程计/IMU）均含噪声；状态估计融合多源观测，给出一致的位置/速度估计。
 
 ---
 
@@ -29,11 +29,11 @@
 
 $$
 \begin{aligned}
-&\text{Predict:}  &\hat{x}_{k|k-1} &= F\hat{x}_{k-1} + Bu_k \\
-&                 &P_{k|k-1} &= F P_{k-1} F^T + Q \\
-&\text{Update:}   &K_k &= P_{k|k-1} H^T (H P_{k|k-1} H^T + R)^{-1} \\
-&                 &\hat{x}_k &= \hat{x}_{k|k-1} + K_k(z_k - H\hat{x}_{k|k-1}) \\
-&                 &P_k &= (I - K_k H) P_{k|k-1}
+&\text{Predict:} &\hat{x}_{k|k-1} &= F\hat{x}_{k-1} + Bu_k \\
+& &P_{k|k-1} &= F P_{k-1} F^T + Q \\
+&\text{Update:} &K_k &= P_{k|k-1} H^T (H P_{k|k-1} H^T + R)^{-1} \\
+& &\hat{x}_k &= \hat{x}_{k|k-1} + K_k(z_k - H\hat{x}_{k|k-1}) \\
+& &P_k &= (I - K_k H) P_{k|k-1}
 \end{aligned}
 $$
 
