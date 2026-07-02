@@ -7,6 +7,29 @@
 
 ---
 
+## 持续更新与本地同步
+
+本仓库**会持续更新**（思维导图、专题笔记、工具链文档等）。若已通过 `git clone` 拉取到本机，日后想获取 GitHub 上的最新内容，在**该仓库根目录**执行：
+
+```bash
+cd /path/to/robotics-notes   # 改为本机实际路径
+git pull
+```
+
+若本地有未提交修改，`git pull` 可能提示冲突；可先 `git stash` 暂存改动，同步后再 `git stash pop`，或先提交到 fork 再拉取。
+
+**两库并排维护时**（例如 `~/Notes/robotics-notes` 与 `~/Notes/kuavo-dev-notes`），需分别在两个目录各执行一次 `git pull`。通用笔记在本仓库；Kuavo 实战在 [kuavo-dev-notes](https://github.com/651yyds3939/kuavo-dev-notes)。
+
+**首次克隆本仓库：**
+
+```bash
+git clone https://github.com/651yyds3939/robotics-notes.git
+cd robotics-notes
+```
+
+
+---
+
 ## 这个仓库怎么用
 
 ### 推荐阅读顺序
