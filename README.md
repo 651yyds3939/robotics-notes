@@ -77,7 +77,7 @@ https://github.com/651yyds3939/robotics-notes/blob/master/robotics/<文件名>.m
 1. 在 VS Code / Cursor 中安装扩展：**Markmap**（搜索 `markmap` 或 `Markmap for VS Code`）。
 2. 打开 [`robot_system.md`](./robot_system.md)。
 3. 在编辑区**右键** → 选择 **「Open in Markmap」**（或「在 Markmap 中打开」）。
-4. 即可交互式展开/折叠节点，并点击链接跳转。
+4. 即可查看详细思维导图，并点击链接跳转。
 
 ### 用浏览器打开 HTML 版（离线）
 

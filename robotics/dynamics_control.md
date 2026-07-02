@@ -1,5 +1,7 @@
 ***
 
+> 👉 **Kuavo 实战**：[18 重力补偿示教](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/18.teaching_gravity_compensation.md)
+>
 # 经典动力学与运动控制 (Classic Dynamics & Motion Control)
 
 > **核心定位**：在现代机器人的混合架构中，经典控制是机器人的**“脊髓与小脑”**。它不负责“认路”（这是感知和大模型的事），只负责解决一个极度硬核的物理问题：**如何在重力、惯性、摩擦力和电机极限的重重枷锁下，让机器人保持动态平衡并精准执行动作。**

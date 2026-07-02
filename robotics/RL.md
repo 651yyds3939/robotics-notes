@@ -1,5 +1,7 @@
 ***
 
+> 👉 **Kuavo 实战**：[15.1 Lab 训练](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/15.1.RL_lab_train.md) · [15.4 Sim2Real](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/15.4RL_lab_sim_to_real.md) · [23.1 舞蹈概览](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/23.1.RL_dance_overview.md)
+>
 # 深度强化学习与机器人控制 (Deep Reinforcement Learning in Robotics)
 
 > **架构师引言**：

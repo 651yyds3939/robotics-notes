@@ -105,7 +105,7 @@
 - ROS 1（Noetic - 主从节点 TCP/IP 机制）
 - ROS 2（Humble/Iron - DDS 去中心化通信）
 - `ros2_control`：硬件抽象层，统一管理真实硬件与仿真切换
-- 👉 入门模板：[ROS2 最小工作空间](./robotics/ros_code_template/ros2_code_ws/) · [ROS1 工作空间](./robotics/ros_code_template/ros1_code_ws/)
+- 👉 入门模板：[ROS2 最小工作空间](./robotics/ros_code_template/ros2_code_ws/) · [ROS1 工作空间](./robotics/ros_code_template/ros1_code_ws/) · [工作空间文件速查](./robotics/doc_concept.md)
 
 ### 2.3 核心算法与框架
 
@@ -118,7 +118,7 @@
 - **LLM/VLM**：任务分解与推理（Qwen2-7B / Gemini），Ghost_words 幻觉拦截
 - **模仿学习 (IL)**：ACT / Diffusion Policy，视觉→动作端到端映射，脑体分离解耦架构（大脑 PyTorch + 身体 [Docker](./robotics/docker.md) [ROS](./robotics/ros_logic.md)）
 - **深度学习基础设施**：PyTorch / [TensorRT / ONNX Runtime](./robotics/edge_deployment.md)
-- 👉 实战案例：[VLA 语音抓取 9终端全闭环](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.1VLA_grasping.md) · [行为树版 VLA](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.2.tree_VLA_grasp.md) · [MCP 大模型 Tool Call](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.3.MCP_LeRobot_VLA_grasp.md) · [模仿学习环境部署](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/8.imitation_learning.md)
+- 👉 实战案例：[VLA 语音抓取 9终端全闭环](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.1VLA_grasping.md) · [行为树版 VLA](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.2.tree_VLA_grasp.md) · [MCP 大模型 Tool Call](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.3.MCP_VLA_grasp.md) · [模仿学习环境部署](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/8.imitation_learning.md)
 
 #### 2.3.2 导航与建图 (Navigation & SLAM) 👉 [SLAM 专题](./robotics/slam.md) · [路径规划](./robotics/path_planning.md)
 - ROS Navigation / Nav2（轮式全栈路径规划与避障）

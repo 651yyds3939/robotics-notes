@@ -1,7 +1,9 @@
 # SLAM 同步定位与建图
 
 > **核心定位**：SLAM（Simultaneous Localization and Mapping）
-> 👉 相关：[路径规划](./path_planning.md) · [TF 树](./tf_tree.md) · [状态估计](./state_estimation.md)是机器人**在未知环境中同时估计自身位姿和构建地图**的技术。它是自主导航的基石——不知道自己在哪、不知道周围长什么样，就谈不上路径规划和避障。
+> 👉 相关：[路径规划](./path_planning.md) · [TF 树](./tf_tree.md) · [状态估计](./state_estimation.md)
+>
+> SLAM（Simultaneous Localization and Mapping）是机器人**在未知环境中同时估计自身位姿和构建地图**的技术。它是自主导航的基石——不知道自己在哪、不知道周围长什么样，就谈不上路径规划和避障。
 >
 > 👉 实战笔记：[Kuavo 地图导航与 FAST-LIO](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/3.map_navigation.md)
 

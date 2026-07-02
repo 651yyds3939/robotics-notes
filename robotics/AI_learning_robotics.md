@@ -1,3 +1,5 @@
+> 👉 **Kuavo 实战**：[21.2 语音大模型](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/21.2.local_AI_large_model.md) · [22.x VLA 抓取](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.1VLA_grasping.md) · [30 图像识别](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/30.AI_image_identification.md) · [通用专题索引](https://github.com/651yyds3939/robotics-notes/blob/master/robot_system.md)
+
 ### 🤖 机器人全链路 AI 算法拓扑与工程对比图谱
 
 | 算法范式 | 🧬 理论本质与包含关系 | 📊 训练数据与机制 | 🤖 在机器人系统中的【绝对核心应用】 | ⚙️ 机器人工程落地痛点与局限 | 典型机器人开发栈 / 算法框架 |
