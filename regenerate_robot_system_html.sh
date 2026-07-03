@@ -136,8 +136,8 @@ preview = build_html(
     "机器人全链路系统 · 全展开预览",
     -1,
     20,
-    False,
-    "",
+    True,
+    "在线交互版 · 鼠标拖动画布平移 · 滚轮缩放 · 右下角工具栏可放大/适配",
 )
 
 out.write_text(interactive, encoding="utf-8")

@@ -1,13 +1,26 @@
 # robotics-notes
 
-[![机器人全链路系统 · 思维导图预览](./assets/robot_system_preview.png)](https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/assets/robot_system_preview.png)
+[![机器人全链路系统 · 思维导图预览](./assets/robot_system_preview.png)](https://651yyds3939.github.io/robotics-notes/robot_system_preview.html)
 
-> **思维导图入口**：上图是**全展开**预览（含全部子节点）。**点击图片**可在新标签页打开高清原图并放大查看；源文件 [`robot_system.md`](./robot_system.md)。交互浏览：安装 [Markmap 扩展](https://marketplace.visualstudio.com/items?itemName=gera2ld.markmap-vscode) 打开 md，或 clone 后用浏览器打开 [`robot_system_photo.html`](./robot_system_photo.html)。更新导图后运行 `./regenerate_robot_system_html.sh` 同步刷新预览图。
+> **思维导图入口**：上图是**全展开**静态预览。**点击图片**打开 [在线交互版](https://651yyds3939.github.io/robotics-notes/robot_system_preview.html)（可**拖动平移**、滚轮缩放、点击节点折叠）。源文件 [`robot_system.md`](./robot_system.md)；也可查看 [高清静态图](https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/assets/robot_system_preview.png)（仅支持点击放大，不能拖动）。本地交互：Markmap 扩展打开 md，或浏览器打开 [`robot_system_photo.html`](./robot_system_photo.html)。更新导图后运行 `./regenerate_robot_system_html.sh`。
 
 机器人**通用**知识库与 Ubuntu 开发环境笔记，与具体机型无关。 
 侧重概念、架构、控制/感知/工程化链路；**不含**某一品牌人形机器人的魔改代码与真机排障。
 
 人形机器人（Kuavo 4 Pro）二次开发实战见独立仓库 [kuavo-dev-notes](https://github.com/651yyds3939/kuavo-dev-notes)（与本文库为**两个 GitHub 仓库**，跨库链接请用 GitHub 地址，见下方「链接规范」）。
+
+---
+
+## 在线交互思维导图（GitHub Pages）
+
+仓库首页预览图是静态 PNG，**不能拖动**；要在线拖动、缩放浏览完整导图，需开启 **GitHub Pages**（一次性设置）：
+
+1. 打开仓库 **Settings → Pages**
+2. **Build and deployment → Source** 选 `Deploy from a branch`
+3. **Branch** 选 `master`，目录选 `/ (root)`，点 **Save**
+4. 等待 1～2 分钟，访问：[https://651yyds3939.github.io/robotics-notes/robot_system_preview.html](https://651yyds3939.github.io/robotics-notes/robot_system_preview.html)
+
+页面为全展开 Markmap（[`robot_system_preview.html`](./robot_system_preview.html)），支持鼠标拖动画布、滚轮缩放、右下角工具栏。仓库根目录已含 `.nojekyll`，确保 `assets/markmap/` 静态资源可正常加载。
 
 ---
 
