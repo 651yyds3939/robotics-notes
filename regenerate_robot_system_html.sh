@@ -34,15 +34,61 @@ export PREVIEW_HTML="$PREVIEW_HTML"
 python3 << 'PY'
 import json
 import os
+import re
 from pathlib import Path
 
+GITHUB_REPO = "https://github.com/651yyds3939/robotics-notes"
+BRANCH = "master"
+HTML_PREVIEW = "https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master"
+
 root_json = Path(os.environ["ROOT_JSON_TMP"]).read_text(encoding="utf-8")
-json.loads(root_json)
-root_js = root_json.replace("</", r"<\/")
+root = json.loads(root_json)
 out = Path(os.environ["OUT"])
 preview_html = Path(os.environ["PREVIEW_HTML"])
 
-def build_html(title, expand_level, max_scale, show_toolbar, footer_note):
+
+def rewrite_href(href: str) -> str:
+    if href.startswith(("http://", "https://", "mailto:", "#")):
+        return href
+    path = href[2:] if href.startswith("./") else href
+    anchor = ""
+    if "#" in path:
+        path, frag = path.split("#", 1)
+        anchor = "#" + frag
+    if not path:
+        return href
+    if path.endswith("/"):
+        return f"{GITHUB_REPO}/tree/{BRANCH}/{path.rstrip('/')}{anchor}"
+    if path.endswith(".html"):
+        if path in ("robot_system_preview.html", "robot_system_photo.html"):
+            return f"{HTML_PREVIEW}/{path}{anchor}"
+        return f"{GITHUB_REPO}/blob/{BRANCH}/{path}{anchor}"
+    return f"{GITHUB_REPO}/blob/{BRANCH}/{path}{anchor}"
+
+
+def rewrite_content(content: str) -> str:
+    def repl(match):
+        href = match.group(1)
+        return f'href="{rewrite_href(href)}"'
+
+    return re.sub(r'href="([^"]+)"', repl, content)
+
+
+def rewrite_tree(node: dict) -> None:
+    if node.get("content"):
+        node["content"] = rewrite_content(node["content"])
+    for child in node.get("children", []):
+        rewrite_tree(child)
+
+
+root_interactive = json.loads(json.dumps(root))
+root_preview = json.loads(json.dumps(root))
+rewrite_tree(root_preview)
+
+root_js = json.dumps(root_interactive, ensure_ascii=False).replace("</", r"<\/")
+root_preview_js = json.dumps(root_preview, ensure_ascii=False).replace("</", r"<\/")
+
+def build_html(title, expand_level, max_scale, show_toolbar, footer_note, root_data_js):
     toolbar_block = ""
     if show_toolbar:
         toolbar_block = """
@@ -91,7 +137,7 @@ a {{ color: #2563eb; }}
 (function () {{
   try {{
     const {{ Markmap, deriveOptions, Toolbar }} = window.markmap;
-    const root = {root_js};
+    const root = {root_data_js};
     const mm = Markmap.create(
       '#mindmap',
       deriveOptions({{
@@ -131,13 +177,15 @@ interactive = build_html(
     2,
     True,
     "离线版 · 由 robot_system.md 预渲染 · 更新 md 后运行 regenerate_robot_system_html.sh",
+    root_js,
 )
 preview = build_html(
     "机器人全链路系统 · 全展开预览",
     -1,
     20,
     True,
-    "在线交互版 · 鼠标拖动画布平移 · 滚轮缩放 · 右下角工具栏可放大/适配",
+    "在线交互版 · 鼠标拖动画布平移 · 滚轮缩放 · 链接跳转 GitHub 渲染页",
+    root_preview_js,
 )
 
 out.write_text(interactive, encoding="utf-8")

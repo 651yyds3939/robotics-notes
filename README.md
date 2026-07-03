@@ -13,7 +13,7 @@
 
 ## 在线交互思维导图
 
-仓库首页预览图是静态 PNG，**不能拖动**。**点击图片**会打开在线 Markmap（[`robot_system_preview.html`](./robot_system_preview.html)），支持鼠标拖动画布、滚轮缩放、点击节点折叠。
+仓库首页预览图是静态 PNG，**不能拖动**。**点击图片**会打开在线 Markmap（[`robot_system_preview.html`](./robot_system_preview.html)），支持鼠标拖动画布、滚轮缩放、点击节点折叠；导图内链接已指向 GitHub 渲染页（非 raw 纯文本）。
 
 ### 若点击图片出现 404
 
