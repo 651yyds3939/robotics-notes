@@ -1,8 +1,8 @@
 # robotics-notes
 
-[![机器人全链路系统 · 思维导图预览](./assets/robot_system_preview.png)](https://651yyds3939.github.io/robotics-notes/robot_system_preview.html)
+[![机器人全链路系统 · 思维导图预览](./assets/robot_system_preview.png)](https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/robot_system_preview.html)
 
-> **思维导图入口**：上图是**全展开**静态预览。**点击图片**打开 [在线交互版](https://651yyds3939.github.io/robotics-notes/robot_system_preview.html)（可**拖动平移**、滚轮缩放、点击节点折叠）。源文件 [`robot_system.md`](./robot_system.md)；也可查看 [高清静态图](https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/assets/robot_system_preview.png)（仅支持点击放大，不能拖动）。本地交互：Markmap 扩展打开 md，或浏览器打开 [`robot_system_photo.html`](./robot_system_photo.html)。更新导图后运行 `./regenerate_robot_system_html.sh`。
+> **思维导图入口**：上图是**全展开**静态预览。**点击图片**打开 [在线交互版](https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/robot_system_preview.html)（可**拖动平移**、滚轮缩放、点击节点折叠）。源文件 [`robot_system.md`](./robot_system.md)；也可查看 [高清静态图](https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/assets/robot_system_preview.png)（仅支持点击放大，不能拖动）。本地交互：Markmap 扩展打开 md，或浏览器打开 [`robot_system_photo.html`](./robot_system_photo.html)。更新导图后运行 `./regenerate_robot_system_html.sh`。
 
 机器人**通用**知识库与 Ubuntu 开发环境笔记，与具体机型无关。 
 侧重概念、架构、控制/感知/工程化链路；**不含**某一品牌人形机器人的魔改代码与真机排障。
@@ -11,16 +11,22 @@
 
 ---
 
-## 在线交互思维导图（GitHub Pages）
+## 在线交互思维导图
 
-仓库首页预览图是静态 PNG，**不能拖动**；要在线拖动、缩放浏览完整导图，需开启 **GitHub Pages**（一次性设置）：
+仓库首页预览图是静态 PNG，**不能拖动**。**点击图片**会打开在线 Markmap（[`robot_system_preview.html`](./robot_system_preview.html)），支持鼠标拖动画布、滚轮缩放、点击节点折叠。
+
+### 若点击图片出现 404
+
+说明 **GitHub Pages 尚未开启**（`651yyds3939.github.io` 下还没有站点）。当前 README 已改用免配置的 [HTML Preview](https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/robot_system_preview.html) 作为跳转链接，**push 最新 README 后即可直接拖动查看**。
+
+若希望使用官方 Pages 地址（[https://651yyds3939.github.io/robotics-notes/robot_system_preview.html](https://651yyds3939.github.io/robotics-notes/robot_system_preview.html)），一次性设置：
 
 1. 打开仓库 **Settings → Pages**
-2. **Build and deployment → Source** 选 `Deploy from a branch`
-3. **Branch** 选 `master`，目录选 `/ (root)`，点 **Save**
-4. 等待 1～2 分钟，访问：[https://651yyds3939.github.io/robotics-notes/robot_system_preview.html](https://651yyds3939.github.io/robotics-notes/robot_system_preview.html)
+2. **Build and deployment → Source** 选 **GitHub Actions**（仓库已含 [`.github/workflows/deploy-pages.yml`](./.github/workflows/deploy-pages.yml)）
+3. 将本仓库 push 到 `master`，在 **Actions** 页等待 `Deploy GitHub Pages` 跑完（约 1～2 分钟）
+4. 再访问上方官方链接；之后可将 README 图片链接改回官方地址
 
-页面为全展开 Markmap（[`robot_system_preview.html`](./robot_system_preview.html)），支持鼠标拖动画布、滚轮缩放、右下角工具栏。仓库根目录已含 `.nojekyll`，确保 `assets/markmap/` 静态资源可正常加载。
+仓库根目录含 `.nojekyll`，确保 `assets/markmap/` 静态资源在 Pages 上可正常加载。
 
 ---
 
