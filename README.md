@@ -1,5 +1,9 @@
 # robotics-notes
 
+[![机器人全链路系统 · 思维导图预览](./assets/robot_system_preview.png)](./robot_system.md)
+
+> **思维导图入口**：上图是**全展开**预览（含全部子节点；**点击可放大**查看细节）。源文件 [`robot_system.md`](./robot_system.md)；更新后运行 `./regenerate_robot_system_html.sh` 同步刷新预览图。交互浏览：VS Code / Cursor 安装 [Markmap 扩展](https://marketplace.visualstudio.com/items?itemName=gera2ld.markmap-vscode)，或本机浏览器打开 [`robot_system_photo.html`](./robot_system_photo.html)（默认折叠，便于逐层展开）。
+
 机器人**通用**知识库与 Ubuntu 开发环境笔记，与具体机型无关。 
 侧重概念、架构、控制/感知/工程化链路；**不含**某一品牌人形机器人的魔改代码与真机排障。
 

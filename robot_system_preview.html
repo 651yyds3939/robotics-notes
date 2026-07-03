@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>机器人全链路系统 · Markmap</title>
+<title>机器人全链路系统 · 全展开预览</title>
 <style>
 * { margin: 0; padding: 0; }
 html {
@@ -32,30 +32,21 @@ a { color: #2563eb; }
       '#mindmap',
       deriveOptions({
         maxWidth: 300,
-        initialExpandLevel: 2,
+        initialExpandLevel: -1,
         colorFreezeLevel: 2,
         autoFit: true,
-        maxInitialScale: 2,
+        maxInitialScale: 20,
         fitRatio: 0.98,
       }),
       root
     );
     window.mm = mm;
-    const refit = () => mm.fit(2);
+    const refit = () => mm.fit(20);
     requestAnimationFrame(refit);
     window.addEventListener('load', () => setTimeout(refit, 200));
     window.addEventListener('resize', refit);
     if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
       document.documentElement.classList.add('markmap-dark');
-    }
-    if (Toolbar) {
-      try {
-        const { el } = Toolbar.create(mm);
-        el.style.cssText = 'position:absolute;bottom:20px;right:20px';
-        document.body.append(el);
-      } catch (toolbarErr) {
-        console.warn('Toolbar skipped:', toolbarErr);
-      }
     }
   } catch (err) {
     document.body.innerHTML =
@@ -66,8 +57,5 @@ a { color: #2563eb; }
   }
 })();
 </script>
-<p style="position:fixed;left:12px;bottom:8px;font-size:12px;color:#666;">
-  离线版 · 由 robot_system.md 预渲染 · 更新 md 后运行 regenerate_robot_system_html.sh
-</p>
 </body>
 </html>

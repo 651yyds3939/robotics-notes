@@ -71,12 +71,15 @@
 - **全双工网关**：WebSocket 长连接 + 中断恢复
 - 👉 实战案例：[Gemini 全双工语音交互](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/21.3.gemini_model.md) · [本地大模型语音](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/21.2.local_AI_large_model.md)
 
-### 1.4 高层感知算法【运行于：上位机】 👉 [AI与机器人学习笔记](./robotics/AI_learning_robotics.md)
+### 1.4 高层感知算法【运行于：上位机】 👉 [AI与机器人学习笔记](./robotics/AI_learning_robotics.md) · [视觉基础模型 VFM 专题](./robotics/vision_foundation_models.md)
 
-- YOLOv8 / Detectron2：实时目标检测与实例分割
-- PointNet：3D 点云特征提取与分类
-- OpenCV 图像处理
-- Intel RealSense SDK / Lidar SDK
+- **经典检测管线（工程主力）**：YOLOv8 / Detectron2 实时目标检测；OpenCV · RealSense SDK · Lidar SDK
+- **3D 感知**：PointNet 点云特征；Depth Anything 单目深度（无 RGB-D 时补几何）
+- **视觉基础模型 VFM（开放词表 / 零样本）** 👉 [VFM 专题笔记](./robotics/vision_foundation_models.md)
+ - **分割**：SAM / SAM2（点框提示）；Grounded-SAM（文本→检测+分割）
+ - **检测**：Grounding-DINO（语言指定物体）；DINO v2/v3（跨帧 correspondence）
+ - **位姿**：FoundationPose（6D 物体位姿）；典型管线：Grounding-DINO → SAM → FoundationPose → IK
+ - **对齐**：CLIP / SigLIP（图文共享空间，供 VLA / 检索条件策略）
 - 👉 实战案例：[YOLOv8 真机部署](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/4.3.real_robot_yolo_environment.md) · [VLM 图像触发](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/30.AI_image_identification.md)
 
 ### 1.5 底层状态估计与预处理【运行于：下位机】 👉 [状态估计专题](./robotics/state_estimation.md) · [传感器融合](./robotics/sensor_fusion.md)
@@ -87,12 +90,14 @@
 - **双足/人形特有问题**：腿部里程计（接触检测 + 运动学推算）、浮动基座状态估计、触地判定（20N 阈值）
 - 👉 实战案例：[关节标定](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/26.joint_calibration.md)
 
-### 1.6 数据采集与遥操作 (Data Collection)
+### 1.6 数据采集与遥操作 (Data Collection) 👉 [Benchmark 与 Dataset 专题](./robotics/benchmark_dataset.md)
 
-- **模仿学习数据采集**：LeRobot v3.0 格式（observation 图像+关节状态 + action），三机分工（下位机录 npz + 上位机录 RGB + PC 离线打包），单条 episode ~1200 帧 @50Hz
-- 动捕系统（OptiTrack / Vicon）
-- VR 遥操作（Apple Vision Pro / Meta Quest 全身重定向）
-- rosbag2 多模态录制
+- **自采（Kuavo 实战）**：LeRobot v3.0 格式（observation 图像+关节状态 + action），三机分工（下位机录 npz + 上位机录 RGB + PC 离线打包），单条 episode ~1200 帧 @50Hz
+- **公开采集范式**：ALOHA 主从双臂遥操作 · UMI 可穿戴 retargeting · Ego-centric 第一人称视频（低成本、弱 action 标注）
+- **公开大规模 Dataset（训通用 VLA/IL）** 👉 [Benchmark 与 Dataset 专题](./robotics/benchmark_dataset.md)
+ - [Open X-Embodiment (RT-X)](https://robotics-transformer-x.github.io/) · [DROID](https://droid-dataset.github.io/) · [BridgeData V2](https://rail-berkeley.github.io/bridgedata/) · [AgiBot World](https://agibot-world.com/)
+ - 数据扩增：[MimicGen](https://github.com/NVlabs/mimicgen) · [RoboTwin 2.0 合成](https://github.com/robotwin-Platform/robotwin)
+- 动捕系统（OptiTrack / Vicon）· VR 遥操作（Apple Vision Pro / Meta Quest）· rosbag2 多模态录制
 - 👉 实战案例：[LeRobot 数据采集](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.4.Lerobot_grasp.md) · [相机/动捕](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/27.camera_mtion_capture.md)
 
 ---
@@ -129,14 +134,17 @@
 
 ### 2.3 核心算法与框架
 
-#### 2.3.1 具身智能与 VLA (Embodied AI / VLA)
+#### 2.3.1 具身智能与 VLA (Embodied AI / VLA) 👉 [VLA 研究版图专题](./robotics/vla_landscape.md)
 
-- **VLA 架构迭代实战**：
+- **Kuavo 工程 VLA 迭代（System 2 + System 1 分层）**：
  - V1 → ASR + LLM 意图提取 → JSON 指令 → 硬编码状态机执行（9 终端）
  - V2 → py_trees [行为树](./robotics/ros_logic.md) 重构（行为封装为独立节点，可组合替换）👉 实战见 [行为树版 VLA](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.2.tree_VLA_grasp.md)
  - V3 → MCP Tool Call（LLM 直接调用 `detect/grasp/speak` 函数，自主编排调用链）
-- **LLM/VLM**：任务分解与推理（Qwen2-7B / Gemini），Ghost_words 幻觉拦截
-- **模仿学习 (IL)**：ACT / Diffusion Policy，视觉→动作端到端映射，脑体分离解耦架构（大脑 PyTorch + 身体 [Docker](./robotics/docker.md) [ROS](./robotics/ros_logic.md)）
+- **研究侧 VLA 版图（视觉+语言→动作）** 👉 [VLA 研究版图专题](./robotics/vla_landscape.md)
+ - 经典：[RT-1/2](https://arxiv.org/abs/2307.15818) · [OpenVLA](https://github.com/openvla) · [Octo](https://github.com/octo-models/octo) · [π0 / openpi](https://github.com/Physical-Intelligence/openpi)
+ - 2025 分层双系统：System 2（VLM 规划）+ System 1（VLA 执行）—— [Hi-Robot](https://arxiv.org/abs/2502.19417) · [GR00T-N1](https://github.com/NVIDIA/Isaac-GR00T) · [GO-1 智元](https://www.zhiyuan-robot.com/)
+ - 人形相关：[NaVILA](https://navila-bot.github.io/)（腿式+语言导航）· [RDT-1B](https://github.com/thu-ml/RoboticsDiffusionTransformer)（双臂）
+- **模仿学习 System 1 基线**：ACT / Diffusion Policy / DP3，视觉→动作映射；脑体分离（大脑 PyTorch + 身体 [Docker](./robotics/docker.md) [ROS](./robotics/ros_logic.md)）
 - **深度学习基础设施**：PyTorch / [TensorRT / ONNX Runtime](./robotics/edge_deployment.md)
 - 👉 实战案例：[VLA 语音抓取 9终端全闭环](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.1VLA_grasping.md) · [行为树版 VLA](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.2.tree_VLA_grasp.md) · [MCP 大模型 Tool Call](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.3.MCP_VLA_grasp.md) · [模仿学习环境部署](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/8.imitation_learning.md)
 
@@ -163,6 +171,17 @@
 - 状态机 (State Machine)
 - **AI Agent 工作流**：LangChain / CrewAI / n8n
 - 👉 实战案例：[行为树版 VLA 抓取](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.2.tree_VLA_grasp.md)
+
+#### 2.3.5 LLM for Robotics（高层规划与工具调用） 👉 [LLM for Robotics 专题](./robotics/llm_for_robotics.md)
+
+- **定位**：LLM 通常**不直接输出关节角**，而是做任务理解、分解、规划与 tool call（~1Hz System 2），低层交给 VLA / 行为树 / MoveIt
+- **主要范式** 👉 [专题笔记](./robotics/llm_for_robotics.md)
+ - **高层规划**：[PaLM-E](https://arxiv.org/abs/2303.03378) · [LLM+P](https://arxiv.org/abs/2304.11477)（LLM→PDDL→传统 planner）
+ - **3D+LLM**：[VoxPoser](https://arxiv.org/abs/2307.05973) · [OmniManip](https://arxiv.org/abs/2501.03841)
+ - **Code as Policy**：[CaP](https://arxiv.org/abs/2209.07753) · Instruction2Act（与 Kuavo V3 MCP 思路相近）
+ - **评测**：[Embodied Agent Interface](https://embodied-agent-interface.github.io/)（测 LLM 任务理解/分解，不测低层执行）
+- **与 Kuavo 对应**：V1 状态机 ≈ 符号规划 · V2 行为树 ≈ 分层编排 · V3 MCP ≈ Agent tool call
+- 👉 实战案例：[MCP VLA 抓取](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.3.MCP_VLA_grasp.md) · [本地大模型语音](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/21.2.local_AI_large_model.md)
 
 ### 2.4 人机交互 (HRI)
 
@@ -377,13 +396,23 @@
 - VS Code + GitHub Copilot / JetBrains + Codex
 - 👉 使用笔记：[Claude Code 配置](./ubuntu/claude_code_deepseek.md) · [Cursor 使用](./ubuntu/cursor.md) · [具身智能工程工具箱](./robotics/tools.md)
 
-### 9.2 物理仿真与 Sim-to-Real 👉 [RL 笔记](./robotics/RL.md) · [环境笔记](./robotics/environment.md) · [模型部署](./robotics/edge_deployment.md)
+### 9.2 物理仿真与 Sim-to-Real 👉 [RL 笔记](./robotics/RL.md) · [环境笔记](./robotics/environment.md) · [模型部署](./robotics/edge_deployment.md) · [Benchmark 与 Dataset 专题](./robotics/benchmark_dataset.md)
 
-- **[MuJoCo](./robotics/robot_modeling.md)**：轻量级动力学引擎，大规模 [RL](./robotics/RL.md) 训练首选
-- **Isaac Sim**：GPU 并行加速 + 光线追踪渲染，视觉模型训练与 [Sim2Real](./robotics/RL.md) 核心工具
-- **Gazebo**：经典 [ROS](./robotics/ros_logic.md) 仿真环境
-- **域随机化 (Domain Randomization)**：质量/摩擦/延迟随机噪声注入，Sim2Real 跨越虚实鸿沟的核心武器
+- **[MuJoCo](./robotics/robot_modeling.md)**：轻量级动力学；[robosuite](https://robosuite.ai/) · LIBERO · Meta-World（操作 benchmark 生态）
+- **Isaac Sim / Isaac Lab**：GPU 并行；[legged-gym](https://github.com/leggedrobotics/legged_gym) 腿足 RL（人形行走主线）
+- **SAPIEN**：[ManiSkill](https://maniskill.readthedocs.io/) · [RoboTwin 2.0](https://github.com/robotwin-Platform/robotwin)（双臂操作 + 数据合成）
+- **Gazebo**：经典 [ROS](./robotics/ros_logic.md) 移动机器人仿真
+- **域随机化 (Domain Randomization)**：质量/摩擦/延迟随机噪声，Sim2Real 核心武器
 - 👉 实战案例：[Isaac Lab 行走训练](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/15.1.RL_lab_train.md) · [MuJoCo Sim2Sim](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/15.3RL_lab_sim_to_sim.md)
+
+#### 9.2.1 评测基准与公开数据集 👉 [Benchmark 与 Dataset 专题](./robotics/benchmark_dataset.md)
+
+> 仿真器决定「能造什么世界」；**Benchmark** 决定「怎么比」；**Dataset** 决定「学到什么分布」。建议跑通 **仿真器 + Benchmark + Dataset** 最小闭环。
+
+- **操作 Benchmark**：[RoboTwin 2.0](https://github.com/robotwin-Platform/robotwin) · [LIBERO](https://libero-project.github.io/intro.html) · [CALVIN](http://calvin.cs.uni-freiburg.de/) · [Meta-World](https://meta-world.github.io/) · [SimplerENV](https://github.com/simpler-env/SimplerEnv)
+- **规划 Benchmark**：[Embodied Agent Interface](https://embodied-agent-interface.github.io/)（LLM 决策链，不测低层执行）
+- **跨本体 Dataset**：[Open X-Embodiment](https://robotics-transformer-x.github.io/) · [DROID](https://droid-dataset.github.io/) · [BridgeData V2](https://rail-berkeley.github.io/bridgedata/) · [白虎/青龙](https://www.openloong.org.cn/cn/dataset)
+- **与 Kuavo 分工**：行走 RL → Isaac Lab 自定义 terrain；操作 VLA → 自采 LeRobot + 可选 RoboTwin/LIBERO 对照
 
 ### 9.3 调试、监控与可视化
 - RViz（ROS 3D 空间呈现）· PlotJuggler · Foxglove Studio
@@ -410,6 +439,6 @@
 
 ---
 
-> **备注**：这份思维导图不是一次写成的，而是在 Kuavo 4 Pro 人形机器人上经历了数百次实机调试、炸机排障和架构重构后逐层沉淀下来的。每一层背后都有至少一篇实战笔记支撑。
+> **备注**：这份思维导图不是一次写成的，而是在不断学习中完善的，也经历了很多次实机调试、炸机排障和架构重构后逐层沉淀下来的。每一层背后都有至少一篇实战笔记支撑。
 >
 > 通用知识库：[robotics-notes](https://github.com/651yyds3939/robotics-notes) · 项目实战：[kuavo-dev-notes](https://github.com/651yyds3939/kuavo-dev-notes)
