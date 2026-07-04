@@ -8,5 +8,10 @@
     ],
     "pasteImage.path": "${currentFileDir}/images",
     "pasteImage.prefix": "images/",
-    "pasteImage.namePrefix": "kuavo_" // 以后粘贴图片会自动命名为 kuavo_时间戳.png
+    "pasteImage.namePrefix": "kuavo_" // 以后粘贴图片会自动命名为 kuavo_时间戳.png,
+    "markdown.preview.darkTheme": true,
+    "markdown.mermaid.theme": "dark",
+    "[markdown]": {
+        "editor.wordWrap": "on"
+    }
 }

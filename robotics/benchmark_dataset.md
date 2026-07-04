@@ -31,13 +31,13 @@ Dataset             →  训练用轨迹（obs, action, language…）
 | **PyBullet** | CALVIN、Ravens | [CALVIN](https://github.com/mees/calvin) |
 | **Gazebo** | ROS 移动机器人、Nav2 | [gazebosim.org](https://gazebosim.org) |
 
-**与 Kuavo 工作对应**：
+**与二次开发工作对应**：
 
 | 方向 | 常用组合 |
 |------|----------|
 | 人形行走 RL（`leju_robot_rl`） | Isaac Lab + 自定义 terrain（locomotion 线） |
 | 操作 / VLA | RoboTwin、LIBERO、CALVIN（manipulation 线） |
-| 自采数据 | LeRobot 格式（见 Kuavo 实战） |
+| 自采数据 | LeRobot 格式（见实战案例仓库） |
 
 ---
 
@@ -91,7 +91,7 @@ Dataset             →  训练用轨迹（obs, action, language…）
 | **主从双臂遥操作** | ALOHA | 高精度 action + 多视角 |
 | **可穿戴 retargeting** | UMI | 人体示教 + 动作映射 |
 | **第一人称视频** | Ego-centric | 低成本；弱 action 标注 |
-| **自采（Kuavo）** | LeRobot v3.0 | 三机分工；见 kuavo-dev-notes |
+| **自采（人形平台）** | LeRobot v3.0 | 三机分工；见 kuavo-dev-notes |
 
 ---
 
@@ -102,7 +102,7 @@ Dataset             →  训练用轨迹（obs, action, language…）
 | 复现 OpenVLA / Octo | Open X-Embodiment + SimplerENV |
 | 双臂操作入门 | RoboTwin 2.0 + ACT |
 | 人形行走论文对比 | Isaac Lab + 自定义协议（尚无统一 benchmark） |
-| Kuavo 自研 VLA | 自采 LeRobot + 自建评测任务 |
+| 自研 VLA（人形平台） | 自采 LeRobot + 自建评测任务 |
 
 ---
 
@@ -115,4 +115,4 @@ Dataset             →  训练用轨迹（obs, action, language…）
 
 ---
 
-> 👉 **Kuavo 实战**：[LeRobot 数据采集](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.4.Lerobot_grasp.md) · [Isaac Lab 训练](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/15.1.RL_lab_train.md)
+> 👉 **实战案例**：[LeRobot 数据采集](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.4.Lerobot_grasp.md) · [Isaac Lab 训练](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/15.1.RL_lab_train.md)

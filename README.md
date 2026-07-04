@@ -1,32 +1,78 @@
 # robotics-notes
 
-[![机器人全链路系统 · 思维导图预览](./assets/robot_system_preview.png)](https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/robot_system_preview.html)
+> **导航**：[`robot_knowledge_map.md`](./robot_knowledge_map.md) — 四种视角、阅读路径与两库分工（完整版）
 
-> **思维导图入口**：上图是**全展开**静态预览。**点击图片**打开 [在线交互版](https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/robot_system_preview.html)（可**拖动平移**、滚轮缩放、点击节点折叠）。源文件 [`robot_system.md`](./robot_system.md)；也可查看 [高清静态图](https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/assets/robot_system_preview.png)（仅支持点击放大，不能拖动）。本地交互：Markmap 扩展打开 md，或浏览器打开 [`robot_system_photo.html`](./robot_system_photo.html)。更新导图后运行 `./regenerate_robot_system_html.sh`。
+```mermaid
+flowchart LR
+    USER(["机器人开发者"])
+    subgraph VIEWS["四种视角 · 互不替代"]
+        direction LR
+        A["结构<br/>robot_system"]
+        B["流程<br/>lifecycle"]
+        C["运行时<br/>integration"]
+        D["软件管线<br/>pipelines"]
+        A --> B --> C --> D
+    end
+    USER --> D
+    USER --> C
+    USER -.-> A
+    USER -.-> B
+```
 
-机器人**通用**知识库与 Ubuntu 开发环境笔记，与具体机型无关。 
-侧重概念、架构、控制/感知/工程化链路；**不含**某一品牌人形机器人的魔改代码与真机排障。
+<table width="100%">
+<tr valign="top">
+<td align="center" width="50%">
+<strong>结构 · 全链路思维导图</strong><br/>
+<a href="https://651yyds3939.github.io/robotics-notes/robot_system_preview.html">
+<img src="./assets/robot_system_preview.png" width="540" alt="机器人全链路思维导图"/>
+</a><br/>
+<a href="./robot_system.md">robot_system.md</a> ·
+<a href="https://651yyds3939.github.io/robotics-notes/robot_system_preview.html">交互版</a>
+</td>
+<td align="center" width="50%">
+<strong>流程 · 研发生命周期</strong><br/>
+<a href="https://651yyds3939.github.io/robotics-notes/robot_development_lifecycle.html">
+<img src="./assets/lifecycle_preview.png" width="540" alt="研发全流程 Mermaid 大图"/>
+</a><br/>
+<a href="./robot_development_lifecycle.md">robot_development_lifecycle.md</a> ·
+<a href="https://651yyds3939.github.io/robotics-notes/robot_development_lifecycle.html">完整 HTML</a>
+</td>
+</tr>
+</table>
 
-人形机器人（Kuavo 4 Pro）二次开发实战见独立仓库 [kuavo-dev-notes](https://github.com/651yyds3939/kuavo-dev-notes)（与本文库为**两个 GitHub 仓库**，跨库链接请用 GitHub 地址，见下方「链接规范」）。
+> **缩略图说明**：上表两张 PNG 由 [`regenerate_all_previews.sh`](./regenerate_all_previews.sh) 自动生成（已裁边、同高；思维导图上下留白并略缩小）。**点击图片**打开 GitHub Pages 交互页。
+>
+> **多图文档（首页不放缩略图）**：[运行时闭环 · integration](./robotics/robot_system_integration.md) · [二次开发管线 · pipelines](./robotics/robot_software_pipelines.md) — 在 GitHub 打开 `.md` 即可渲染 Mermaid。
+
+机器人**通用**知识库与 Ubuntu 开发环境笔记，与具体机型无关。侧重概念、架构、控制/感知/工程化链路；**不含**某一品牌人形机器人的魔改代码与真机排障。
+
+具体机型二次开发实战见独立仓库 [kuavo-dev-notes](https://github.com/651yyds3939/kuavo-dev-notes)（与本文库为**两个 GitHub 仓库**，跨库链接请用 GitHub 地址，见下方「链接规范」）。
 
 ---
 
-## 在线交互思维导图
+## 可视化页面与 GitHub Pages
 
-仓库首页预览图是静态 PNG，**不能拖动**。**点击图片**会打开在线 Markmap（[`robot_system_preview.html`](./robot_system_preview.html)），支持鼠标拖动画布、滚轮缩放、点击节点折叠；导图内链接已指向 GitHub 渲染页（非 raw 纯文本）。
+| 类型 | 源文件 | 交互页（推荐） | 首页缩略图 |
+|------|--------|----------------|------------|
+| Markmap 思维导图 | [`robot_system.md`](./robot_system.md) | [Pages · 交互版](https://651yyds3939.github.io/robotics-notes/robot_system_preview.html) | `assets/robot_system_preview.png` |
+| Mermaid 研发流程 | [`robot_development_lifecycle.md`](./robot_development_lifecycle.md) | [Pages · 完整 HTML](https://651yyds3939.github.io/robotics-notes/robot_development_lifecycle.html) | `assets/lifecycle_preview.png` |
+| 运行时数据流 | [`robot_system_integration.md`](./robotics/robot_system_integration.md) | GitHub 打开 md 渲染 Mermaid | — |
+| 二次开发管线 | [`robot_software_pipelines.md`](./robotics/robot_software_pipelines.md) | GitHub 打开 md 渲染 Mermaid | — |
+| 离线思维导图 | 同上 | [`robot_system_photo.html`](./robot_system_photo.html) | — |
 
-### 若点击图片出现 404
+**GitHub 上 `.md` 里的 Mermaid**：在仓库中点开 `robot_development_lifecycle.md`、`robot_system_integration.md` 等文件，GitHub 会**原生渲染** ` ```mermaid ` 代码块；**README 首页**仍用 PNG 缩略图 + 跳转 HTML，避免大图加载过慢。
 
-说明 **GitHub Pages 尚未开启**（`651yyds3939.github.io` 下还没有站点）。当前 README 已改用免配置的 [HTML Preview](https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/robot_system_preview.html) 作为跳转链接，**push 最新 README 后即可直接拖动查看**。
+### 若 Pages 链接 404
 
-若希望使用官方 Pages 地址（[https://651yyds3939.github.io/robotics-notes/robot_system_preview.html](https://651yyds3939.github.io/robotics-notes/robot_system_preview.html)），一次性设置：
+一次性开启（仓库已含 [`.github/workflows/deploy-pages.yml`](./.github/workflows/deploy-pages.yml)）：
 
-1. 打开仓库 **Settings → Pages**
-2. **Build and deployment → Source** 选 **GitHub Actions**（仓库已含 [`.github/workflows/deploy-pages.yml`](./.github/workflows/deploy-pages.yml)）
-3. 将本仓库 push 到 `master`，在 **Actions** 页等待 `Deploy GitHub Pages` 跑完（约 1～2 分钟）
-4. 再访问上方官方链接；之后可将 README 图片链接改回官方地址
+1. **Settings → Pages → Build and deployment → Source** 选 **GitHub Actions**
+2. push 到 `master`，在 **Actions** 等待 `Deploy GitHub Pages` 完成
+3. 访问 [https://651yyds3939.github.io/robotics-notes/](https://651yyds3939.github.io/robotics-notes/)
 
-仓库根目录含 `.nojekyll`，确保 `assets/markmap/` 静态资源在 Pages 上可正常加载。
+**临时备用**（无需 Pages）：[思维导图 htmlpreview](https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/robot_system_preview.html) · [流程图 htmlpreview](https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/robot_development_lifecycle.html)
+
+根目录含 `.nojekyll`，确保 `assets/markmap/`、`assets/mermaid/` 在 Pages 上可加载。
 
 ---
 
@@ -41,7 +87,7 @@ git pull
 
 若本地有未提交修改，`git pull` 可能提示冲突；可先 `git stash` 暂存改动，同步后再 `git stash pop`，或先提交到 fork 再拉取。
 
-**两库并排维护时**（例如 `~/Notes/robotics-notes` 与 `~/Notes/kuavo-dev-notes`），需分别在两个目录各执行一次 `git pull`。通用笔记在本仓库；Kuavo 实战在 [kuavo-dev-notes](https://github.com/651yyds3939/kuavo-dev-notes)。
+**两库并排维护时**（例如 `~/Notes/robotics-notes` 与 `~/Notes/kuavo-dev-notes`），需分别在两个目录各执行一次 `git pull`。通用笔记在本仓库；机型实战在 [kuavo-dev-notes](https://github.com/651yyds3939/kuavo-dev-notes)。
 
 **首次克隆本仓库：**
 
@@ -57,17 +103,20 @@ cd robotics-notes
 
 ### 推荐阅读顺序
 
-1. **先看思维导图** [`robot_system.md`](./robot_system.md) — 建立「感知 → 决策 → 控制 → 执行 → 通信 → 工程化」全链路地图；节点上的链接可跳到本仓库专题笔记，或 [`kuavo-dev-notes`](https://github.com/651yyds3939/kuavo-dev-notes) 里的对应实战文档。
-2. **按链路查专题** — 在 [`robotics/`](./robotics/) 里找 ROS、SLAM、RL、动力学、Docker 等深度笔记。
-3. **环境/工具踩坑** — 在 [`ubuntu/`](./ubuntu/) 里查 Conda、Cursor、代理、磁盘清理等。
-4. **要写代码时** — 用 [`robotics/ros_code_template/`](./robotics/ros_code_template/) 里的 ROS1/ROS2 模板；C++ 基础见 [`robotics/code/`](./robotics/code/)。
+0. **知识体系导航** [`robot_knowledge_map.md`](./robot_knowledge_map.md) — 四种视角（结构/流程/运行时/软件管线）+ 二次开发阅读路径
+1. **先看思维导图** [`robot_system.md`](./robot_system.md) — 建立「感知 → 决策 → 控制 → 执行 → 通信 → 工程化」全链路**结构**地图；节点上的链接可跳到本仓库专题笔记，或 [`kuavo-dev-notes`](https://github.com/651yyds3939/kuavo-dev-notes) 里的对应实战文档。
+2. **再看研发全流程** [`robot_development_lifecycle.md`](./robot_development_lifecycle.md) — 建立「需求 → 设计 → 制造 → 集成 → 验证 → 量产」**时间/流程**地图（含 SolidWorks、电气、Bring-up、Sim2Real 等 Mermaid 流程图）；与思维导图互补，不重复展开算法细节。
+3. **按链路查专题** — 在 [`robotics/`](./robotics/) 里找 ROS、SLAM、RL、动力学、Docker 等深度笔记。
+4. **环境/工具踩坑** — 在 [`ubuntu/`](./ubuntu/) 里查 Conda、Cursor、代理、磁盘清理等。
+5. **二次开发软件管线** [`robotics/robot_software_pipelines.md`](./robotics/robot_software_pipelines.md) — 环境部署、Sim2Real、导航、抓取、VLA、采集、部署与排障工序
+6. **要写代码时** — 用 [`robotics/ros_code_template/`](./robotics/ros_code_template/) 里的 ROS1/ROS2 模板；C++ 基础见 [`robotics/code/`](./robotics/code/)。
 
 ### 与 kuavo-dev-notes 的分工
 
 | 仓库 | 定位 |
 |------|------|
 | **robotics-notes**（本仓库） | 通用理论、架构、工具链；思维导图串联知识点 |
-| **kuavo-dev-notes** | Kuavo 4 Pro 实机/仿真二次开发：终端命令、魔改代码、54 篇实战 `.md` |
+| **kuavo-dev-notes** | 双足人形等平台实机/仿真二次开发：终端命令、魔改代码、54 篇实战 `.md` |
 
 思维导图里的「👉 实战案例」链接多数指向 kuavo-dev-notes；「👉 专题笔记」链接指向本仓库 `robotics/` 或 `ubuntu/`。
 
@@ -86,7 +135,7 @@ cd robotics-notes
 思维导图 [`robot_system.md`](./robot_system.md) 中：
 
 - **👉 专题笔记** → 本仓库相对路径（通用理论）
-- **👉 实战案例** → kuavo 仓库 GitHub 链接（Kuavo 真机/魔改）
+- **👉 实战案例** → kuavo 仓库 GitHub 链接（具体机型真机/魔改）
 
 维护跨库链接时，可复用下列前缀（`master` 换成仓库实际默认分支即可）：
 
@@ -158,12 +207,49 @@ https://github.com/651yyds3939/robotics-notes/blob/master/robotics/<文件名>.m
 
 ---
 
+## 研发全流程：robot_development_lifecycle.md
+
+[`robot_development_lifecycle.md`](./robot_development_lifecycle.md) 是**机器人研发全流程**的第二入口，按**时间/流程**组织（与 [`robot_system.md`](./robot_system.md) 的**结构/模块**视角互补）：
+
+| 视角 | 文档 | 回答的问题 |
+|------|------|-----------|
+| **结构/模块** | [`robot_system.md`](./robot_system.md) | 机器人由哪些子系统组成？ |
+| **时间/流程** | [`robot_development_lifecycle.md`](./robot_development_lifecycle.md) | 这些子系统按什么顺序、由谁、如何被做出来？ |
+| **运行时闭环** | [`robot_system_integration.md`](./robotics/robot_system_integration.md) | 造好之后，数据和控制如何在各层之间流转？ |
+
+### 流程图章节概览
+
+| 章节 | 内容 |
+|------|------|
+| 第 1 章 | 总览：Phase 0–6 六阶段 + 机械/电气/软件并行线 |
+| 第 2 章 | 机械设计：SolidWorks 建模 → FEA → 制造 → 装配 → URDF |
+| 第 3 章 | 电气与嵌入式：原理图 → PCB → FOC 固件 → 硬件 Bring-up |
+| 第 4 章 | 软件与算法：ROS 架构 → 仿真 → RL/VLA → Sim2Real |
+| 第 5 章 | 样机集成：安全 SOP → 标定 → 通信 → 控制逐级上线 |
+| 第 6 章 | V 模型：设计阶段与验证手段一一对应 |
+| 第 7 章 | 角色 × 阶段矩阵（ME/EE/FW/控制/感知/系统） |
+| 第 8 章 | 二次开发路径（已有现成平台时的切入点） |
+| 第 9 章 | 跨团队关键交接物（8 份必冻结文档） |
+
+**推荐**：浏览器打开 [GitHub Pages 完整 HTML](https://651yyds3939.github.io/robotics-notes/robot_development_lifecycle.html)（Mermaid 已渲染）；首页缩略图见 README 顶部。也可在 GitHub 上直接打开 `.md` 查看 Mermaid，或在 Cursor 中 `Ctrl+Shift+V` 预览。
+
+
+---
+
 ## 目录结构
 
 ```text
 robotics-notes/
-├── README.md                      # 本文件
-├── robot_system.md                # 全链路思维导图（主入口，含跳转链接）
+├── README.md                      # 本文件（双列缩略图入口）
+├── robot_system.md                # 全链路思维导图（结构视角 · 主入口）
+├── robot_knowledge_map.md         # 知识体系导航（四种视角 + 阅读路径）
+├── assets/
+│   ├── robot_system_preview.png   # README · 思维导图缩略图
+│   └── lifecycle_preview.png      # README · 流程图缩略图
+├── robot_development_lifecycle.md   # 研发全流程（时间/流程 · Mermaid 大图）
+├── robot_development_lifecycle.html # 流程图 HTML（Mermaid 已渲染）
+├── robot_development_lifecycle_preview.html  # 首页缩略图专用页
+├── regenerate_all_previews.sh     # 一键重生 HTML + PNG 缩略图
 ├── robot_system_photo.html        # 思维导图 HTML 快照
 ├── robotics/                      # 机器人通用专题（32 篇 .md）
 │   ├── robotics_architecture_master_guide.md   # 架构总览（含 Docker 实战）
@@ -187,7 +273,7 @@ robotics-notes/
 
 | 主题 | 文档 |
 |------|------|
-| 总览与架构 | [`robotics_architecture_master_guide.md`](./robotics/robotics_architecture_master_guide.md) · [`robot_system_integration.md`](./robotics/robot_system_integration.md) · [`robot_types.md`](./robotics/robot_types.md) |
+| 总览与架构 | [`robot_knowledge_map.md`](../robot_knowledge_map.md) · [`robotics_architecture_master_guide.md`](./robotics/robotics_architecture_master_guide.md) · [`robot_system_integration.md`](./robotics/robot_system_integration.md) · [`robot_software_pipelines.md`](./robotics/robot_software_pipelines.md) · [`robot_types.md`](./robotics/robot_types.md) |
 | ROS | [`ros_communication.md`](./robotics/ros_communication.md) · [`ros_logic.md`](./robotics/ros_logic.md) · [`ros2_process.md`](./robotics/ros2_process.md) · [`tf_tree.md`](./robotics/tf_tree.md) |
 | 感知与定位 | [`camera_calibration.md`](./robotics/camera_calibration.md) · [`state_estimation.md`](./robotics/state_estimation.md) · [`sensor_fusion.md`](./robotics/sensor_fusion.md) · [`slam.md`](./robotics/slam.md) · [`AI_learning_robotics.md`](./robotics/AI_learning_robotics.md) |
 | 规划与控制 | [`path_planning.md`](./robotics/path_planning.md) · [`pid_control.md`](./robotics/pid_control.md) · [`dynamics_control.md`](./robotics/dynamics_control.md) · [`impedance_control.md`](./robotics/impedance_control.md) · [`optimization_theory.md`](./robotics/optimization_theory.md) |
@@ -215,10 +301,13 @@ robotics-notes/
 
 | 用途 | 链接 |
 |------|------|
-| 思维导图（Markmap） | [`robot_system.md`](./robot_system.md) |
+| 思维导图（Markmap · 结构视角） | [`robot_system.md`](./robot_system.md) · [Pages 交互版](https://651yyds3939.github.io/robotics-notes/robot_system_preview.html) |
+| 知识体系导航 | [`robot_knowledge_map.md`](./robot_knowledge_map.md) |
+| 软件管线图集 | [`robotics/robot_software_pipelines.md`](./robotics/robot_software_pipelines.md) |
+| 研发全流程（Mermaid · 时间视角） | [Pages HTML](https://651yyds3939.github.io/robotics-notes/robot_development_lifecycle.html) · [源码 md](./robot_development_lifecycle.md) · 缩略图 `assets/lifecycle_preview.png` |
 | 思维导图（浏览器离线 HTML） | [`robot_system_photo.html`](./robot_system_photo.html) |
 | 架构长文 | [`robotics/robotics_architecture_master_guide.md`](./robotics/robotics_architecture_master_guide.md) |
-| Kuavo 实战仓库 | [kuavo-dev-notes](https://github.com/651yyds3939/kuavo-dev-notes) |
+| 机型实战仓库 | [kuavo-dev-notes](https://github.com/651yyds3939/kuavo-dev-notes) |
 
 ---
 

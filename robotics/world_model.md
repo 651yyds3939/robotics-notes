@@ -2,7 +2,7 @@
 
 > **核心定位**：世界模型是 model-based RL 的心脏。它不直接输出动作，而是先学会"如果执行某个动作，世界会变成什么样"，然后在这个学到的内部模型里做规划。相比 PPO 等 model-free 方法，世界模型追求更高的**样本效率**和**任务迁移能力**。
 >
-> 👉 实战笔记：[Kuavo TD-MPC2 世界模型训练全流程](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/31.1.world_model.md)
+> 👉 实战笔记：[TD-MPC2 世界模型训练全流程](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/31.1.world_model.md)
 
 ---
 
@@ -119,11 +119,11 @@ Policy:    (z_t) → a_t                 (策略先验，可选)
 
 利用一个基础策略（或带有高斯扰动的传统控制器）让机器人在仿真环境（如 Isaac Sim / [MuJoCo](./robot_modeling.md)）或真实物理世界中运行，收集并记录成千上万条时间序列轨迹（Trajectories）。每条轨迹片段包含：原始多模态观测序列 $o_t$、执行的动作 $a_t$、以及获得的奖励 $r_t$。
 
-以 Kuavo 舞蹈任务为例：
+以双足人形舞蹈任务为例：
 
 ```text
 [1] CSV 动作数据作为参考轨迹（115 维关节位置序列）
-[2] Gym 环境：[MuJoCo](./robot_modeling.md) 物理引擎，加载 Kuavo [URDF](./robot_modeling.md)
+[2] Gym 环境：[MuJoCo](./robot_modeling.md) 物理引擎，加载平台 [URDF](./robot_modeling.md)
 [3] 每步收集 (obs, action, reward, next_obs) 四元组，存入 Replay Buffer
 ```
 
@@ -154,7 +154,7 @@ $$\mathcal{L}_{\text{World\_Model}} = \mathcal{L}_{\text{recon}} + \beta \cdot \
 
 策略网络（Actor）和价值网络（Critic）粉墨登场。它们完全在世界模型虚拟出的隐空间内进行"长周期想象外推"（通常前向外推 10~15 步）。由于世界模型的 Transition 神经网络是**全阶可微**的，我们可以使用时间反向传播（BPTT），让 Value 网络的梯度穿透时间步直接精准地流回 Actor 策略，以惊人的超实时速度（几万倍于实时）刷出最优控制策略。
 
-> 👉 完整终端命令与排障见：[Kuavo TD-MPC2 实战笔记](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/31.1.world_model.md)
+> 👉 完整终端命令与排障见：[TD-MPC2 实战笔记](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/31.1.world_model.md)
 
 ---
 
@@ -166,13 +166,13 @@ $$\mathcal{L}_{\text{World\_Model}} = \mathcal{L}_{\text{recon}} + \beta \cdot \
 
 **动力学的高度非线性**：双足机器人的动力学不是"输入 A → 输出 B"的简单映射。触地瞬间（impact）、摩擦锥（friction cone）、关节限位——这些都是**不可微的硬约束**。世界模型用神经网络去逼近这些约束，理论上能学到，实际训练中非常容易发散。
 
-**规划延迟 vs 控制频率**：世界模型的 MPPI 规划需要在前向模拟中推理几十到几百条轨迹。如果控制频率是 50Hz（20ms 一帧），每次推理必须在 20ms 内完成。Kuavo 实战中，TD-MPC2 在 8GB RTX 3070 上，单个 env 的 MPPI 规划约需 5-10ms。但 batch size 和 num_envs 增大后，显存和延迟都会快速攀升。
+**规划延迟 vs 控制频率**：世界模型的 MPPI 规划需要在前向模拟中推理几十到几百条轨迹。如果控制频率是 50Hz（20ms 一帧），每次推理必须在 20ms 内完成。某双足人形平台实战中，TD-MPC2 在 8GB RTX 3070 上，单个 env 的 MPPI 规划约需 5-10ms。但 batch size 和 num_envs 增大后，显存和延迟都会快速攀升。
 
 **Sim2Real 的漂移问题**：PPO 是"盲走"——只映射观测到动作，仿真和真机的观测分布不一致时可能直接崩溃。世界模型在这一点上理论上更强——如果在仿真中训练的世界模型学到的是**通用的物理规律**（而非过拟合仿真参数），那么部署到真机时，它仍然能做出合理的预测。但这要求极其严苛的**域随机化**：训练时力学参数（质量、摩擦、阻尼、延迟等）的随机范围必须覆盖真机的不确定性区间。
 
 ### 5.2 异步双循环实时通信控制流
 
-在 Kuavo 人形机器人这类大型非线性双足硬件平台上，部署世界模型面临的最大敌人是推理卡顿与强接触力学的冲突。工业界通常采用**"异步宏观规划 - 同步微观执行"**的分层架构：
+在大型双足人形机器人这类大型非线性双足硬件平台上，部署世界模型面临的最大敌人是推理卡顿与强接触力学的冲突。工业界通常采用**"异步宏观规划 - 同步微观执行"**的分层架构：
 
 * **低频脑部循环（World Model Planner, $\sim$ 30Hz ~ 50Hz）：** 运行在非实时常规 CPU/GPU 核心上。读入多模态特征，前向推理。如果是 TD-MPC2，则直接在隐空间运行高并行的 MPPI 采样器，向未来模拟多条动作路径，挑出一条最优的宏观控制表征。
 
@@ -243,7 +243,7 @@ RL / World Model @ 50Hz（[ONNX 推理](./edge_deployment.md)）
 
 $$\boldsymbol{e}_t = \boldsymbol{o}_{\text{real}, t} - \hat{\boldsymbol{o}}_{\text{world\_model}, t}$$
 
-当 Kuavo 机器人从平整实验室地面突然走向未知的松软草地或地毯，接触动力学发生剧烈突变。由于环境改变，真实观测与世界模型的脑内预测之间会产生显著的预测残差 $\boldsymbol{e}_t$。世界模型会利用这个残差，通过上下文（In-context）或反向传播，在毫秒级内将环境的摩擦系数、依从性（Compliance）以及未建模的关节背隙隐式编码进当前的隐状态中，指导策略瞬间做出代偿，实现秒级的真机自适应。
+当双足人形机器人从平整实验室地面突然走向未知的松软草地或地毯，接触动力学发生剧烈突变。由于环境改变，真实观测与世界模型的脑内预测之间会产生显著的预测残差 $\boldsymbol{e}_t$。世界模型会利用这个残差，通过上下文（In-context）或反向传播，在毫秒级内将环境的摩擦系数、依从性（Compliance）以及未建模的关节背隙隐式编码进当前的隐状态中，指导策略瞬间做出代偿，实现秒级的真机自适应。
 
 ### 7.3 为底层提供具备"远见"的非线性参考轨迹
 
@@ -267,7 +267,7 @@ $$\boldsymbol{e}_t = \boldsymbol{o}_{\text{real}, t} - \hat{\boldsymbol{o}}_{\te
 
 在人形机器人长时程编舞或操作任务中，由于世界模型的 Reward Decoder 给予了肢体跟踪高额正分，策略网络（Actor）极易在大数据探索中发现一个机制漏洞——**直接一出生就主动躺倒在地上（挺尸），通过平躺完美避开全部的机身直立偏离处罚；同时四肢在绝对安全的物理地板上精确跟踪 CSV 乐谱摆动**。此时在数据曲线上，模仿得分（Reward）高到吓人，但策略在脑海（幻觉）里已经彻底走偏。
 
-> 对应 Kuavo IL+RL 舞蹈训练 Iter 7461 的「躺平局部最优」现象。
+> 对应某 IL+RL 舞蹈训练 Iter 7461 的「躺平局部最优」现象。
 
 ### 8.2 工业级拦截破局手段：可微约束预测头（Constraint Head）
 
@@ -280,7 +280,7 @@ $$\boldsymbol{e}_t = \boldsymbol{o}_{\text{real}, t} - \hat{\boldsymbol{o}}_{\te
 
 ---
 
-## 第 9 章：Kuavo TD-MPC2 实验 —— 当前状态与后续方向
+## 第 9 章：TD-MPC2 实验 —— 当前状态与后续方向
 
 ### 9.1 已完成的
 
@@ -340,4 +340,4 @@ $$\boldsymbol{e}_t = \boldsymbol{o}_{\text{real}, t} - \hat{\boldsymbol{o}}_{\te
 
 > **备注**：世界模型是 RL 从"暴力学"走向"理解物理"的关键一步。PPO 使机器人能行走，世界模型进一步建模稳定性、为什么推一下不会倒。从纯认知科学的渲染器/模拟器/规划器解构，到具身智能的异步双循环控制流，再到工程实战中的 Constraint Head 反作弊——理解这整条技术链的差异和适用场景，比跑通任何一个算法都重要。
 
-> 👉 实战：[Kuavo TD-MPC2 训练全流程](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/31.1.world_model.md) · 理论基础：[RL 笔记](./RL.md) · 经典控制对比：[动力学与运动控制](./dynamics_control.md)
+> 👉 实战：[TD-MPC2 训练全流程](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/31.1.world_model.md) · 理论基础：[RL 笔记](./RL.md) · 经典控制对比：[动力学与运动控制](./dynamics_control.md)

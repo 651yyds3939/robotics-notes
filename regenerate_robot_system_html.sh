@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-# 从 robot_system.md 预渲染 robot_system_photo.html（离线 Markmap）
-# 并生成全展开预览图 assets/robot_system_preview.png（供 README 首页展示）
+# 从 robot_system.md 预渲染 HTML，并生成裁边后的 README 缩略图 PNG
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")" && pwd)"
 MD="$ROOT/robot_system.md"
@@ -196,18 +195,6 @@ PY
 
 rm -f "$JSON_TMP"
 
-PREVIEW_W=14000
-PREVIEW_H=10000
-if command -v google-chrome >/dev/null 2>&1; then
-  google-chrome --headless=new --disable-gpu --no-sandbox \
-    --window-size="${PREVIEW_W},${PREVIEW_H}" \
-    --force-device-scale-factor=1 \
-    --run-all-compositor-stages-before-draw \
-    --virtual-time-budget=15000 \
-    --screenshot="$PREVIEW_PNG" \
-    "file://$PREVIEW_HTML" 2>/dev/null \
-    && echo "Wrote $PREVIEW_PNG (${PREVIEW_W}x${PREVIEW_H}, all nodes expanded)" \
-    || echo "Warning: preview PNG skipped (chrome screenshot failed)" >&2
-else
-  echo "Warning: google-chrome not found; skip $PREVIEW_PNG" >&2
-fi
+# shellcheck source=scripts/preview_png.sh
+source "$ROOT/scripts/preview_png.sh"
+screenshot_html "$PREVIEW_HTML" "$PREVIEW_PNG" 2000 2600 30000 || true

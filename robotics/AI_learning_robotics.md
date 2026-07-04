@@ -1,4 +1,4 @@
-> 👉 **Kuavo 实战**：[21.2 语音大模型](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/21.2.local_AI_large_model.md) · [22.x VLA 抓取](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.1VLA_grasping.md) · [30 图像识别](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/30.AI_image_identification.md) · [通用专题索引](https://github.com/651yyds3939/robotics-notes/blob/master/robot_system.md)
+> 👉 **实战案例**：[21.2 语音大模型](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/21.2.local_AI_large_model.md) · [22.x VLA 抓取](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.1VLA_grasping.md) · [30 图像识别](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/30.AI_image_identification.md) · [通用专题索引](https://github.com/651yyds3939/robotics-notes/blob/master/robot_system.md)
 
 ### 🤖 机器人全链路 AI 算法拓扑与工程对比图谱
 
@@ -25,4 +25,4 @@
 **文档定位：** 
 此前涉及的 `simStepControl.py` 落足点规划，属于**经典控制（无 AI）**。
 Isaac Gym 用于，是在训练 **[RL（强化学习小脑）](./RL.md)**。👉 仿真与建模见 [机器人建模](./robot_modeling.md)
-若需 Kuavo 执行取件类任务，通常需结合 **DL（感知）** 与 **IL/Manipulation（操作）**。
+若需人形平台执行取件类任务，通常需结合 **DL（感知）** 与 **IL/Manipulation（操作）**。

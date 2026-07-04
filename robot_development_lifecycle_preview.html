@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>研发全流程 · 缩略图预览</title>
+<script src="./assets/mermaid/mermaid.min.js"></script><style>
+    :root { color-scheme: light; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 8px; background: #fff; color: #222; height: auto; overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif; }
+    h1 { font-size: 11px; font-weight: 600; margin: 0 0 6px; color: #666; }
+    pre.mermaid { margin: 0; padding: 0; background: transparent; border: none; display: inline-block; }
+    .foot { display: none; }
+</style></head><body>
+<h1>Phase 0–7 · 竖向总览（README 缩略图）</h1>
+<pre class="mermaid">---
+config:
+  flowchart:
+    htmlLabels: true
+    curve: basis
+---
+flowchart TB
+    START([&quot;🤖 机器人全流程 · 从零造机 → 量产 → 二次开发&quot;])
+    BUY([&quot;📦 采购现成平台&lt;br/&gt;宇树 / 智元 / UR …&lt;br/&gt;跳过 Phase 0–3 与实机装配&quot;])
+
+    subgraph P0[&quot;━━ Phase 0 · 需求与指标定义 ━━&quot;]
+        direction TB
+        R0[&quot;场景与用户故事&lt;br/&gt;展厅 / 物流 / 家庭 / 科研&quot;]
+        R1[&quot;法规与安全等级&lt;br/&gt;CE · ISO 10218 · 协作机器人&quot;]
+        R2[&quot;性能 KPI&lt;br/&gt;DOF · 负载 · 速度 · 续航 · 精度 · 成本&quot;]
+        R0 --&gt; R1 --&gt; R2
+    end
+
+    subgraph P1[&quot;━━ Phase 1 · 概念设计（三线并行）━━&quot;]
+        direction TB
+        ME0[&quot;机械概念&lt;br/&gt;自由度 · 传动 · 质量预算 · 外形&quot;]
+        EE0[&quot;电气概念&lt;br/&gt;总线 · 算力 · 传感器 · 电池&quot;]
+        SW0[&quot;软件概念&lt;br/&gt;ROS 架构 · 算法路线 · 仿真选型&quot;]
+    end
+
+    subgraph P2M[&quot;━━ Phase 2 · 机械详设 ━━&quot;]
+        direction TB
+        M1[&quot;自由度与关节布局 · 传动选型&lt;br/&gt;谐波 / RV / 行星 / 同步带&quot;]
+        M2[&quot;SolidWorks 建模&lt;br/&gt;零件 → 装配体 → 工程图 / BOM / GD&amp;T&quot;]
+        M3[&quot;SolidWorks Simulation&lt;br/&gt;静力 · 模态 · 疲劳 FEA · DFM 评审&quot;]
+        M4[&quot;出图制造&lt;br/&gt;CNC · 钣金 · 3D 打印 FDM/SLS · 注塑&quot;]
+        M5[&quot;STEP/STL 导出 → URDF/MJCF&lt;br/&gt;sw2urdf 插件或手工编写&quot;]
+        M1 --&gt; M2 --&gt; M3 --&gt; M4 --&gt; M5
+    end
+
+    subgraph P2E[&quot;━━ Phase 2 · 电气详设 · 电路板与线束 ━━&quot;]
+        direction TB
+        E1[&quot;系统框图&lt;br/&gt;draw.io / Visio · 48V/12V/5V · 急停链路&quot;]
+        E2[&quot;原理图 Schematic&lt;br/&gt;KiCad / Altium Designer / EasyEDA&quot;]
+        E3[&quot;PCB Layout&lt;br/&gt;布局 · 铺铜 · DRC · EMC · 大电流走线&quot;]
+        E4[&quot;Gerber/BOM 导出 → 打样&lt;br/&gt;嘉立创 JLCPCB / 华秋 / 捷配&quot;]
+        E5[&quot;SMT 贴片 + 手工焊&lt;br/&gt;钢网 · 回流焊 · 选择性焊接&quot;]
+        E6[&quot;线束设计与制作&lt;br/&gt;接插件 Molex/JST · 压接 · 线束图&quot;]
+        E7[&quot;BMS/PDU/DC-DC 台架验证&lt;br/&gt;示波器 · 电子负载 · 绝缘测试&quot;]
+        E1 --&gt; E2 --&gt; E3 --&gt; E4 --&gt; E5 --&gt; E6 --&gt; E7
+    end
+
+    subgraph P2S[&quot;━━ Phase 2 · 软件预研（可与机械并行）━━&quot;]
+        direction TB
+        S1[&quot;ROS 2 Humble · DDS · 上下位机分工&quot;]
+        S2[&quot;接口文档&lt;br/&gt;Topic/Service/Action · SDK 草案&quot;]
+        S3[&quot;仿真环境&lt;br/&gt;Isaac Lab / MuJoCo / Gazebo&quot;]
+        S4[&quot;域随机化 · Sim2Sim 闭环&quot;]
+        S5[&quot;算法预研&lt;br/&gt;WBC/MPC · RL · YOLO/VFM · VLA/LLM&quot;]
+        S1 --&gt; S2 --&gt; S3 --&gt; S4 --&gt; S5
+    end
+
+    subgraph P3[&quot;━━ Phase 3 · 采购与来料 ━━&quot;]
+        direction TB
+        P3A[&quot;标准件：电机 · 减速器 · 轴承 · 紧固件 · 线束&quot;]
+        P3B[&quot;定制件齐套：结构件 · PCBA · 线束总成 · 电池包&quot;]
+        P3C[&quot;IQC 来料检验&lt;br/&gt;尺寸 · 外观 · 电气抽检&quot;]
+        P3A --&gt; P3B --&gt; P3C
+    end
+
+    subgraph P4A[&quot;━━ Phase 4 · 实机机械装配（车间）━━&quot;]
+        direction TB
+        A1[&quot;按 BOM 领料 · 装配 SOP · 防静电&quot;]
+        A2[&quot;底盘/躯干骨架&lt;br/&gt;力矩扳手 · 螺纹胶 · 防松标记&quot;]
+        A3[&quot;关节模组预装&lt;br/&gt;电机+减速器+编码器 · 预润滑&quot;]
+        A4[&quot;四肢/手臂分总成 → 整机总装&lt;br/&gt;轴承 · 联轴器 · 干涉复检&quot;]
+        A5[&quot;线束布放&lt;br/&gt;扎带 · 拖链 · 弯折半径 · 接插件扭矩&quot;]
+        A6[&quot;传感器/相机/IMU/雷达安装&lt;br/&gt;电池/BMS/PDU 装机 · 重心复核&quot;]
+        A7[&quot;上电前自检&lt;br/&gt;绝缘/短路 · 急停链路 · 无负载手动转关节&quot;]
+        A1 --&gt; A2 --&gt; A3 --&gt; A4 --&gt; A5 --&gt; A6 --&gt; A7
+    end
+
+    subgraph P4F[&quot;━━ Phase 4 · 嵌入式固件 Bring-up ━━&quot;]
+        direction TB
+        F1[&quot;Keil / STM32CubeIDE / PlatformIO&lt;br/&gt;FOC：Clarke/Park/SVPWM&quot;]
+        F2[&quot;EtherCAT/CAN 从站栈 · 编码器/力矩反馈&quot;]
+        F3[&quot;单关节上电 · 电流→速度→位置三环调参&quot;]
+        F4[&quot;总线扫描 · 从站 ID · Bootloader/OTA 通道&quot;]
+        F1 --&gt; F2 --&gt; F3 --&gt; F4
+    end
+
+    subgraph P4I[&quot;━━ Phase 4 · 联调 · 标定 · 安全 ━━&quot;]
+        direction TB
+        Z1[&quot;⚠ 真机 SOP&lt;br/&gt;龙门架 · 安全绳 2–3cm · 双人操作&quot;]
+        Z2[&quot;编码器零位 · IMU 水平 · 手眼标定 AX=XB&quot;]
+        Z3[&quot;上下位机 ROS&lt;br/&gt;千兆直连 · MASTER_URI · TF 树&quot;]
+        Z4[&quot;控制逐级上线&lt;br/&gt;单关节 → 站立 → RL 3s 切换 → WBC 兜底&quot;]
+        Z1 --&gt; Z2 --&gt; Z3 --&gt; Z4
+    end
+
+    subgraph P5[&quot;━━ Phase 5 · 整机软件集成与 Sim2Real ━━&quot;]
+        direction TB
+        S6[&quot;ROS bring-up · Docker · 官方/自研驱动包&quot;]
+        S7[&quot;控制部署&lt;br/&gt;ONNX/TensorRT · 多速率 1kHz/50Hz/30Hz&quot;]
+        S8[&quot;感知/导航/抓取/VLA 应用联调&quot;]
+        S9[&quot;rosbag 排障 · 耐久 · EMC · Sim2Real 验收&quot;]
+        S6 --&gt; S7 --&gt; S8 --&gt; S9
+    end
+
+    subgraph P6[&quot;━━ Phase 6 · 量产与交付 ━━&quot;]
+        direction TB
+        Q1[&quot;工艺固化 · 装配 SOP · 质检标准 · 培训&quot;]
+        Q2[&quot;供应链二供 · 成本优化 · 批次追溯&quot;]
+        Q3[&quot;出厂测试 · 包装 · 现场部署手册&quot;]
+        OEM([&quot;🏭 量产机交付&quot;])
+        Q1 --&gt; Q2 --&gt; Q3 --&gt; OEM
+    end
+
+    subgraph P7[&quot;━━ Phase 7 · 二次开发与应用（造出/买到之后）━━&quot;]
+        direction TB
+        D0[&quot;开箱验收 · 环境部署&lt;br/&gt;Ubuntu · ROS · Docker · Conda&quot;]
+        D1[&quot;网络/上下位机 · SDK/接口文档 · 第一个 ROS 节点&quot;]
+        D2[&quot;仿真对齐&lt;br/&gt;Isaac/MuJoCo · 官方 URDF · 域随机化&quot;]
+        D3[&quot;算法与应用开发&lt;br/&gt;RL 行走/舞蹈 · YOLO 感知 · VLA 语音抓取&quot;]
+        D4[&quot;Sim2Sim → 真机标定 · 安全 SOP · Sim2Real&quot;]
+        D5[&quot;数据采集&lt;br/&gt;LeRobot · 遥操作 · rosbag&quot;]
+        D6[&quot;Demo/现场部署 · OTA · 版本管理 · 运维&quot;]
+        APP([&quot;🚀 应用落地&quot;])
+        D0 --&gt; D1 --&gt; D2 --&gt; D3 --&gt; D4 --&gt; D5 --&gt; D6 --&gt; APP
+    end
+
+    START --&gt; R0
+    BUY --&gt; D0
+    R2 --&gt; ME0 &amp; EE0 &amp; SW0
+    ME0 --&gt; M1
+    EE0 --&gt; E1
+    SW0 --&gt; S1
+    M4 --&gt; P3B
+    E7 --&gt; P3B
+    P3C --&gt; A1
+    A7 --&gt; F1
+    F4 --&gt; Z1
+    M5 --&gt; S6
+    S5 --&gt; S6
+    Z4 --&gt; S6
+    S9 --&gt; Q1
+    S9 --&gt; D0
+    OEM --&gt; D0</pre>
+<p class="foot">完整文档：<a href="./robot_development_lifecycle.html">robot_development_lifecycle.html</a></p>
+<script>mermaid.initialize({ startOnLoad: true, theme: 'default', flowchart: { useMaxWidth: true, htmlLabels: true } });</script>
+</body></html>

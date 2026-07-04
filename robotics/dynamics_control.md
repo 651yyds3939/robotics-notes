@@ -1,6 +1,6 @@
 ***
 
-> 👉 **Kuavo 实战**：[18 重力补偿示教](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/18.teaching_gravity_compensation.md)
+> 👉 **实战案例**：[18 重力补偿示教](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/18.teaching_gravity_compensation.md)
 >
 # 经典动力学与运动控制 (Classic Dynamics & Motion Control)
 
@@ -115,7 +115,7 @@ WBC 会利用伪逆矩阵计算**零空间投影矩阵**$N$。所有低优先级
 ---
 
 ## 六、 经典控制全链路架构：从意图到电流的降维打击
-> **核心定位**：这不是单一的算法，而是一条从“宏观几何”到“微观物理”的流水线。运动学（几何规划）与动力学（物理约束）在这里不断握手。以下是 Kuavo 或其它主流人形机器人在每 1 毫秒内发生的真实数据流。
+> **核心定位**：这不是单一的算法，而是一条从“宏观几何”到“微观物理”的流水线。运动学（几何规划）与动力学（物理约束）在这里不断握手。以下是主流双足人形机器人在每 1 毫秒内发生的真实数据流。
 
 ### 📌 全链路数据流图解与大白话翻译
 

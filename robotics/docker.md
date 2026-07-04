@@ -1,6 +1,6 @@
 # 📦 Docker 容器化与系统欺骗高级指南
 
-> 👉 **Kuavo 实战**：[3 地图导航 Docker 踩坑](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/3.map_navigation.md)
+> 👉 **实战案例**：[3 地图导航 Docker 踩坑](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/3.map_navigation.md)
 >
 > **核心摘要**：Docker 不是虚拟机（Virtual Machine），它是利用 Linux 内核特性实现的**进程隔离**。理解它，是进入企业级机器人开发的第一道门槛。本笔记涵盖了容器挂载逻辑、权限陷阱、网络代理配置以及高阶环境打包方案。
 
@@ -111,7 +111,7 @@ docker cp ~/my_file.txt <容器名>:/root/
 
 #### 3. 开发环境的一键起航（启动位）
 
-针对 Kuavo 机器人的不同场景，选择最合适的进入方式。
+针对人形机器人的不同场景，选择最合适的进入方式。
 
 ```bash
 # A. 官方快捷方式（依赖仓库内的脚本）

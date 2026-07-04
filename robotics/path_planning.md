@@ -1,6 +1,6 @@
 # 路径规划算法 (Path Planning) —— A* / DWA / RRT / PRM
 
-> 👉 **Kuavo 实战**：[3 地图导航](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/3.map_navigation.md) · [3.1 官方导航](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/3.1official_navigation.md)
+> 👉 **实战案例**：[3 地图导航](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/3.map_navigation.md) · [3.1 官方导航](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/3.1official_navigation.md)
 >
 > **核心定位**：路径规划是机器人从当前位置到目标位置之间**找出一条无碰撞的最优路径**。它是"上层决策"与"底层控制"之间的桥梁——规划器算出"走哪条路"，控制器执行"怎么迈出这一步"。
 

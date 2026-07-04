@@ -5,7 +5,7 @@
 >
 > SLAM（Simultaneous Localization and Mapping）是机器人**在未知环境中同时估计自身位姿和构建地图**的技术。它是自主导航的基石——不知道自己在哪、不知道周围长什么样，就谈不上路径规划和避障。
 >
-> 👉 实战笔记：[Kuavo 地图导航与 FAST-LIO](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/3.map_navigation.md)
+> 👉 实战笔记：[地图导航与 FAST-LIO 实战](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/3.map_navigation.md)
 
 ---
 

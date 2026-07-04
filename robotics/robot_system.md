@@ -5,3 +5,5 @@
 > 👉 **[`../robot_system.md`](../robot_system.md)**（仓库根目录）
 >
 > 离线 HTML 版：[`../robot_system_photo.html`](../robot_system_photo.html)
+
+👉 研发全流程（时间视角）：[robot_development_lifecycle.md](../robot_development_lifecycle.md)

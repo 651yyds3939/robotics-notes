@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>机器人研发全流程 · Mermaid 预览</title>
+<script src="./assets/mermaid/mermaid.min.js"></script><style>
+    :root { color-scheme: light dark; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+      line-height: 1.65; max-width: 1200px; margin: 0 auto; padding: 24px 20px 80px; background: #fafafa; color: #222; }
+    @media (prefers-color-scheme: dark) { body { background: #1e1e1e; color: #ddd; } table, th, td { border-color: #444; }
+      blockquote { background: #2a2a2a; border-color: #555; } a { color: #6cb6ff; } hr { border-color: #444; } }
+    h1 { font-size: 1.8rem; border-bottom: 2px solid #ccc; padding-bottom: .4em; }
+    h2 { font-size: 1.35rem; margin-top: 2em; border-bottom: 1px solid #ddd; padding-bottom: .3em; }
+    h3 { font-size: 1.1rem; margin-top: 1.4em; }
+    blockquote { margin: 1em 0; padding: .6em 1em; border-left: 4px solid #888; background: #f0f0f0; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; font-size: .92rem; }
+    th, td { border: 1px solid #ccc; padding: 8px 10px; text-align: left; vertical-align: top; }
+    th { background: rgba(128,128,128,.12); }
+    pre.mermaid { background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 16px; overflow-x: auto; margin: 1.2em 0; }
+    @media (prefers-color-scheme: dark) { pre.mermaid { background: #2d2d2d; border-color: #555; } }
+    a { color: #0969da; } hr { margin: 2em 0; border: none; border-top: 1px solid #ccc; }
+    .tip { position: sticky; top: 0; z-index: 9; background: #fff3cd; color: #664d03; border: 1px solid #ffecb5;
+      border-radius: 8px; padding: 10px 14px; margin-bottom: 20px; font-size: .9rem; }
+</style></head><body>
+<div class="tip">📊 可视化预览：Mermaid 流程图已渲染。修改 .md 后运行 <code>./regenerate_lifecycle_html.sh</code></div>
+<article><h1>机器人研发全流程 (Robot Development Lifecycle)</h1>
+<blockquote><p><strong>使用说明</strong>（与 <a href="./README.md">README.md</a> 一致）</p></blockquote>
+<p>&gt;</p>
+<blockquote><p>本文件是<strong>机器人研发全流程</strong>的主索引，按<strong>时间/流程</strong>组织：需求 → 设计 → 制造 → 集成 → 验证 → 量产。</p></blockquote>
+<blockquote><p>- <strong>👉 专题笔记</strong> → 本仓库 <a href="./robotics/"><code>robotics/</code></a> / <a href="./ubuntu/"><code>ubuntu/</code></a>（相对路径）</p></blockquote>
+<blockquote><p>- <strong>👉 实战案例</strong> → 独立仓库 <a href="https://github.com/651yyds3939/kuavo-dev-notes">kuavo-dev-notes</a>（<strong>GitHub 绝对链接</strong>）</p></blockquote>
+<p>&gt;</p>
+<blockquote><p><strong>与思维导图的关系</strong></p></blockquote>
+<p>&gt;</p>
+<blockquote><p>| 文档 | 视角 | 回答的问题 |</p></blockquote>
+<blockquote><p>|------|------|-----------|</p></blockquote>
+<blockquote><p>| <a href="./robot_system.md"><code>robot_system.md</code></a> | <strong>结构/模块</strong> | 机器人由哪些子系统组成？ |</p></blockquote>
+<blockquote><p>| <strong>本文件</strong> | <strong>时间/流程</strong> | 这些子系统按什么顺序、由谁、如何被做出来？ |</p></blockquote>
+<blockquote><p>| <a href="./robotics/robot_system_integration.md"><code>robot_system_integration.md</code></a> | <strong>运行时闭环</strong> | 造好之后，数据和控制如何在各层之间流转？ |</p></blockquote>
+<p>&gt;</p>
+<blockquote><p><strong>推荐阅读顺序</strong>：① 本流程图建立研发全景 → ② 对照 <a href="./robot_system.md"><code>robot_system.md</code></a> 理解各阶段产出物 → ③ 按阶段进专题笔记 → ④ 集成验证阶段链到 kuavo 实战。</p></blockquote>
+<p>&gt;</p>
+<blockquote><p><strong>VS Code 推荐配置</strong>（⚠️ <strong>不要</strong>装 Markdown Preview Enhanced，会和快捷键冲突）</p></blockquote>
+<p>&gt;</p>
+<blockquote><p>| 组件 | 作用 |</p></blockquote>
+<blockquote><p>|------|------|</p></blockquote>
+<blockquote><p>| <strong>Markdown Preview Mermaid Support</strong>（<code>bierner.markdown-mermaid</code>） | 在内置预览里渲染 Mermaid 流程图 |</p></blockquote>
+<blockquote><p>| <strong>用户设置</strong> <code>editorAssociations</code> | 打开 <code>.md</code> <strong>默认即预览</strong> |</p></blockquote>
+<blockquote><p>| <strong>快捷键</strong> <code>Ctrl+Shift+V</code> | 预览 ↔ 编辑切换（VS Code <strong>内置命令</strong>，不依赖扩展） |</p></blockquote>
+<p>&gt;</p>
+<blockquote><p>| 方式 | 做法 |</p></blockquote>
+<blockquote><p>|------|------|</p></blockquote>
+<blockquote><p>| <strong>VS Code 预览（推荐）</strong> | 装好上面两个扩展 → 打开 <code>.md</code> <strong>默认即预览</strong> → <strong><code>Ctrl+Shift+V</code></strong> 切换编辑/预览，Mermaid 自动渲染 |</p></blockquote>
+<blockquote><p>| <strong>侧边预览</strong> | <code>Ctrl+K</code> 松手再按 <code>V</code>（内置） |</p></blockquote>
+<blockquote><p>| <strong>浏览器 HTML（离线）</strong> | 双击 <a href="./robot_development_lifecycle.html"><code>robot_development_lifecycle.html</code></a> |</p></blockquote>
+<blockquote><p>| <strong>更新 HTML</strong> | 改完 <code>.md</code> 后运行 <code>./regenerate_lifecycle_html.sh</code> |</p></blockquote>
+<p>&gt;</p>
+<blockquote><p>本仓库 <a href="./.vscode/extensions.json"><code>.vscode/extensions.json</code></a> 推荐 <code>markdown-mermaid</code>（不含 MPE）。</p></blockquote>
+<p>&gt;</p>
+<blockquote><p>📂 <strong>GitHub</strong>：<a href="https://github.com/651yyds3939/robotics-notes">robotics-notes</a> · <a href="https://github.com/651yyds3939/kuavo-dev-notes">kuavo-dev-notes</a></p></blockquote>
+<p>&gt;</p>
+<blockquote><p>💡 不同形态机器人 👉 <a href="./robotics/robot_types.md">机器人分类与特性对比</a></p></blockquote>
+<hr/>
+<h2 id="第-0-章-一句话理解全流程">第 0 章：一句话理解全流程</h2>
+<blockquote><p><strong>大白话</strong>：造机器人不是「先写代码再画 CAD」，而是<strong>多条线并行、在里程碑处汇合</strong>。机械工程师在 SolidWorks 里画零件，电气工程师画原理图，嵌入式工程师写驱动固件，算法工程师在仿真里训策略——最后在<strong>样机集成</strong>阶段第一次真正碰面。任何一条线的接口对不上（关节原点、电机参数、线束长度、URDF 质量），都会在 bring-up 阶段集中爆炸。</p></blockquote>
+<hr/>
+<h2 id="第-1-章-全流程大图-竖向总览-一图到底">第 1 章：全流程大图（竖向总览 · 一图到底）</h2>
+<blockquote><p><strong>一张图覆盖</strong>：自研造机（Phase 0–6）+ <strong>实机装配</strong> + <strong>二次开发</strong>（Phase 7）。</p></blockquote>
+<p>&gt;</p>
+<blockquote><p>- <strong>采购平台</strong>（采购现成平台）：从图中 <code>📦 采购现成平台</code> 直接进入 Phase 7，跳过 Phase 0–3 与 Phase 4A 装配。</p></blockquote>
+<blockquote><p>- <strong>自研整机</strong>：走完整链路；Phase 5 验收后可并行 <strong>Phase 6 量产</strong> 与 <strong>Phase 7 应用开发</strong>。</p></blockquote>
+<p>&gt;</p>
+<blockquote><p>四种视角总览见 <a href="./robot_knowledge_map.md"><code>robot_knowledge_map.md</code></a>；结构见 <a href="./robot_system.md"><code>robot_system.md</code></a>；运行时见 <a href="./robotics/robot_system_integration.md"><code>robot_system_integration.md</code></a>；<strong>二次开发管线</strong>见 <a href="./robotics/robot_software_pipelines.md"><code>robot_software_pipelines.md</code></a>。</p></blockquote>
+<pre class="mermaid">---
+config:
+  flowchart:
+    htmlLabels: true
+    curve: basis
+---
+flowchart TB
+    START([&quot;🤖 机器人全流程 · 从零造机 → 量产 → 二次开发&quot;])
+    BUY([&quot;📦 采购现成平台&lt;br/&gt;宇树 / 智元 / UR …&lt;br/&gt;跳过 Phase 0–3 与实机装配&quot;])
+
+    subgraph P0[&quot;━━ Phase 0 · 需求与指标定义 ━━&quot;]
+        direction TB
+        R0[&quot;场景与用户故事&lt;br/&gt;展厅 / 物流 / 家庭 / 科研&quot;]
+        R1[&quot;法规与安全等级&lt;br/&gt;CE · ISO 10218 · 协作机器人&quot;]
+        R2[&quot;性能 KPI&lt;br/&gt;DOF · 负载 · 速度 · 续航 · 精度 · 成本&quot;]
+        R0 --&gt; R1 --&gt; R2
+    end
+
+    subgraph P1[&quot;━━ Phase 1 · 概念设计（三线并行）━━&quot;]
+        direction TB
+        ME0[&quot;机械概念&lt;br/&gt;自由度 · 传动 · 质量预算 · 外形&quot;]
+        EE0[&quot;电气概念&lt;br/&gt;总线 · 算力 · 传感器 · 电池&quot;]
+        SW0[&quot;软件概念&lt;br/&gt;ROS 架构 · 算法路线 · 仿真选型&quot;]
+    end
+
+    subgraph P2M[&quot;━━ Phase 2 · 机械详设 ━━&quot;]
+        direction TB
+        M1[&quot;自由度与关节布局 · 传动选型&lt;br/&gt;谐波 / RV / 行星 / 同步带&quot;]
+        M2[&quot;SolidWorks 建模&lt;br/&gt;零件 → 装配体 → 工程图 / BOM / GD&amp;T&quot;]
+        M3[&quot;SolidWorks Simulation&lt;br/&gt;静力 · 模态 · 疲劳 FEA · DFM 评审&quot;]
+        M4[&quot;出图制造&lt;br/&gt;CNC · 钣金 · 3D 打印 FDM/SLS · 注塑&quot;]
+        M5[&quot;STEP/STL 导出 → URDF/MJCF&lt;br/&gt;sw2urdf 插件或手工编写&quot;]
+        M1 --&gt; M2 --&gt; M3 --&gt; M4 --&gt; M5
+    end
+
+    subgraph P2E[&quot;━━ Phase 2 · 电气详设 · 电路板与线束 ━━&quot;]
+        direction TB
+        E1[&quot;系统框图&lt;br/&gt;draw.io / Visio · 48V/12V/5V · 急停链路&quot;]
+        E2[&quot;原理图 Schematic&lt;br/&gt;KiCad / Altium Designer / EasyEDA&quot;]
+        E3[&quot;PCB Layout&lt;br/&gt;布局 · 铺铜 · DRC · EMC · 大电流走线&quot;]
+        E4[&quot;Gerber/BOM 导出 → 打样&lt;br/&gt;嘉立创 JLCPCB / 华秋 / 捷配&quot;]
+        E5[&quot;SMT 贴片 + 手工焊&lt;br/&gt;钢网 · 回流焊 · 选择性焊接&quot;]
+        E6[&quot;线束设计与制作&lt;br/&gt;接插件 Molex/JST · 压接 · 线束图&quot;]
+        E7[&quot;BMS/PDU/DC-DC 台架验证&lt;br/&gt;示波器 · 电子负载 · 绝缘测试&quot;]
+        E1 --&gt; E2 --&gt; E3 --&gt; E4 --&gt; E5 --&gt; E6 --&gt; E7
+    end
+
+    subgraph P2S[&quot;━━ Phase 2 · 软件预研（可与机械并行）━━&quot;]
+        direction TB
+        S1[&quot;ROS 2 Humble · DDS · 上下位机分工&quot;]
+        S2[&quot;接口文档&lt;br/&gt;Topic/Service/Action · SDK 草案&quot;]
+        S3[&quot;仿真环境&lt;br/&gt;Isaac Lab / MuJoCo / Gazebo&quot;]
+        S4[&quot;域随机化 · Sim2Sim 闭环&quot;]
+        S5[&quot;算法预研&lt;br/&gt;WBC/MPC · RL · YOLO/VFM · VLA/LLM&quot;]
+        S1 --&gt; S2 --&gt; S3 --&gt; S4 --&gt; S5
+    end
+
+    subgraph P3[&quot;━━ Phase 3 · 采购与来料 ━━&quot;]
+        direction TB
+        P3A[&quot;标准件：电机 · 减速器 · 轴承 · 紧固件 · 线束&quot;]
+        P3B[&quot;定制件齐套：结构件 · PCBA · 线束总成 · 电池包&quot;]
+        P3C[&quot;IQC 来料检验&lt;br/&gt;尺寸 · 外观 · 电气抽检&quot;]
+        P3A --&gt; P3B --&gt; P3C
+    end
+
+    subgraph P4A[&quot;━━ Phase 4 · 实机机械装配（车间）━━&quot;]
+        direction TB
+        A1[&quot;按 BOM 领料 · 装配 SOP · 防静电&quot;]
+        A2[&quot;底盘/躯干骨架&lt;br/&gt;力矩扳手 · 螺纹胶 · 防松标记&quot;]
+        A3[&quot;关节模组预装&lt;br/&gt;电机+减速器+编码器 · 预润滑&quot;]
+        A4[&quot;四肢/手臂分总成 → 整机总装&lt;br/&gt;轴承 · 联轴器 · 干涉复检&quot;]
+        A5[&quot;线束布放&lt;br/&gt;扎带 · 拖链 · 弯折半径 · 接插件扭矩&quot;]
+        A6[&quot;传感器/相机/IMU/雷达安装&lt;br/&gt;电池/BMS/PDU 装机 · 重心复核&quot;]
+        A7[&quot;上电前自检&lt;br/&gt;绝缘/短路 · 急停链路 · 无负载手动转关节&quot;]
+        A1 --&gt; A2 --&gt; A3 --&gt; A4 --&gt; A5 --&gt; A6 --&gt; A7
+    end
+
+    subgraph P4F[&quot;━━ Phase 4 · 嵌入式固件 Bring-up ━━&quot;]
+        direction TB
+        F1[&quot;Keil / STM32CubeIDE / PlatformIO&lt;br/&gt;FOC：Clarke/Park/SVPWM&quot;]
+        F2[&quot;EtherCAT/CAN 从站栈 · 编码器/力矩反馈&quot;]
+        F3[&quot;单关节上电 · 电流→速度→位置三环调参&quot;]
+        F4[&quot;总线扫描 · 从站 ID · Bootloader/OTA 通道&quot;]
+        F1 --&gt; F2 --&gt; F3 --&gt; F4
+    end
+
+    subgraph P4I[&quot;━━ Phase 4 · 联调 · 标定 · 安全 ━━&quot;]
+        direction TB
+        Z1[&quot;⚠ 真机 SOP&lt;br/&gt;龙门架 · 安全绳 2–3cm · 双人操作&quot;]
+        Z2[&quot;编码器零位 · IMU 水平 · 手眼标定 AX=XB&quot;]
+        Z3[&quot;上下位机 ROS&lt;br/&gt;千兆直连 · MASTER_URI · TF 树&quot;]
+        Z4[&quot;控制逐级上线&lt;br/&gt;单关节 → 站立 → RL 3s 切换 → WBC 兜底&quot;]
+        Z1 --&gt; Z2 --&gt; Z3 --&gt; Z4
+    end
+
+    subgraph P5[&quot;━━ Phase 5 · 整机软件集成与 Sim2Real ━━&quot;]
+        direction TB
+        S6[&quot;ROS bring-up · Docker · 官方/自研驱动包&quot;]
+        S7[&quot;控制部署&lt;br/&gt;ONNX/TensorRT · 多速率 1kHz/50Hz/30Hz&quot;]
+        S8[&quot;感知/导航/抓取/VLA 应用联调&quot;]
+        S9[&quot;rosbag 排障 · 耐久 · EMC · Sim2Real 验收&quot;]
+        S6 --&gt; S7 --&gt; S8 --&gt; S9
+    end
+
+    subgraph P6[&quot;━━ Phase 6 · 量产与交付 ━━&quot;]
+        direction TB
+        Q1[&quot;工艺固化 · 装配 SOP · 质检标准 · 培训&quot;]
+        Q2[&quot;供应链二供 · 成本优化 · 批次追溯&quot;]
+        Q3[&quot;出厂测试 · 包装 · 现场部署手册&quot;]
+        OEM([&quot;🏭 量产机交付&quot;])
+        Q1 --&gt; Q2 --&gt; Q3 --&gt; OEM
+    end
+
+    subgraph P7[&quot;━━ Phase 7 · 二次开发与应用（造出/买到之后）━━&quot;]
+        direction TB
+        D0[&quot;开箱验收 · 环境部署&lt;br/&gt;Ubuntu · ROS · Docker · Conda&quot;]
+        D1[&quot;网络/上下位机 · SDK/接口文档 · 第一个 ROS 节点&quot;]
+        D2[&quot;仿真对齐&lt;br/&gt;Isaac/MuJoCo · 官方 URDF · 域随机化&quot;]
+        D3[&quot;算法与应用开发&lt;br/&gt;RL 行走/舞蹈 · YOLO 感知 · VLA 语音抓取&quot;]
+        D4[&quot;Sim2Sim → 真机标定 · 安全 SOP · Sim2Real&quot;]
+        D5[&quot;数据采集&lt;br/&gt;LeRobot · 遥操作 · rosbag&quot;]
+        D6[&quot;Demo/现场部署 · OTA · 版本管理 · 运维&quot;]
+        APP([&quot;🚀 应用落地&quot;])
+        D0 --&gt; D1 --&gt; D2 --&gt; D3 --&gt; D4 --&gt; D5 --&gt; D6 --&gt; APP
+    end
+
+    START --&gt; R0
+    BUY --&gt; D0
+    R2 --&gt; ME0 &amp; EE0 &amp; SW0
+    ME0 --&gt; M1
+    EE0 --&gt; E1
+    SW0 --&gt; S1
+    M4 --&gt; P3B
+    E7 --&gt; P3B
+    P3C --&gt; A1
+    A7 --&gt; F1
+    F4 --&gt; Z1
+    M5 --&gt; S6
+    S5 --&gt; S6
+    Z4 --&gt; S6
+    S9 --&gt; Q1
+    S9 --&gt; D0
+    OEM --&gt; D0</pre>
+<h3>1.1 各阶段核心产出物</h3>
+<table>
+<tr><th>阶段</th><th>核心产出</th><th>负责角色</th><th>对应思维导图</th></tr>
+<tr><td><strong>0 需求</strong></td><td>PRD、KPI、安全需求</td><td>产品/系统</td><td>六、八</td></tr>
+<tr><td><strong>1 概念</strong></td><td>方案对比、架构草图</td><td>ME/EE/系统</td><td>四、五、七</td></tr>
+<tr><td><strong>2 详设</strong></td><td>SolidWorks、KiCad/Altium PCB、URDF</td><td>ME/EE/嵌入式/算法</td><td>全文</td></tr>
+<tr><td><strong>3 制造</strong></td><td>结构件、PCBA、线束、IQC 报告</td><td>供应链/质检</td><td>四、八</td></tr>
+<tr><td><strong>4A 装配</strong></td><td>可上电的物理样机</td><td>机械/电气</td><td>五、四</td></tr>
+<tr><td><strong>4F/I</strong></td><td>固件、标定数据、安全 SOP</td><td>嵌入式/系统</td><td>一、六、七</td></tr>
+<tr><td><strong>5 验证</strong></td><td>通过测试的软件版本</td><td>控制/感知/测试</td><td>一～三、九</td></tr>
+<tr><td><strong>6 量产</strong></td><td>SOP、质检、出厂测试</td><td>工艺/运维</td><td>九</td></tr>
+<tr><td><strong>7 二次开发</strong></td><td>应用 Demo、数据集、OTA</td><td>算法/系统</td><td>一～三、九 + kuavo 实战</td></tr>
+</table>
+<hr/>
+<h2 id="第-2-章-机械设计-工具链与实机装配">第 2 章：机械设计（工具链与实机装配）</h2>
+<blockquote><p>流程节点见 <a href="#第-1-章全流程大图竖向总览--一图到底">第 1 章大图</a> <strong>Phase 2M / Phase 4A</strong></p></blockquote>
+<h3>2.1 机械设计常用软件</h3>
+<table>
+<tr><th>环节</th><th>常用软件</th><th>产出物</th></tr>
+<tr><td>3D 建模与装配</td><td><strong>SolidWorks</strong> / Creo / Fusion 360</td><td>零件、装配体</td></tr>
+<tr><td>工程图与公差</td><td>SolidWorks Drawing / GD&amp;T</td><td>加工图、公差标注</td></tr>
+<tr><td>结构仿真</td><td><strong>SolidWorks Simulation</strong> / Ansys</td><td>FEA 报告、安全系数</td></tr>
+<tr><td>可制造性</td><td>DFM 评审</td><td>CNC/钣金/打印工艺单</td></tr>
+<tr><td>数字化孪生</td><td>sw2urdf / 手工</td><td><a href="./robotics/robot_modeling.md">URDF/MJCF</a></td></tr>
+</table>
+<h3>2.2 实机机械装配步骤（Phase 4A）</h3>
+<table>
+<tr><th>步骤</th><th>操作要点</th><th>工具/耗材</th></tr>
+<tr><td>1 领料</td><td>按 BOM 核对；防静电</td><td>ESD 手环、库房系统</td></tr>
+<tr><td>2 骨架</td><td>躯干/底盘；<strong>力矩扳手</strong>；螺纹胶/防松</td><td>力矩扳手、Loctite</td></tr>
+<tr><td>3 关节模组</td><td>电机+减速器+编码器预装；空载旋转无卡滞</td><td>润滑脂</td></tr>
+<tr><td>4 总装</td><td>分总成再上整机；轴承同轴；<strong>干涉复检</strong></td><td>塞尺、百分表</td></tr>
+<tr><td>5 走线</td><td>拖链/线槽；弯折半径；接插件扭矩</td><td>扎带、扭矩螺丝刀</td></tr>
+<tr><td>6 传感器</td><td>相机/IMU 安装；电池固定；<strong>重心复核</strong></td><td>水平仪</td></tr>
+<tr><td>7 上电前</td><td>绝缘/短路；急停链路；不挂负载转关节</td><td>万用表、兆欧表</td></tr>
+</table>
+<h3>2.3 机械阶段要点与链接</h3>
+<table>
+<tr><th>环节</th><th>关键决策</th><th>常见踩坑</th><th>相关笔记</th></tr>
+<tr><td>传动选型</td><td>扭矩密度 vs 背隙 vs 成本</td><td>谐波寿命与过载</td><td><a href="./robot_system.md#四执行层执行器--肌肉与神经末梢---actuators">执行层 · 传动</a></td></tr>
+<tr><td>装配配合</td><td>关节轴线共面、零点可标定</td><td>装配公差→URDF 偏差</td><td><a href="https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/26.joint_calibration.md">关节标定实战</a></td></tr>
+<tr><td>URDF 导出</td><td>link 质量/惯量/关节 limit</td><td>关节顺序不一致→RL 崩溃</td><td><a href="./robotics/robot_modeling.md">机器人建模</a></td></tr>
+</table>
+<p>------</p>
+<h2 id="第-3-章-电气与-pcb-工具链详解">第 3 章：电气与 PCB（工具链详解）</h2>
+<blockquote><p>流程节点见 <a href="#第-1-章全流程大图竖向总览--一图到底">第 1 章大图</a> <strong>Phase 2E / Phase 4F</strong></p></blockquote>
+<h3>3.1 电路设计常用软件与服务</h3>
+<table>
+<tr><th>环节</th><th>常用软件/平台</th><th>说明</th></tr>
+<tr><td>系统框图</td><td>draw.io / Visio</td><td>48V 动力 / 12V·5V 逻辑 / 急停</td></tr>
+<tr><td>原理图</td><td><strong>KiCad</strong> / <strong>Altium Designer</strong> / EasyEDA / 立创 EDA</td><td>ERC、符号库</td></tr>
+<tr><td>PCB Layout</td><td>KiCad PCB / Altium</td><td>铺铜、EMC、大电流</td></tr>
+<tr><td>仿真</td><td>LTspice / PSpice</td><td>电源、驱动</td></tr>
+<tr><td>打样</td><td><strong>嘉立创 JLCPCB</strong> / 华秋 / 捷配</td><td>Gerber + SMT</td></tr>
+<tr><td>线束</td><td>Molex/JST 接插件 · 压接/焊接</td><td>线束图 Excel/EPLAN</td></tr>
+<tr><td>固件 IDE</td><td>STM32CubeIDE / Keil / PlatformIO</td><td>FOC、EtherCAT</td></tr>
+<tr><td>调试</td><td>示波器、逻辑分析仪</td><td>三环调参</td></tr>
+</table>
+<h3>3.2 PCB 典型流程</h3>
+<pre><code>原理图(KiCad/Altium) → ERC/DRC → PCB Layout → Gerber
+  → 嘉立创下单 → IQC 验板 → 线束 → 台架验证 → 整机接线</code></pre>
+<h3>3.3 电气阶段要点与链接</h3>
+<table>
+<tr><th>环节</th><th>关键决策</th><th>常见踩坑</th><th>相关笔记</th></tr>
+<tr><td>总线选型</td><td>EtherCAT vs CAN</td><td>从站掉线→锁死</td><td><a href="./robot_system.md#七通信系统-communication">EtherCAT</a></td></tr>
+<tr><td>电源架构</td><td>逻辑/动力电分离</td><td>急停后无日志</td><td><a href="./robot_system.md#八电源系统-power-system">电源</a></td></tr>
+<tr><td>FOC 调试</td><td>电流→速度→位置环</td><td>啸叫/暴走</td><td><a href="./robotics/motor_foc.md">FOC</a></td></tr>
+</table>
+<p>------</p>
+<h2 id="第-4-章-软件与算法子流程-可与-phase-2-起并行">第 4 章：软件与算法子流程（可与 Phase 2 起并行）</h2>
+<blockquote><p>软件不必等样机到手才开始——<strong>仿真先行</strong>是现代机器人研发的主流做法。</p></blockquote>
+<blockquote><p>📍 <strong>流程节点见 <a href="#第-1-章全流程大图竖向总览--一图到底">第 1 章全流程大图</a></strong></p></blockquote>
+<h3>4.1 软件阶段要点与链接</h3>
+<table>
+<tr><th>环节</th><th>关键决策</th><th>常见踩坑</th><th>相关笔记</th></tr>
+<tr><td>ROS 架构</td><td>Master 在下位机 vs 上位机</td><td>WiFi 传控制指令→延迟抖动</td><td><a href="./robotics/ros_communication.md">ROS 通信原理</a> · <a href="./robotics/ros_logic.md">ROS 架构逻辑</a></td></tr>
+<tr><td>仿真选型</td><td>Isaac 并行 RL vs MuJoCo 轻量</td><td>URDF 版本与训练资产不一致</td><td><a href="./robotics/RL.md">RL 笔记</a> · <a href="./robotics/robot_modeling.md">robot_modeling</a></td></tr>
+<tr><td>RL 部署</td><td>obs 维度·关节顺序·ONNX</td><td>CSV 关节顺序错 1 个→真机暴走</td><td><a href="https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/15.4RL_lab_sim_to_real.md">RL Sim2Real</a></td></tr>
+<tr><td>感知抓取</td><td>YOLO→TF2→IK 管线</td><td>手眼标定误差→抓空</td><td><a href="https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/4.4real_visual_grasp.md">TF2 视觉抓取实战</a></td></tr>
+<tr><td>VLA 集成</td><td>System 2 规划 + System 1 执行</td><td>LLM 直接输出关节角→不安全</td><td><a href="./robotics/vla_landscape.md">VLA 研究版图</a></td></tr>
+</table>
+<hr/>
+<h2 id="第-5-章-样机联调-checklist-phase-4i-5">第 5 章：样机联调 Checklist（Phase 4I + 5）</h2>
+<blockquote><p>见 <a href="#第-1-章全流程大图竖向总览--一图到底">第 1 章大图</a> Phase 4I/5 · 运行时见 <a href="./robotics/robot_system_integration.md"><code>robot_system_integration.md</code></a></p></blockquote>
+<h3>5.1 集成 Checklist</h3>
+<table>
+<tr><th>序号</th><th>检查项</th><th>通过标准</th><th>实战参考</th></tr>
+<tr><td>1</td><td>装配</td><td>力矩记录、线束无干涉</td><td>Phase 4A SOP</td></tr>
+<tr><td>2</td><td>急停</td><td>48V 切断、逻辑电保留</td><td><a href="./robot_system.md#六系统安全与防护机制-safety--security">安全 SOP</a></td></tr>
+<tr><td>3</td><td>关节零位</td><td>与 URDF 一致</td><td><a href="https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/26.joint_calibration.md">关节标定</a></td></tr>
+<tr><td>4</td><td>IMU</td><td>躯干垂直</td><td><a href="https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/15.4RL_lab_sim_to_real.md">RL 真机</a></td></tr>
+<tr><td>5</td><td>网络</td><td>千兆直连、MASTER_URI</td><td><a href="https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/16.Internet.md">网络配置</a></td></tr>
+<tr><td>6</td><td>RL 切换</td><td>E/F 档、B 键 3 秒窗口</td><td><a href="https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/23.1.RL_dance_overview.md">舞蹈安全</a></td></tr>
+</table>
+<p>------</p>
+<h2 id="第-6-章-v-模型-每个设计阶段对应的验证">第 6 章：V 模型——每个设计阶段对应的验证</h2>
+<blockquote><p>左边「设计」、右边「验证」必须成对出现；只设计不验证 = 样机阶段集中爆雷。</p></blockquote>
+<blockquote><p>📍 <strong>流程节点见 <a href="#第-1-章全流程大图竖向总览--一图到底">第 1 章全流程大图</a></strong></p></blockquote>
+<table>
+<tr><th>设计产出</th><th>对应验证手段</th><th>工具/环境</th></tr>
+<tr><td>KPI 需求表</td><td>场景 Demo、用户验收</td><td>真实工况录像</td></tr>
+<tr><td>系统架构</td><td>接口联调、通信压测</td><td>ROS topic 带宽、延迟</td></tr>
+<tr><td>机械 CAD</td><td>FEA 仿真、样件试装</td><td>SolidWorks Simulation</td></tr>
+<tr><td>URDF</td><td>Sim2Sim、Sim2Real</td><td><a href="./robotics/RL.md">MuJoCo/Isaac</a></td></tr>
+<tr><td>控制算法</td><td>台架 HIL、空载→负载</td><td>RT-Preempt + 龙门架</td></tr>
+<tr><td>感知算法</td><td>数据集 mAP、真机抓取成功率</td><td><a href="./robotics/benchmark_dataset.md">Benchmark 专题</a></td></tr>
+<tr><td>整机</td><td>耐久、EMC、安全认证</td><td>第三方检测机构</td></tr>
+</table>
+<hr/>
+<h2 id="第-7-章-角色-阶段矩阵">第 7 章：角色 × 阶段矩阵</h2>
+<blockquote><p>用于厘清「谁在什么时候介入」；岗位技能详见 <a href="./robotics/code/Job_Requirements_for_Robot.md">机器人岗位技能对照</a>。</p></blockquote>
+<table>
+<tr><th>阶段</th><th>机械 ME</th><th>电气 EE</th><th>嵌入式 FW</th><th>控制</th><th>感知/算法</th><th>系统/集成</th></tr>
+<tr><td>0 需求</td><td>○ 可行性</td><td>○ 功耗/成本</td><td>—</td><td>○ 算法可达性</td><td>○ 场景数据</td><td><strong>● 主导</strong></td></tr>
+<tr><td>1 概念</td><td><strong>● 主导</strong></td><td><strong>● 主导</strong></td><td>○ 评估</td><td>○</td><td>○</td><td><strong>● 协调</strong></td></tr>
+<tr><td>2 详设</td><td><strong>● 主导</strong></td><td><strong>● 主导</strong></td><td><strong>● 主导</strong></td><td>○ 接口</td><td>○ 数据管线</td><td>○ 接口文档</td></tr>
+<tr><td>3 制造</td><td><strong>● 跟产</strong></td><td>○ 板卡</td><td>○ 固件烧录</td><td>—</td><td>—</td><td>○ 来料检</td></tr>
+<tr><td>4 集成</td><td><strong>● 装配</strong></td><td><strong>● 接线</strong></td><td><strong>● 驱动</strong></td><td>○ 单关节</td><td>—</td><td><strong>● 主导</strong></td></tr>
+<tr><td>5 验证</td><td>○ 结构问题</td><td>○ 电气问题</td><td>○ 固件</td><td><strong>● 主导</strong></td><td><strong>● 主导</strong></td><td><strong>● 主导</strong></td></tr>
+<tr><td>6 量产</td><td>○ 工艺</td><td>○ 二供</td><td>○ OTA</td><td>○ 版本</td><td>○ 模型更新</td><td><strong>● 主导</strong></td></tr>
+</table>
+<p><strong>图例</strong>：● 主导 · ○ 参与 · — 通常不涉及</p>
+<hr/>
+<h2 id="第-8-章-二次开发-phase-7-已并入大图">第 8 章：二次开发（Phase 7 · 已并入大图）</h2>
+<blockquote><p><strong>Phase 7</strong> 在 Phase 5 验收后（自研）或 <strong>采购平台</strong> 入口（跳过 0–3 与装配）开始。</p></blockquote>
+<blockquote><p>对应 <a href="https://github.com/651yyds3939/kuavo-dev-notes">kuavo-dev-notes</a> 54 篇实战。</p></blockquote>
+<h3>8.1 两条入口</h3>
+<table>
+<tr><th>入口</th><th>从哪开始</th><th>典型用户</th></tr>
+<tr><td>自研验收后</td><td>S9 → D0</td><td>整机团队做应用</td></tr>
+<tr><td>采购平台</td><td>大图「采购现成平台」→ D0</td><td>二次开发（机型实战仓库）</td></tr>
+</table>
+<h3>8.2 Phase 7 步骤与实战</h3>
+<table>
+<tr><th>步骤</th><th>内容</th><th>工具/环境</th><th>kuavo-dev-notes</th></tr>
+<tr><td>D0</td><td>开箱 · ROS · Docker</td><td><a href="./robotics/environment.md">environment</a></td><td><a href="https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/1.start.md">1.start</a></td></tr>
+<tr><td>D1</td><td>网络 · SDK · 首节点</td><td><a href="./robotics/ros2_process.md">ros2_process</a></td><td><a href="https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/2.first_node.md">2.first_node</a></td></tr>
+<tr><td>D2</td><td>Isaac/MuJoCo</td><td><a href="./robotics/RL.md">RL</a></td><td><a href="https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/15.1.RL_lab_train.md">15.1</a></td></tr>
+<tr><td>D3</td><td>RL / VLA / 感知</td><td><a href="./robotics/vla_landscape.md">vla_landscape</a></td><td><a href="https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.1VLA_grasping.md">22.1 VLA</a></td></tr>
+<tr><td>D4</td><td>标定 · Sim2Real</td><td><a href="./robotics/camera_calibration.md">camera_calibration</a></td><td><a href="https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/15.4RL_lab_sim_to_real.md">15.4</a></td></tr>
+<tr><td>D5</td><td>数据采集</td><td><a href="./robotics/benchmark_dataset.md">benchmark_dataset</a></td><td><a href="https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.4.Lerobot_grasp.md">22.4 LeRobot</a></td></tr>
+<tr><td>D6</td><td>Demo · OTA</td><td><a href="./robotics/git_github.md">git_github</a></td><td><a href="https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/%E6%8E%A5%E5%8F%A3%E4%BD%BF%E7%94%A8%E6%96%87%E6%A1%A3.md">SDK 接口</a></td></tr>
+</table>
+<p>------</p>
+<h2 id="第-9-章-关键交接物-handoff-artifacts">第 9 章：关键交接物（Handoff Artifacts）</h2>
+<blockquote><p>跨团队协作最容易丢信息的 8 份文档——建议在 Phase 2 末尾全部冻结版本：</p></blockquote>
+<table>
+<tr><th>#</th><th>交接物</th><th>从 → 到</th><th>内容要点</th></tr>
+<tr><td>1</td><td><strong>机械接口书</strong></td><td>ME → EE/FW/SW</td><td>关节坐标系定义、安装面、走线孔位、质量/重心</td></tr>
+<tr><td>2</td><td><strong>电气接口书</strong></td><td>EE → FW/SW</td><td>接插件 pin 定义、电压等级、总线拓扑、急停逻辑</td></tr>
+<tr><td>3</td><td><strong>URDF/SDF</strong></td><td>ME/SW → 算法</td><td>link 名、joint 顺序、limit/effort、惯量</td></tr>
+<tr><td>4</td><td><strong>电机/减速器手册</strong></td><td>采购 → 控制</td><td>额定/峰值力矩、减速比、编码器分辨率</td></tr>
+<tr><td>5</td><td><strong>ROS 接口文档</strong></td><td>系统 → 全员</td><td>Topic/Service 名、消息类型、频率、QoS</td></tr>
+<tr><td>6</td><td><strong>标定数据包</strong></td><td>集成 → 算法</td><td>零位偏移、相机内参/外参、IMU 零偏</td></tr>
+<tr><td>7</td><td><strong>安全 SOP</strong></td><td>系统 → 全员</td><td>急停、龙门架、双人操作、禁区</td></tr>
+<tr><td>8</td><td><strong>版本清单</strong></td><td>系统 → 运维</td><td>固件版本、URDF hash、ONNX 模型版本、Docker tag</td></tr>
+</table>
+<hr/>
+<h2 id="第-10-章-与思维导图九大层的映射">第 10 章：与思维导图九大层的映射</h2>
+<table>
+<tr><th>研发阶段</th><th>主要涉及思维导图章节</th></tr>
+<tr><td>Phase 0–1</td><td>五（机械）、四（执行器）、八（电源）、六（安全）</td></tr>
+<tr><td>Phase 2</td><td>五、四、七（通信）、一（感知传感器选型）</td></tr>
+<tr><td>Phase 3</td><td>四、八</td></tr>
+<tr><td>Phase 4</td><td>四（FOC/校准）、七、一（标定）</td></tr>
+<tr><td>Phase 5</td><td>一～三（感知/决策/控制）、九（仿真/DevOps）</td></tr>
+<tr><td>Phase 6</td><td>六、九</td></tr>
+<tr><td>Phase 7 二次开发</td><td>一～三、九（应用/算法/工程化）</td></tr>
+</table>
+<p>👉 结构视角完整索引：<a href="./robot_system.md">robot_system.md</a></p>
+<p>👉 运行时数据流/控制流：<a href="./robotics/robot_system_integration.md">robot_system_integration.md</a></p>
+<hr/>
+<blockquote><p><strong>备注</strong>：本流程图与 <a href="./robot_system.md"><code>robot_system.md</code></a> 思维导图互补，不重复展开各层算法细节。整机制造经验随项目迭代持续补充；软件/算法/集成部分已有大量 kuavo 实战支撑。</p></blockquote>
+<p>&gt;</p>
+<blockquote><p>通用知识库：<a href="https://github.com/651yyds3939/robotics-notes">robotics-notes</a> · 项目实战：<a href="https://github.com/651yyds3939/kuavo-dev-notes">kuavo-dev-notes</a></p></blockquote></article>
+<script>mermaid.initialize({ startOnLoad: true, theme: "default", flowchart: { useMaxWidth: true, htmlLabels: true } });</script>
+</body></html>

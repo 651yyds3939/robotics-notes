@@ -8,7 +8,7 @@
 
 ## 一、工作空间（Workspace）顶层目录
 
-典型路径：`~/ros2_ws` 或 `~/catkin_ws`（Kuavo 官方包常见 `~/kuavo-ros-opensource` 等）。
+典型路径：`~/ros2_ws` 或 `~/catkin_ws`（部分厂商官方包常见 `~/kuavo-ros-opensource` 等）。
 
 | 路径 / 文件 | ROS 1 (catkin) | ROS 2 (colcon) | 作用 |
 |-------------|----------------|----------------|------|
@@ -155,6 +155,6 @@
 
 ---
 
-## 十一、与 Kuavo 实战的关系
+## 十一、与实战案例仓库的关系
 
 Kuavo 官方/魔改仓库里还会出现：`humanoid_controllers`、EtherCAT 配置、`.info` RL 参数等——属于**项目专有扩展**，通用结构仍符合上表。真机排障案例见 GitHub：[kuavo-dev-notes](https://github.com/651yyds3939/kuavo-dev-notes)（跨库链接请用 GitHub 地址，见 [README 链接规范](../README.md#链接规范两仓库分工)）。
