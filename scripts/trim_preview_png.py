@@ -63,6 +63,7 @@ def process(
     offset_y: int = 0,
     trim_right: int = 0,
     fit_width: bool = False,
+    fit_height: bool = False,
 ) -> tuple[int, int]:
     img = Image.open(path)
     if img.mode != "RGB":
@@ -101,17 +102,29 @@ def process(
                 fit = fit * th / nh
             nw = max(1, int(cw * fit))
             nh = max(1, int(ch * fit))
+            if (nw, nh) != (cw, ch):
+                cropped = cropped.resize((nw, nh), Image.Resampling.LANCZOS)
+                cw, ch = nw, nh
+        elif fit_height:
+            fit = (th / ch) * content_scale
+            nw = max(1, int(cw * fit))
+            nh = max(1, int(ch * fit))
+            cropped = cropped.resize((nw, nh), Image.Resampling.LANCZOS)
+            if nw > tw:
+                x0 = max(0, min(nw - tw, (nw - tw) // 2 - offset_x))
+                cropped = cropped.crop((x0, 0, x0 + tw, nh))
+            cw, ch = cropped.size
         else:
             fit = min(tw / cw, th / ch) * content_scale
             nw = max(1, int(cw * fit))
             nh = max(1, int(ch * fit))
-        if (nw, nh) != (cw, ch):
-            cropped = cropped.resize((nw, nh), Image.Resampling.LANCZOS)
-            cw, ch = nw, nh
+            if (nw, nh) != (cw, ch):
+                cropped = cropped.resize((nw, nh), Image.Resampling.LANCZOS)
+                cw, ch = nw, nh
         if canvas_height is None:
             th = ch
         canvas = Image.new("RGB", (tw, th), (255, 255, 255))
-        ox = max(0, min(tw - cw, (tw - cw) // 2 + offset_x))
+        ox = max(0, min(tw - cw, (tw - cw) // 2 + offset_x)) if not fit_height else 0
         oy = max(0, min(th - ch, (th - ch) // 2 + offset_y))
         canvas.paste(cropped, (ox, oy))
         cropped = canvas

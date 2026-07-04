@@ -24,7 +24,7 @@ def main() -> None:
     if not LIFECYCLE.is_file():
         raise SystemExit(f"missing {LIFECYCLE}")
 
-    # 思维导图：与 lifecycle 同高画布，内容等比缩小后上下留白居中（勿用 fit_width）
+    # 横向全展开思维导图：按高度撑满同高画布，宽出部分居中裁切
     process(
         MINDMAP,
         border=BORDER,
@@ -36,9 +36,9 @@ def main() -> None:
         pad_bottom=10,
         canvas_width=CONTENT_W,
         canvas_height=CONTENT_H,
-        content_scale=0.86,
-        offset_x=12,
-        fit_width=False,
+        content_scale=0.94,
+        offset_x=18,
+        fit_height=True,
     )
 
     process(

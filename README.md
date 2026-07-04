@@ -19,28 +19,12 @@ flowchart LR
     USER -.-> B
 ```
 
-<table width="100%">
-<tr valign="top">
-<td align="center" width="50%">
-<strong>结构 · 全链路思维导图</strong><br/>
-<a href="https://651yyds3939.github.io/robotics-notes/robot_system_preview.html">
-<img src="./assets/robot_system_preview.png" width="540" alt="机器人全链路思维导图"/>
-</a><br/>
-<a href="./robot_system.md">robot_system.md</a> ·
-<a href="https://651yyds3939.github.io/robotics-notes/robot_system_preview.html">交互版</a>
-</td>
-<td align="center" width="50%">
-<strong>流程 · 研发生命周期</strong><br/>
-<a href="https://651yyds3939.github.io/robotics-notes/robot_development_lifecycle.html">
-<img src="./assets/lifecycle_preview.png" width="540" alt="研发全流程 Mermaid 大图"/>
-</a><br/>
-<a href="./robot_development_lifecycle.md">robot_development_lifecycle.md</a> ·
-<a href="https://651yyds3939.github.io/robotics-notes/robot_development_lifecycle.html">完整 HTML</a>
-</td>
-</tr>
-</table>
+| **结构 · 全链路思维导图** | **流程 · 研发生命周期** |
+| :---: | :---: |
+| [<img src="./assets/robot_system_preview.png" width="100%" alt="机器人全链路思维导图"/>](https://651yyds3939.github.io/robotics-notes/robot_system_preview.html) | [<img src="./assets/lifecycle_preview.png" width="100%" alt="研发全流程 Mermaid 大图"/>](https://651yyds3939.github.io/robotics-notes/robot_development_lifecycle.html) |
+| [robot_system.md](./robot_system.md) · [交互版](https://651yyds3939.github.io/robotics-notes/robot_system_preview.html) | [robot_development_lifecycle.md](./robot_development_lifecycle.md) · [完整 HTML](https://651yyds3939.github.io/robotics-notes/robot_development_lifecycle.html) |
 
-> **缩略图说明**：上表两张 PNG 由 [`regenerate_all_previews.sh`](./regenerate_all_previews.sh) 自动生成（已裁边、同高；思维导图上下留白并略缩小）。**点击图片**打开 GitHub Pages 交互页。
+> **缩略图说明**：上表两张 PNG 由 [`regenerate_all_previews.sh`](./regenerate_all_previews.sh) 自动生成（已裁边、同高；GitHub 请用 Markdown 表格 + width="100%" 并排）。**点击图片**打开 GitHub Pages 交互页。
 >
 > **多图文档（首页不放缩略图）**：[运行时闭环 · integration](./robotics/robot_system_integration.md) · [二次开发管线 · pipelines](./robotics/robot_software_pipelines.md) — 在 GitHub 打开 `.md` 即可渲染 Mermaid。
 
