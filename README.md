@@ -21,8 +21,8 @@ flowchart LR
 
 | **结构 · 全链路思维导图** | **流程 · 研发生命周期** |
 | :---: | :---: |
-| [<img src="./assets/robot_system_preview.png" width="100%" alt="机器人全链路思维导图"/>](https://651yyds3939.github.io/robotics-notes/robot_system_preview.html) | [<img src="./assets/lifecycle_preview.png" width="100%" alt="研发全流程 Mermaid 大图"/>](https://651yyds3939.github.io/robotics-notes/robot_development_lifecycle.html) |
-| [robot_system.md](./robot_system.md) · [交互版](https://651yyds3939.github.io/robotics-notes/robot_system_preview.html) | [robot_development_lifecycle.md](./robot_development_lifecycle.md) · [完整 HTML](https://651yyds3939.github.io/robotics-notes/robot_development_lifecycle.html) |
+| [<img src="./assets/robot_system_preview.png" width="100%" alt="机器人全链路思维导图"/>](https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/robot_system_preview.html) | [<img src="./assets/lifecycle_preview.png" width="100%" alt="研发全流程 Mermaid 大图"/>](https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/robot_development_lifecycle.html) |
+| [robot_system.md](./robot_system.md) · [交互版](https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/robot_system_preview.html) | [robot_development_lifecycle.md](./robot_development_lifecycle.md) · [完整 HTML](https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/robot_development_lifecycle.html) |
 
 > **缩略图说明**：上表两张 PNG 由 [`regenerate_all_previews.sh`](./regenerate_all_previews.sh) 自动生成（已裁边、同高；GitHub 请用 Markdown 表格 + width="100%" 并排）。**点击图片**打开 GitHub Pages 交互页。
 >
@@ -38,23 +38,26 @@ flowchart LR
 
 | 类型 | 源文件 | 交互页（推荐） | 首页缩略图 |
 |------|--------|----------------|------------|
-| Markmap 思维导图 | [`robot_system.md`](./robot_system.md) | [Pages · 交互版](https://651yyds3939.github.io/robotics-notes/robot_system_preview.html) | `assets/robot_system_preview.png` |
-| Mermaid 研发流程 | [`robot_development_lifecycle.md`](./robot_development_lifecycle.md) | [Pages · 完整 HTML](https://651yyds3939.github.io/robotics-notes/robot_development_lifecycle.html) | `assets/lifecycle_preview.png` |
+| Markmap 思维导图 | [`robot_system.md`](./robot_system.md) | [交互版 HTML](https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/robot_system_preview.html) | `assets/robot_system_preview.png` |
+| Mermaid 研发流程 | [`robot_development_lifecycle.md`](./robot_development_lifecycle.md) | [完整 HTML](https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/robot_development_lifecycle.html) | `assets/lifecycle_preview.png` |
 | 运行时数据流 | [`robot_system_integration.md`](./robotics/robot_system_integration.md) | GitHub 打开 md 渲染 Mermaid | — |
 | 二次开发管线 | [`robot_software_pipelines.md`](./robotics/robot_software_pipelines.md) | GitHub 打开 md 渲染 Mermaid | — |
 | 离线思维导图 | 同上 | [`robot_system_photo.html`](./robot_system_photo.html) | — |
 
 **GitHub 上 `.md` 里的 Mermaid**：在仓库中点开 `robot_development_lifecycle.md`、`robot_system_integration.md` 等文件，GitHub 会**原生渲染** ` ```mermaid ` 代码块；**README 首页**仍用 PNG 缩略图 + 跳转 HTML，避免大图加载过慢。
 
-### 若 Pages 链接 404
+### 交互页怎么打开
 
-一次性开启（仓库已含 [`.github/workflows/deploy-pages.yml`](./.github/workflows/deploy-pages.yml)）：
+README 缩略图与「交互版」链接默认走 **[htmlpreview](https://htmlpreview.github.io/)**（直接读 GitHub 上的 HTML + `assets/`，**无需**开启 Pages）：
 
-1. **Settings → Pages → Build and deployment → Source** 选 **GitHub Actions**
-2. push 到 `master`，在 **Actions** 等待 `Deploy GitHub Pages` 完成
-3. 访问 [https://651yyds3939.github.io/robotics-notes/](https://651yyds3939.github.io/robotics-notes/)
+- [思维导图 · Markmap](https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/robot_system_preview.html)
+- [研发流程 · Mermaid HTML](https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/robot_development_lifecycle.html)
 
-**临时备用**（无需 Pages）：[思维导图 htmlpreview](https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/robot_system_preview.html) · [流程图 htmlpreview](https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/robot_development_lifecycle.html)
+若你曾打开过 `651yyds3939.github.io/...` 却出现 **404**，原因是 **GitHub Pages 尚未在本仓库启用**（与 HTML 文件是否在 `master` 无关）。一次性开启（已含 [`.github/workflows/deploy-pages.yml`](./.github/workflows/deploy-pages.yml)）：
+
+1. 仓库 **Settings → Pages → Build and deployment → Source** 选 **GitHub Actions**
+2. push 到 `master`，在 **Actions** 等待 `Deploy GitHub Pages` 绿勾
+3. 再访问 [https://651yyds3939.github.io/robotics-notes/](https://651yyds3939.github.io/robotics-notes/)（可选，与 htmlpreview 内容相同）
 
 根目录含 `.nojekyll`，确保 `assets/markmap/`、`assets/mermaid/` 在 Pages 上可加载。
 
@@ -215,7 +218,7 @@ https://github.com/651yyds3939/robotics-notes/blob/master/robotics/<文件名>.m
 | 第 8 章 | 二次开发路径（已有现成平台时的切入点） |
 | 第 9 章 | 跨团队关键交接物（8 份必冻结文档） |
 
-**推荐**：浏览器打开 [GitHub Pages 完整 HTML](https://651yyds3939.github.io/robotics-notes/robot_development_lifecycle.html)（Mermaid 已渲染）；首页缩略图见 README 顶部。也可在 GitHub 上直接打开 `.md` 查看 Mermaid，或在 Cursor 中 `Ctrl+Shift+V` 预览。
+**推荐**：浏览器打开 [完整 HTML 交互页](https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/robot_development_lifecycle.html)（Mermaid 已渲染）；首页缩略图见 README 顶部。也可在 GitHub 上直接打开 `.md` 查看 Mermaid，或在 Cursor 中 `Ctrl+Shift+V` 预览。
 
 
 ---
@@ -285,10 +288,10 @@ robotics-notes/
 
 | 用途 | 链接 |
 |------|------|
-| 思维导图（Markmap · 结构视角） | [`robot_system.md`](./robot_system.md) · [Pages 交互版](https://651yyds3939.github.io/robotics-notes/robot_system_preview.html) |
+| 思维导图（Markmap · 结构视角） | [`robot_system.md`](./robot_system.md) · [交互版 HTML](https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/robot_system_preview.html) |
 | 知识体系导航 | [`robot_knowledge_map.md`](./robot_knowledge_map.md) |
 | 软件管线图集 | [`robotics/robot_software_pipelines.md`](./robotics/robot_software_pipelines.md) |
-| 研发全流程（Mermaid · 时间视角） | [Pages HTML](https://651yyds3939.github.io/robotics-notes/robot_development_lifecycle.html) · [源码 md](./robot_development_lifecycle.md) · 缩略图 `assets/lifecycle_preview.png` |
+| 研发全流程（Mermaid · 时间视角） | [完整 HTML](https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/robot_development_lifecycle.html) · [源码 md](./robot_development_lifecycle.md) · 缩略图 `assets/lifecycle_preview.png` |
 | 思维导图（浏览器离线 HTML） | [`robot_system_photo.html`](./robot_system_photo.html) |
 | 架构长文 | [`robotics/robotics_architecture_master_guide.md`](./robotics/robotics_architecture_master_guide.md) |
 | 机型实战仓库 | [kuavo-dev-notes](https://github.com/651yyds3939/kuavo-dev-notes) |
