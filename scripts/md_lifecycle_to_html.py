@@ -2,9 +2,14 @@
 import html, re, sys
 from pathlib import Path
 
+MERMAID_CDN = "https://cdn.jsdelivr.net/npm/mermaid@11.4.0/dist/mermaid.min.js"
+MERMAID_LOCAL = "./assets/mermaid/mermaid.min.js"
+
+
 def slug(title):
     s = re.sub(r'[^\w\u4e00-\u9fff]+', '-', title.lower())
     return s.strip('-')
+
 
 def inline(s):
     s = html.escape(s)
@@ -12,6 +17,37 @@ def inline(s):
     s = re.sub(r'\[(.+?)\]\((.+?)\)', r'<a href="\2">\1</a>', s)
     s = re.sub(r'`([^`]+)`', r'<code>\1</code>', s)
     return s
+
+
+def escape_mermaid(body: str) -> str:
+    """保留 Mermaid 里的 <br/> 等 HTML 标签，仅防止破坏 <pre>。"""
+    return body.replace("&", "&amp;").replace("</pre>", "<\\/pre>")
+
+
+def mermaid_boot_script() -> str:
+    return f"""<script>
+(function () {{
+  function boot() {{
+    mermaid.initialize({{
+      startOnLoad: true,
+      theme: "default",
+      securityLevel: "loose",
+      flowchart: {{ useMaxWidth: true, htmlLabels: true, curve: "basis" }},
+    }});
+  }}
+  var s = document.createElement("script");
+  s.src = "{MERMAID_CDN}";
+  s.onload = boot;
+  s.onerror = function () {{
+    var t = document.createElement("script");
+    t.src = "{MERMAID_LOCAL}";
+    t.onload = boot;
+    document.head.appendChild(t);
+  }};
+  document.head.appendChild(s);
+}})();
+</script>"""
+
 
 def md_to_html(md):
     lines = md.splitlines()
@@ -21,7 +57,8 @@ def md_to_html(md):
 
     def flush_table():
         nonlocal table_rows
-        if not table_rows: return
+        if not table_rows:
+            return
         out.append('<table>')
         for ri, row in enumerate(table_rows):
             tag = 'th' if ri == 0 else 'td'
@@ -35,33 +72,43 @@ def md_to_html(md):
             if line.strip() == '```':
                 body = '\n'.join(code_buf)
                 if code_lang == 'mermaid':
-                    out.append(f'<pre class="mermaid">{html.escape(body)}</pre>')
+                    out.append(f'<pre class="mermaid">{escape_mermaid(body)}</pre>')
                 else:
                     out.append(f'<pre><code>{html.escape(body)}</code></pre>')
                 code_buf, in_code, code_lang = [], False, ''
             else:
                 code_buf.append(line)
-            i += 1; continue
+            i += 1
+            continue
         if line.strip().startswith('|') and '|' in line.strip()[1:]:
             if re.match(r'^\|[\s\-:|]+\|$', line.strip()):
-                i += 1; continue
+                i += 1
+                continue
             table_rows.append([c.strip() for c in line.strip().strip('|').split('|')])
-            i += 1; continue
+            i += 1
+            continue
         flush_table()
         if line.startswith('```'):
             in_code, code_lang = True, line.strip()[3:].strip()
-            i += 1; continue
-        if line.strip() == '---': out.append('<hr/>')
-        elif line.startswith('# '): out.append(f'<h1>{inline(line[2:])}</h1>')
-        elif line.startswith('## '): out.append(f'<h2 id="{slug(line[3:])}">{inline(line[3:])}</h2>')
-        elif line.startswith('### '): out.append(f'<h3>{inline(line[4:])}</h3>')
-        elif line.startswith('> '): out.append(f'<blockquote><p>{inline(line[2:])}</p></blockquote>')
-        elif line.startswith('- '): out.append(f'<ul><li>{inline(line[2:])}</li></ul>')
-        elif line.strip(): out.append(f'<p>{inline(line)}</p>')
+            i += 1
+            continue
+        if line.strip() == '---':
+            out.append('<hr/>')
+        elif line.startswith('# '):
+            out.append(f'<h1>{inline(line[2:])}</h1>')
+        elif line.startswith('## '):
+            out.append(f'<h2 id="{slug(line[3:])}">{inline(line[3:])}</h2>')
+        elif line.startswith('### '):
+            out.append(f'<h3>{inline(line[4:])}</h3>')
+        elif line.startswith('> '):
+            out.append(f'<blockquote><p>{inline(line[2:])}</p></blockquote>')
+        elif line.startswith('- '):
+            out.append(f'<ul><li>{inline(line[2:])}</li></ul>')
+        elif line.strip():
+            out.append(f'<p>{inline(line)}</p>')
         i += 1
     flush_table()
     return '\n'.join(out)
-
 
 
 def extract_first_mermaid(md_text: str) -> str:
@@ -81,19 +128,14 @@ PREVIEW_CSS = """
 
 
 def build_preview_page(mermaid_body: str) -> str:
-    esc = html.escape(mermaid_body)
-    init = (
-        "mermaid.initialize({ startOnLoad: true, theme: 'default', "
-        "flowchart: { useMaxWidth: true, htmlLabels: true } });"
-    )
+    esc = escape_mermaid(mermaid_body)
     return f"""<!DOCTYPE html>
 <html lang="zh-CN"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>研发全流程 · 缩略图预览</title>
-<script src="./assets/mermaid/mermaid.min.js"></script><style>{PREVIEW_CSS}</style></head><body>
+<title>研发全流程 · 缩略图预览</title><style>{PREVIEW_CSS}</style></head><body>
 <h1>Phase 0–7 · 竖向总览（README 缩略图）</h1>
 <pre class="mermaid">{esc}</pre>
 <p class="foot">完整文档：<a href="./robot_development_lifecycle.html">robot_development_lifecycle.html</a></p>
-<script>{init}</script>
+{mermaid_boot_script()}
 </body></html>"""
 
 
@@ -124,11 +166,10 @@ css = '''
 '''
 page = f'''<!DOCTYPE html>
 <html lang="zh-CN"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>机器人研发全流程 · Mermaid 预览</title>
-<script src="./assets/mermaid/mermaid.min.js"></script><style>{css}</style></head><body>
-<div class="tip">📊 可视化预览：Mermaid 流程图已渲染。修改 .md 后运行 <code>./regenerate_lifecycle_html.sh</code></div>
+<title>机器人研发全流程 · Mermaid 预览</title><style>{css}</style></head><body>
+<div class="tip">📊 可视化预览：Mermaid 流程图（htmlpreview / 离线均可用）。修改 .md 后运行 <code>./regenerate_lifecycle_html.sh</code></div>
 <article>{body}</article>
-<script>mermaid.initialize({{ startOnLoad: true, theme: "default", flowchart: {{ useMaxWidth: true, htmlLabels: true }} }});</script>
+{mermaid_boot_script()}
 </body></html>'''
 out_path.write_text(page, encoding='utf-8')
 print(f'Wrote {out_path}')
@@ -138,4 +179,4 @@ if mermaid:
     preview_html_path.write_text(build_preview_page(mermaid), encoding='utf-8')
     print(f'Wrote {preview_html_path}')
 else:
-    print('Warning: no mermaid in lifecycle md', file=__import__('sys').stderr)
+    print('Warning: no mermaid in lifecycle md', file=sys.stderr)
