@@ -49,11 +49,20 @@ def mermaid_boot_script() -> str:
 </script>"""
 
 
+def unwrap_blockquote(line: str) -> tuple[bool, str]:
+    if line.startswith('> '):
+        return True, line[2:]
+    if line.startswith('>'):
+        return True, line[1:].lstrip()
+    return False, line
+
+
 def md_to_html(md):
     lines = md.splitlines()
     out, i = [], 0
     in_code, code_lang, code_buf = False, '', []
     table_rows = []
+    quote_buf: list[str] = []
 
     def flush_table():
         nonlocal table_rows
@@ -65,6 +74,14 @@ def md_to_html(md):
             out.append('<tr>' + ''.join(f'<{tag}>{inline(c)}</{tag}>' for c in row) + '</tr>')
         out.append('</table>')
         table_rows = []
+
+    def flush_quote():
+        nonlocal quote_buf
+        if not quote_buf:
+            return
+        inner = ''.join(f'<p>{inline(part)}</p>' for part in quote_buf)
+        out.append(f'<blockquote>{inner}</blockquote>')
+        quote_buf = []
 
     while i < len(lines):
         line = lines[i]
@@ -80,34 +97,51 @@ def md_to_html(md):
                 code_buf.append(line)
             i += 1
             continue
-        if line.strip().startswith('|') and '|' in line.strip()[1:]:
-            if re.match(r'^\|[\s\-:|]+\|$', line.strip()):
+
+        bq, content = unwrap_blockquote(line)
+        stripped = content.strip()
+
+        if stripped.startswith('|') and '|' in stripped[1:]:
+            flush_quote()
+            if re.match(r'^\|[\s\-:|]+\|$', stripped):
                 i += 1
                 continue
-            table_rows.append([c.strip() for c in line.strip().strip('|').split('|')])
+            table_rows.append([c.strip() for c in stripped.strip('|').split('|')])
             i += 1
             continue
+
         flush_table()
+
         if line.startswith('```'):
+            flush_quote()
             in_code, code_lang = True, line.strip()[3:].strip()
             i += 1
             continue
-        if line.strip() == '---':
+        if stripped == '---':
+            flush_quote()
             out.append('<hr/>')
-        elif line.startswith('# '):
-            out.append(f'<h1>{inline(line[2:])}</h1>')
-        elif line.startswith('## '):
-            out.append(f'<h2 id="{slug(line[3:])}">{inline(line[3:])}</h2>')
-        elif line.startswith('### '):
-            out.append(f'<h3>{inline(line[4:])}</h3>')
-        elif line.startswith('> '):
-            out.append(f'<blockquote><p>{inline(line[2:])}</p></blockquote>')
-        elif line.startswith('- '):
-            out.append(f'<ul><li>{inline(line[2:])}</li></ul>')
-        elif line.strip():
-            out.append(f'<p>{inline(line)}</p>')
+        elif content.startswith('# '):
+            flush_quote()
+            out.append(f'<h1>{inline(content[2:])}</h1>')
+        elif content.startswith('## '):
+            flush_quote()
+            out.append(f'<h2 id="{slug(content[3:])}">{inline(content[3:])}</h2>')
+        elif content.startswith('### '):
+            flush_quote()
+            out.append(f'<h3>{inline(content[4:])}</h3>')
+        elif content.startswith('- '):
+            flush_quote()
+            out.append(f'<ul><li>{inline(content[2:])}</li></ul>')
+        elif bq:
+            if stripped:
+                quote_buf.append(content)
+        elif stripped:
+            flush_quote()
+            out.append(f'<p>{inline(content)}</p>')
         i += 1
+
     flush_table()
+    flush_quote()
     return '\n'.join(out)
 
 

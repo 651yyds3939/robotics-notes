@@ -21,52 +21,39 @@
 </style></head><body>
 <div class="tip">📊 可视化预览：Mermaid 流程图（htmlpreview / 离线均可用）。修改 .md 后运行 <code>./regenerate_lifecycle_html.sh</code></div>
 <article><h1>机器人研发全流程 (Robot Development Lifecycle)</h1>
-<blockquote><p><strong>使用说明</strong>（与 <a href="./README.md">README.md</a> 一致）</p></blockquote>
-<p>&gt;</p>
-<blockquote><p>本文件是<strong>机器人研发全流程</strong>的主索引，按<strong>时间/流程</strong>组织：需求 → 设计 → 制造 → 集成 → 验证 → 量产。</p></blockquote>
-<blockquote><p>- <strong>👉 专题笔记</strong> → 本仓库 <a href="./robotics/"><code>robotics/</code></a> / <a href="./ubuntu/"><code>ubuntu/</code></a>（相对路径）</p></blockquote>
-<blockquote><p>- <strong>👉 实战案例</strong> → 独立仓库 <a href="https://github.com/651yyds3939/kuavo-dev-notes">kuavo-dev-notes</a>（<strong>GitHub 绝对链接</strong>）</p></blockquote>
-<p>&gt;</p>
+<blockquote><p><strong>使用说明</strong>（与 <a href="./README.md">README.md</a> 一致）</p><p>本文件是<strong>机器人研发全流程</strong>的主索引，按<strong>时间/流程</strong>组织：需求 → 设计 → 制造 → 集成 → 验证 → 量产。</p></blockquote>
+<ul><li><strong>👉 专题笔记</strong> → 本仓库 <a href="./robotics/"><code>robotics/</code></a> / <a href="./ubuntu/"><code>ubuntu/</code></a>（相对路径）</li></ul>
+<ul><li><strong>👉 实战案例</strong> → 独立仓库 <a href="https://github.com/651yyds3939/kuavo-dev-notes">kuavo-dev-notes</a>（<strong>GitHub 绝对链接</strong>）</li></ul>
 <blockquote><p><strong>与思维导图的关系</strong></p></blockquote>
-<p>&gt;</p>
-<blockquote><p>| 文档 | 视角 | 回答的问题 |</p></blockquote>
-<blockquote><p>|------|------|-----------|</p></blockquote>
-<blockquote><p>| <a href="./robot_system.md"><code>robot_system.md</code></a> | <strong>结构/模块</strong> | 机器人由哪些子系统组成？ |</p></blockquote>
-<blockquote><p>| <strong>本文件</strong> | <strong>时间/流程</strong> | 这些子系统按什么顺序、由谁、如何被做出来？ |</p></blockquote>
-<blockquote><p>| <a href="./robotics/robot_system_integration.md"><code>robot_system_integration.md</code></a> | <strong>运行时闭环</strong> | 造好之后，数据和控制如何在各层之间流转？ |</p></blockquote>
-<p>&gt;</p>
-<blockquote><p><strong>推荐阅读顺序</strong>：① 本流程图建立研发全景 → ② 对照 <a href="./robot_system.md"><code>robot_system.md</code></a> 理解各阶段产出物 → ③ 按阶段进专题笔记 → ④ 集成验证阶段链到 kuavo 实战。</p></blockquote>
-<p>&gt;</p>
-<blockquote><p><strong>VS Code 推荐配置</strong>（⚠️ <strong>不要</strong>装 Markdown Preview Enhanced，会和快捷键冲突）</p></blockquote>
-<p>&gt;</p>
-<blockquote><p>| 组件 | 作用 |</p></blockquote>
-<blockquote><p>|------|------|</p></blockquote>
-<blockquote><p>| <strong>Markdown Preview Mermaid Support</strong>（<code>bierner.markdown-mermaid</code>） | 在内置预览里渲染 Mermaid 流程图 |</p></blockquote>
-<blockquote><p>| <strong>用户设置</strong> <code>editorAssociations</code> | 打开 <code>.md</code> <strong>默认即预览</strong> |</p></blockquote>
-<blockquote><p>| <strong>快捷键</strong> <code>Ctrl+Shift+V</code> | 预览 ↔ 编辑切换（VS Code <strong>内置命令</strong>，不依赖扩展） |</p></blockquote>
-<p>&gt;</p>
-<blockquote><p>| 方式 | 做法 |</p></blockquote>
-<blockquote><p>|------|------|</p></blockquote>
-<blockquote><p>| <strong>VS Code 预览（推荐）</strong> | 装好上面两个扩展 → 打开 <code>.md</code> <strong>默认即预览</strong> → <strong><code>Ctrl+Shift+V</code></strong> 切换编辑/预览，Mermaid 自动渲染 |</p></blockquote>
-<blockquote><p>| <strong>侧边预览</strong> | <code>Ctrl+K</code> 松手再按 <code>V</code>（内置） |</p></blockquote>
-<blockquote><p>| <strong>浏览器 HTML（离线）</strong> | 双击 <a href="./robot_development_lifecycle.html"><code>robot_development_lifecycle.html</code></a> |</p></blockquote>
-<blockquote><p>| <strong>更新 HTML</strong> | 改完 <code>.md</code> 后运行 <code>./regenerate_lifecycle_html.sh</code> |</p></blockquote>
-<p>&gt;</p>
-<blockquote><p>本仓库 <a href="./.vscode/extensions.json"><code>.vscode/extensions.json</code></a> 推荐 <code>markdown-mermaid</code>（不含 MPE）。</p></blockquote>
-<p>&gt;</p>
-<blockquote><p>📂 <strong>GitHub</strong>：<a href="https://github.com/651yyds3939/robotics-notes">robotics-notes</a> · <a href="https://github.com/651yyds3939/kuavo-dev-notes">kuavo-dev-notes</a></p></blockquote>
-<p>&gt;</p>
-<blockquote><p>💡 不同形态机器人 👉 <a href="./robotics/robot_types.md">机器人分类与特性对比</a></p></blockquote>
+<table>
+<tr><th>文档</th><th>视角</th><th>回答的问题</th></tr>
+<tr><td><a href="./robot_system.md"><code>robot_system.md</code></a></td><td><strong>结构/模块</strong></td><td>机器人由哪些子系统组成？</td></tr>
+<tr><td><strong>本文件</strong></td><td><strong>时间/流程</strong></td><td>这些子系统按什么顺序、由谁、如何被做出来？</td></tr>
+<tr><td><a href="./robotics/robot_system_integration.md"><code>robot_system_integration.md</code></a></td><td><strong>运行时闭环</strong></td><td>造好之后，数据和控制如何在各层之间流转？</td></tr>
+</table>
+<blockquote><p><strong>推荐阅读顺序</strong>：① 本流程图建立研发全景 → ② 对照 <a href="./robot_system.md"><code>robot_system.md</code></a> 理解各阶段产出物 → ③ 按阶段进专题笔记 → ④ 集成验证阶段链到 kuavo 实战。</p><p><strong>VS Code 推荐配置</strong>（⚠️ <strong>不要</strong>装 Markdown Preview Enhanced，会和快捷键冲突）</p></blockquote>
+<table>
+<tr><th>组件</th><th>作用</th></tr>
+<tr><td><strong>Markdown Preview Mermaid Support</strong>（<code>bierner.markdown-mermaid</code>）</td><td>在内置预览里渲染 Mermaid 流程图</td></tr>
+<tr><td><strong>用户设置</strong> <code>editorAssociations</code></td><td>打开 <code>.md</code> <strong>默认即预览</strong></td></tr>
+<tr><td><strong>快捷键</strong> <code>Ctrl+Shift+V</code></td><td>预览 ↔ 编辑切换（VS Code <strong>内置命令</strong>，不依赖扩展）</td></tr>
+</table>
+<table>
+<tr><th>方式</th><th>做法</th></tr>
+<tr><td><strong>VS Code 预览（推荐）</strong></td><td>装好上面两个扩展 → 打开 <code>.md</code> <strong>默认即预览</strong> → <strong><code>Ctrl+Shift+V</code></strong> 切换编辑/预览，Mermaid 自动渲染</td></tr>
+<tr><td><strong>侧边预览</strong></td><td><code>Ctrl+K</code> 松手再按 <code>V</code>（内置）</td></tr>
+<tr><td><strong>浏览器 HTML（离线）</strong></td><td>双击 <a href="./robot_development_lifecycle.html"><code>robot_development_lifecycle.html</code></a></td></tr>
+<tr><td><strong>更新 HTML</strong></td><td>改完 <code>.md</code> 后运行 <code>./regenerate_lifecycle_html.sh</code></td></tr>
+</table>
+<blockquote><p>本仓库 <a href="./.vscode/extensions.json"><code>.vscode/extensions.json</code></a> 推荐 <code>markdown-mermaid</code>（不含 MPE）。</p><p>📂 <strong>GitHub</strong>：<a href="https://github.com/651yyds3939/robotics-notes">robotics-notes</a> · <a href="https://github.com/651yyds3939/kuavo-dev-notes">kuavo-dev-notes</a></p><p>💡 不同形态机器人 👉 <a href="./robotics/robot_types.md">机器人分类与特性对比</a></p></blockquote>
 <hr/>
 <h2 id="第-0-章-一句话理解全流程">第 0 章：一句话理解全流程</h2>
 <blockquote><p><strong>大白话</strong>：造机器人不是「先写代码再画 CAD」，而是<strong>多条线并行、在里程碑处汇合</strong>。机械工程师在 SolidWorks 里画零件，电气工程师画原理图，嵌入式工程师写驱动固件，算法工程师在仿真里训策略——最后在<strong>样机集成</strong>阶段第一次真正碰面。任何一条线的接口对不上（关节原点、电机参数、线束长度、URDF 质量），都会在 bring-up 阶段集中爆炸。</p></blockquote>
 <hr/>
 <h2 id="第-1-章-全流程大图-竖向总览-一图到底">第 1 章：全流程大图（竖向总览 · 一图到底）</h2>
 <blockquote><p><strong>一张图覆盖</strong>：自研造机（Phase 0–6）+ <strong>实机装配</strong> + <strong>二次开发</strong>（Phase 7）。</p></blockquote>
-<p>&gt;</p>
-<blockquote><p>- <strong>采购平台</strong>（采购现成平台）：从图中 <code>📦 采购现成平台</code> 直接进入 Phase 7，跳过 Phase 0–3 与 Phase 4A 装配。</p></blockquote>
-<blockquote><p>- <strong>自研整机</strong>：走完整链路；Phase 5 验收后可并行 <strong>Phase 6 量产</strong> 与 <strong>Phase 7 应用开发</strong>。</p></blockquote>
-<p>&gt;</p>
+<ul><li><strong>采购平台</strong>（采购现成平台）：从图中 <code>📦 采购现成平台</code> 直接进入 Phase 7，跳过 Phase 0–3 与 Phase 4A 装配。</li></ul>
+<ul><li><strong>自研整机</strong>：走完整链路；Phase 5 验收后可并行 <strong>Phase 6 量产</strong> 与 <strong>Phase 7 应用开发</strong>。</li></ul>
 <blockquote><p>四种视角总览见 <a href="./robot_knowledge_map.md"><code>robot_knowledge_map.md</code></a>；结构见 <a href="./robot_system.md"><code>robot_system.md</code></a>；运行时见 <a href="./robotics/robot_system_integration.md"><code>robot_system_integration.md</code></a>；<strong>二次开发管线</strong>见 <a href="./robotics/robot_software_pipelines.md"><code>robot_software_pipelines.md</code></a>。</p></blockquote>
 <pre class="mermaid">---
 config:
@@ -281,8 +268,7 @@ flowchart TB
 </table>
 <p>------</p>
 <h2 id="第-4-章-软件与算法子流程-可与-phase-2-起并行">第 4 章：软件与算法子流程（可与 Phase 2 起并行）</h2>
-<blockquote><p>软件不必等样机到手才开始——<strong>仿真先行</strong>是现代机器人研发的主流做法。</p></blockquote>
-<blockquote><p>📍 <strong>流程节点见 <a href="#第-1-章全流程大图竖向总览--一图到底">第 1 章全流程大图</a></strong></p></blockquote>
+<blockquote><p>软件不必等样机到手才开始——<strong>仿真先行</strong>是现代机器人研发的主流做法。</p><p>📍 <strong>流程节点见 <a href="#第-1-章全流程大图竖向总览--一图到底">第 1 章全流程大图</a></strong></p></blockquote>
 <h3>4.1 软件阶段要点与链接</h3>
 <table>
 <tr><th>环节</th><th>关键决策</th><th>常见踩坑</th><th>相关笔记</th></tr>
@@ -307,8 +293,7 @@ flowchart TB
 </table>
 <p>------</p>
 <h2 id="第-6-章-v-模型-每个设计阶段对应的验证">第 6 章：V 模型——每个设计阶段对应的验证</h2>
-<blockquote><p>左边「设计」、右边「验证」必须成对出现；只设计不验证 = 样机阶段集中爆雷。</p></blockquote>
-<blockquote><p>📍 <strong>流程节点见 <a href="#第-1-章全流程大图竖向总览--一图到底">第 1 章全流程大图</a></strong></p></blockquote>
+<blockquote><p>左边「设计」、右边「验证」必须成对出现；只设计不验证 = 样机阶段集中爆雷。</p><p>📍 <strong>流程节点见 <a href="#第-1-章全流程大图竖向总览--一图到底">第 1 章全流程大图</a></strong></p></blockquote>
 <table>
 <tr><th>设计产出</th><th>对应验证手段</th><th>工具/环境</th></tr>
 <tr><td>KPI 需求表</td><td>场景 Demo、用户验收</td><td>真实工况录像</td></tr>
@@ -335,8 +320,7 @@ flowchart TB
 <p><strong>图例</strong>：● 主导 · ○ 参与 · — 通常不涉及</p>
 <hr/>
 <h2 id="第-8-章-二次开发-phase-7-已并入大图">第 8 章：二次开发（Phase 7 · 已并入大图）</h2>
-<blockquote><p><strong>Phase 7</strong> 在 Phase 5 验收后（自研）或 <strong>采购平台</strong> 入口（跳过 0–3 与装配）开始。</p></blockquote>
-<blockquote><p>对应 <a href="https://github.com/651yyds3939/kuavo-dev-notes">kuavo-dev-notes</a> 54 篇实战。</p></blockquote>
+<blockquote><p><strong>Phase 7</strong> 在 Phase 5 验收后（自研）或 <strong>采购平台</strong> 入口（跳过 0–3 与装配）开始。</p><p>对应 <a href="https://github.com/651yyds3939/kuavo-dev-notes">kuavo-dev-notes</a> 54 篇实战。</p></blockquote>
 <h3>8.1 两条入口</h3>
 <table>
 <tr><th>入口</th><th>从哪开始</th><th>典型用户</th></tr>
@@ -383,9 +367,7 @@ flowchart TB
 <p>👉 结构视角完整索引：<a href="./robot_system.md">robot_system.md</a></p>
 <p>👉 运行时数据流/控制流：<a href="./robotics/robot_system_integration.md">robot_system_integration.md</a></p>
 <hr/>
-<blockquote><p><strong>备注</strong>：本流程图与 <a href="./robot_system.md"><code>robot_system.md</code></a> 思维导图互补，不重复展开各层算法细节。整机制造经验随项目迭代持续补充；软件/算法/集成部分已有大量 kuavo 实战支撑。</p></blockquote>
-<p>&gt;</p>
-<blockquote><p>通用知识库：<a href="https://github.com/651yyds3939/robotics-notes">robotics-notes</a> · 项目实战：<a href="https://github.com/651yyds3939/kuavo-dev-notes">kuavo-dev-notes</a></p></blockquote></article>
+<blockquote><p><strong>备注</strong>：本流程图与 <a href="./robot_system.md"><code>robot_system.md</code></a> 思维导图互补，不重复展开各层算法细节。整机制造经验随项目迭代持续补充；软件/算法/集成部分已有大量 kuavo 实战支撑。</p><p>通用知识库：<a href="https://github.com/651yyds3939/robotics-notes">robotics-notes</a> · 项目实战：<a href="https://github.com/651yyds3939/kuavo-dev-notes">kuavo-dev-notes</a></p></blockquote></article>
 <script>
 (function () {
   function boot() {
