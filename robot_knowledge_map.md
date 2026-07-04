@@ -17,23 +17,19 @@
 
 ```mermaid
 flowchart LR
-    USER(["机器人开发者"])
-    A["结构<br/>robot_system"]
-    B["流程<br/>lifecycle"]
-    C["运行时<br/>integration"]
-    D["软件管线<br/>pipelines"]
     subgraph VIEWS["四种视角 · 互不替代"]
         direction LR
-        A
-        B
-        C
-        D
+        USER(["机器人开发者"])
+        A["结构<br/>robot_system"]
+        B["流程<br/>lifecycle"]
+        C["运行时<br/>integration"]
+        D["软件管线<br/>pipelines"]
+        A --> B --> C --> D
+        USER -.-> A
+        USER -.-> B
+        USER --> C
+        USER --> D
     end
-    A --> B --> C --> D
-    USER -.-> A
-    USER -.-> B
-    USER --> C
-    USER --> D
 ```
 
 ---
