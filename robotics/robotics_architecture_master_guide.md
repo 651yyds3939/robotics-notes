@@ -1,7 +1,7 @@
 # 🤖 机器人高级架构与版本控制终极实战手册
 
 > **项目代号**：Humanoid SDK 部署验证 & [FAST-LIO SLAM](./slam.md) 部署验证
-> **运行环境**：Lenovo Legion R9000P (Ubuntu 20.04/22.04) / ROS Noetic / Docker 
+> **运行环境**：开发用 Linux 笔记本（Ubuntu 20.04/22.04） / ROS Noetic / Docker 
 > **核心里程碑**：从模块调用到系统架构的工程化沉淀
 > **手册说明**：本手册融汇了 Docker/ROS 环境排雷、Git 多分支与子模块协同、官方仓库无损同步更新，以及本地污染仓库重建与 GitHub 远程推送的完整体系工作流。
 

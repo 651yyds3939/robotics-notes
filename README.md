@@ -170,18 +170,18 @@ https://github.com/651yyds3939/robotics-notes/blob/master/robotics/<文件名>.m
 1. **文件管理器** — 进入本仓库目录，双击 `robot_system_photo.html`。
 2. **终端**（推荐，路径最不容易错）：
  ```bash
- xdg-open /home/lwy/Notes/robotics-notes/robot_system_photo.html # 将 lwy 与路径改为本机实际用户名与目录
+ xdg-open ~/Notes/robotics-notes/robot_system_photo.html
  ```
  指定浏览器示例（路径同上，按需选用）：
 
  Google Chrome：
  ```bash
- google-chrome /home/lwy/Notes/robotics-notes/robot_system_photo.html # 将 lwy 与路径改为本机实际用户名与目录
+ google-chrome ~/Notes/robotics-notes/robot_system_photo.html
  ```
 
  Firefox：
  ```bash
- firefox /home/lwy/Notes/robotics-notes/robot_system_photo.html # 将 lwy 与路径改为本机实际用户名与目录
+ firefox ~/Notes/robotics-notes/robot_system_photo.html
  ```
 3. **Cursor / VS Code** — 在文件树中右键 `robot_system_photo.html` → **Reveal in File Explorer**（或 **Open with… → 系统默认浏览器**）。
 4. **浏览器内** — `Ctrl + O`，选择上述路径下的 `robot_system_photo.html`。

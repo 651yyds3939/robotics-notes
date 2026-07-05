@@ -1,4 +1,4 @@
-# Ryzen 7 5800H 笔记本 CPU 限频与控温（Linux / Ubuntu）
+# 笔记本 CPU 限频与控温（Linux / Ubuntu）
 
 ## 🎯 目标
 
@@ -13,7 +13,7 @@
 
 ## 🧠 问题背景
 
-在笔记本 CPU（如 Ryzen 7 5800H）上：
+在笔记本 CPU（如 AMD 移动 CPU）上：
 
 * 默认会开启 **Turbo Boost**
 * 即使 CPU 占用不高，也会冲到 4GHz+

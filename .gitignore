@@ -1,0 +1,8 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Local IDE / agent config
+.claude/
+.vscode/settings.local.json
