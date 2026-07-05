@@ -26,7 +26,7 @@ flowchart LR
 
 > **缩略图说明**：上表两张 PNG 由 [`regenerate_all_previews.sh`](./regenerate_all_previews.sh) 自动生成（已裁边、同高；GitHub 请用 Markdown 表格 + width="100%" 并排）。**点击图片**打开 GitHub Pages 交互页。
 >
-> **多图文档（首页不放缩略图）**：[运行时闭环 · integration](./robotics/robot_system_integration.md) · [二次开发管线 · pipelines](./robotics/robot_software_pipelines.md) — 在 GitHub 打开 `.md` 即可渲染 Mermaid。
+> **多图文档**：[运行时闭环 · integration HTML](https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/robot_system_integration.html) · [软件管线 · pipelines HTML](https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/robot_software_pipelines.html)（亦可在 GitHub 打开 `.md` 原生渲染 Mermaid）。
 
 机器人**通用**知识库与 Ubuntu 开发环境笔记，与具体机型无关。侧重概念、架构、控制/感知/工程化链路；**不含**某一品牌人形机器人的魔改代码与真机排障。
 
@@ -40,8 +40,8 @@ flowchart LR
 |------|--------|----------------|------------|
 | Markmap 思维导图 | [`robot_system.md`](./robot_system.md) | [交互版 HTML](https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/robot_system_preview.html) | `assets/robot_system_preview.png` |
 | Mermaid 研发流程 | [`robot_development_lifecycle.md`](./robot_development_lifecycle.md) | [完整 HTML](https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/robot_development_lifecycle.html) | `assets/lifecycle_preview.png` |
-| 运行时数据流 | [`robot_system_integration.md`](./robotics/robot_system_integration.md) | GitHub 打开 md 渲染 Mermaid | — |
-| 二次开发管线 | [`robot_software_pipelines.md`](./robotics/robot_software_pipelines.md) | GitHub 打开 md 渲染 Mermaid | — |
+| 运行时数据流 | [`robot_system_integration.md`](./robotics/robot_system_integration.md) | [完整 HTML](https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/robot_system_integration.html) | `assets/integration_preview.png` |
+| 二次开发管线 | [`robot_software_pipelines.md`](./robotics/robot_software_pipelines.md) | [完整 HTML](https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/robot_software_pipelines.html) | `assets/pipelines_preview.png` |
 | 离线思维导图 | 同上 | [`robot_system_photo.html`](./robot_system_photo.html) | — |
 
 **GitHub 上 `.md` 里的 Mermaid**：在仓库中点开 `robot_development_lifecycle.md`、`robot_system_integration.md` 等文件，GitHub 会**原生渲染** ` ```mermaid ` 代码块；**README 首页**仍用 PNG 缩略图 + 跳转 HTML，避免大图加载过慢。
@@ -52,12 +52,13 @@ README 缩略图与「交互版」链接默认走 **[htmlpreview](https://htmlpr
 
 - [思维导图 · Markmap](https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/robot_system_preview.html)
 - [研发流程 · Mermaid HTML](https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/robot_development_lifecycle.html)
+- [运行时闭环 · integration HTML](https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/robot_system_integration.html)
+- [软件管线 · pipelines HTML](https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/robot_software_pipelines.html)
 
-若你曾打开过 `651yyds3939.github.io/...` 却出现 **404**，原因是 **GitHub Pages 尚未在本仓库启用**（与 HTML 文件是否在 `master` 无关）。一次性开启（已含 [`.github/workflows/deploy-pages.yml`](./.github/workflows/deploy-pages.yml)）：
+**GitHub Pages** 已通过 [`.github/workflows/deploy-pages.yml`](./.github/workflows/deploy-pages.yml) 部署。子路径 HTML（如 `robot_development_lifecycle.html`）可直接访问；**站点根路径**需 [`index.html`](./index.html) 作为入口：
 
-1. 仓库 **Settings → Pages → Build and deployment → Source** 选 **GitHub Actions**
-2. push 到 `master`，在 **Actions** 等待 `Deploy GitHub Pages` 绿勾
-3. 再访问 [https://651yyds3939.github.io/robotics-notes/](https://651yyds3939.github.io/robotics-notes/)（可选，与 htmlpreview 内容相同）
+- [站点首页](https://651yyds3939.github.io/robotics-notes/)（index.html 导航）
+- 与 htmlpreview 内容相同，任选其一即可离线友好访问
 
 根目录含 `.nojekyll`，确保 `assets/markmap/`、`assets/mermaid/` 在 Pages 上可加载。
 
@@ -238,7 +239,7 @@ robotics-notes/
 ├── robot_development_lifecycle_preview.html  # 首页缩略图专用页
 ├── regenerate_all_previews.sh     # 一键重生 HTML + PNG 缩略图
 ├── robot_system_photo.html        # 思维导图 HTML 快照
-├── robotics/                      # 机器人通用专题（37 篇 .md）
+├── robotics/                      # 机器人通用专题（39+ 篇 .md）
 │   ├── robotics_architecture_master_guide.md   # 架构总览（含 Docker 实战）
 │   ├── robot_types.md             # 机器人形态对比
 │   ├── ros_*.md, tf_tree.md       # ROS 通信 / 架构 / ROS2 流程
@@ -263,10 +264,10 @@ robotics-notes/
 | 总览与架构 | [`robot_knowledge_map.md`](./robot_knowledge_map.md) · [`robotics_architecture_master_guide.md`](./robotics/robotics_architecture_master_guide.md) · [`robot_system_integration.md`](./robotics/robot_system_integration.md) · [`robot_software_pipelines.md`](./robotics/robot_software_pipelines.md) · [`robot_types.md`](./robotics/robot_types.md) |
 | ROS | [`ros_communication.md`](./robotics/ros_communication.md) · [`ros_logic.md`](./robotics/ros_logic.md) · [`ros2_process.md`](./robotics/ros2_process.md) · [`tf_tree.md`](./robotics/tf_tree.md) |
 | 感知与定位 | [`camera_calibration.md`](./robotics/camera_calibration.md) · [`state_estimation.md`](./robotics/state_estimation.md) · [`sensor_fusion.md`](./robotics/sensor_fusion.md) · [`slam.md`](./robotics/slam.md) |
-| AI 与具身智能 | [`AI_learning_robotics.md`](./robotics/AI_learning_robotics.md) · [`vla_landscape.md`](./robotics/vla_landscape.md) · [`llm_for_robotics.md`](./robotics/llm_for_robotics.md) · [`vision_foundation_models.md`](./robotics/vision_foundation_models.md) · [`benchmark_dataset.md`](./robotics/benchmark_dataset.md) |
-| 规划与控制 | [`path_planning.md`](./robotics/path_planning.md) · [`pid_control.md`](./robotics/pid_control.md) · [`dynamics_control.md`](./robotics/dynamics_control.md) · [`impedance_control.md`](./robotics/impedance_control.md) · [`optimization_theory.md`](./robotics/optimization_theory.md) |
+| AI 与具身智能 | [`AI_learning_robotics.md`](./robotics/AI_learning_robotics.md) · [`vla_landscape.md`](./robotics/vla_landscape.md) · [`llm_for_robotics.md`](./robotics/llm_for_robotics.md) · [`vision_foundation_models.md`](./robotics/vision_foundation_models.md) · [`speech_pipeline.md`](./robotics/speech_pipeline.md) · [`benchmark_dataset.md`](./robotics/benchmark_dataset.md) |
+| 规划与控制 | [`path_planning.md`](./robotics/path_planning.md) · [`moveit_manipulation.md`](./robotics/moveit_manipulation.md) · [`pid_control.md`](./robotics/pid_control.md) · [`dynamics_control.md`](./robotics/dynamics_control.md) · [`impedance_control.md`](./robotics/impedance_control.md) · [`optimization_theory.md`](./robotics/optimization_theory.md) |
 | 学习与部署 | [`RL.md`](./robotics/RL.md) · [`world_model.md`](./robotics/world_model.md) · [`edge_deployment.md`](./robotics/edge_deployment.md) |
-| 建模与执行 | [`robot_modeling.md`](./robotics/robot_modeling.md) · [`motor_foc.md`](./robotics/motor_foc.md) |
+| 建模与执行 | [`robot_modeling.md`](./robotics/robot_modeling.md) · [`motor_foc.md`](./robotics/motor_foc.md) · [`fieldbus_and_ethercat.md`](./robotics/fieldbus_and_ethercat.md) · [`safety_sop.md`](./robotics/safety_sop.md) |
 | 工程化 | [`environment.md`](./robotics/environment.md) · [`docker.md`](./robotics/docker.md) · [`git_github.md`](./robotics/git_github.md) · [`git_pull.md`](./robotics/git_pull.md) · [`linux_C++_project.md`](./robotics/linux_C++_project.md) · [`terminal_command.md`](./robotics/terminal_command.md) · [`tools.md`](./robotics/tools.md) |
 | 阅读与文档 | [`code_read_skill.md`](./robotics/code_read_skill.md) · [`doc_concept.md`](./robotics/doc_concept.md)（工作空间文件速查） · [`doc_function.md`](./robotics/doc_function.md)（动手学 ROS2 索引，建设中） |
 

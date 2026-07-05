@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>二次开发软件管线 · Mermaid 预览 · 缩略图预览</title><style>
+    :root { color-scheme: light; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 8px; background: #fff; color: #222; height: auto; overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif; }
+    h1 { font-size: 11px; font-weight: 600; margin: 0 0 6px; color: #666; }
+    pre.mermaid { margin: 0; padding: 0; background: transparent; border: none; display: inline-block; }
+    .foot { display: none; }
+</style></head><body>
+<h1>二次开发软件管线 · Mermaid 预览</h1>
+<pre class="mermaid">flowchart TB
+    subgraph L5["L5 应用 · Demo"]
+        APP["VLA 抓取 · RL 舞蹈 · 导航 · 数据采集"]
+    end
+    subgraph L4["L4 决策/规划 · 常改"]
+        DEC["MoveIt · 行为树 · LLM Agent · Nav2"]
+    end
+    subgraph L3["L3 感知 · 常改"]
+        PER["检测/VFM · SLAM · 深度 · 语音 ASR"]
+    end
+    subgraph L2["L2 中间件 · 必会"]
+        MW["ROS 2 · TF2 · rosbag · Docker"]
+    end
+    subgraph L1["L1 控制/驱动 · 少改但需懂"]
+        CTL["策略部署 · WBC · ros2_control · 官方驱动"]
+    end
+    subgraph L0["L0 硬件 · 了解即可"]
+        HW["关节 · IMU · 相机 · 现场总线 · 急停"]
+    end
+    APP --> DEC --> PER --> MW --> CTL --> HW</pre>
+<p class="foot">完整文档：<a href="./robot_software_pipelines.html">./robot_software_pipelines.html</a></p>
+<script>
+(function () {
+  function boot() {
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: "default",
+      securityLevel: "loose",
+      flowchart: { useMaxWidth: true, htmlLabels: true, curve: "basis" },
+    });
+  }
+  var s = document.createElement("script");
+  s.src = "https://cdn.jsdelivr.net/npm/mermaid@11.4.0/dist/mermaid.min.js";
+  s.onload = boot;
+  s.onerror = function () {
+    var t = document.createElement("script");
+    t.src = "./assets/mermaid/mermaid.min.js";
+    t.onload = boot;
+    document.head.appendChild(t);
+  };
+  document.head.appendChild(s);
+})();
+</script>
+</body></html>

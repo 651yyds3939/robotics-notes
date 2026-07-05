@@ -46,3 +46,40 @@
 此前涉及的 `simStepControl.py` 落足点规划，属于**经典控制（无 AI）**。
 Isaac Gym 用于，是在训练 **[RL（强化学习小脑）](./RL.md)**。👉 仿真与建模见 [机器人建模](./robot_modeling.md)
 若需人形平台执行取件类任务，通常需结合 **DL（感知）** 与 **IL/Manipulation（操作）**。
+
+---
+
+## 协作拓扑：从语义到电流
+
+```mermaid
+flowchart TB
+    LLM["LLM / VLM ~1Hz<br/>任务理解与分解"]
+    VFM["VFM / YOLO ~30Hz<br/>感知与坐标"]
+    IL["IL / VLA ~10-50Hz<br/>操作与动作 chunk"]
+    RL["RL ~100Hz<br/>平衡与步态"]
+    CLASSIC["KF / WBC ~1kHz<br/>安全与力矩"]
+    LLM --> IL
+    VFM --> IL
+    IL --> RL
+    RL --> CLASSIC
+    VFM --> LLM
+```
+
+| 频率带 | 典型模块 | 输出 |
+|--------|----------|------|
+| ~1 Hz | LLM、行为树顶层 | 子任务 / Tool Call |
+| 10–50 Hz | VLA、MoveIt、IL | 轨迹 / action chunk |
+| 100 Hz | RL 策略 | 关节目标 / 落足点 |
+| 1 kHz+ | WBC、PID、EtherCAT | 力矩 / 电流 |
+
+---
+
+## 快速选型
+
+| 你想解决… | 先看 |
+|-----------|------|
+| 走路不稳 | [RL.md](./RL.md) · [dynamics_control](./dynamics_control.md) |
+| 抓不到物体 | [moveit_manipulation](./moveit_manipulation.md) · [vla_landscape](./vla_landscape.md) |
+| 听不懂人话 | [llm_for_robotics](./llm_for_robotics.md) · [speech_pipeline](./speech_pipeline.md) |
+| 开放世界检测 | [vision_foundation_models](./vision_foundation_models.md) |
+| 模型太慢 | [edge_deployment](./edge_deployment.md) |

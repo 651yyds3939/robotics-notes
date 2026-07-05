@@ -155,7 +155,7 @@
 - [FAST-LIO（LiDAR 里程计）](./robotics/slam.md)、[Docker 挂载](./robotics/docker.md) 踩坑
 - 👉 实战案例：[地图导航与 FAST_LIO](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/3.map_navigation.md) · [官方导航集成](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/3.1official_navigation.md)
 
-#### 2.3.3 机械臂与运动规划 (Manipulation) 👉 [经典动力学与运动控制](./robotics/dynamics_control.md)
+#### 2.3.3 机械臂与运动规划 (Manipulation) 👉 [MoveIt 专题](./robotics/moveit_manipulation.md) · [经典动力学与运动控制](./robotics/dynamics_control.md)
 
 - ROS MoveIt / MoveIt 2（运动规划、碰撞检测、[逆运动学](./robotics/dynamics_control.md)）
 - IK 求解器：TRAC-IK（冗余自由度优化求解）
@@ -212,7 +212,7 @@
 - VxWorks（商用高可靠）
 
 #### 3.2.2 高速总线主站
-- EtherCAT 主站（微秒级同步，全身几十个关节高频下发）
+- EtherCAT 主站（微秒级同步，全身几十个关节高频下发） 👉 [现场总线与 EtherCAT 专题](./robotics/fieldbus_and_ethercat.md)
 - CAN / CAN FD 主站
 
 ### 3.3 核心控制算法

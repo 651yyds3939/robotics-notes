@@ -24,18 +24,15 @@
 
 ## 第 1 章：VFM 在机器人系统中的位置
 
-```
-相机 RGB / Depth
-    ↓
-【感知层】Vision Foundation Models / YOLO / 经典 CV
-    ↓
-检测框 · 分割 mask · 深度图 · 6D 位姿 · 语义特征
-    ↓
-【决策层】LLM 规划 · VLA · MoveIt · 行为树
-    ↓
-【控制层】IK / WBC / RL
-    ↓
-关节动作
+```mermaid
+flowchart TB
+    CAM["相机 RGB / Depth"]
+    PERC["感知层<br/>VFM / YOLO / 经典 CV"]
+    OUT["检测框 · mask · 深度 · 6D 位姿"]
+    DEC["决策层<br/>LLM · VLA · MoveIt · 行为树"]
+    CTRL["控制层<br/>IK / WBC / RL"]
+    JNT["关节动作"]
+    CAM --> PERC --> OUT --> DEC --> CTRL --> JNT
 ```
 
 **关键结论**：VFM 和 YOLO 都工作在**感知层**，都不直接输出关节角。区别是 YOLO 偏「固定任务、低延迟检测」；VFM 偏「开放世界、语言/提示驱动、更强泛化」。

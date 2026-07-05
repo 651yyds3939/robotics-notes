@@ -248,7 +248,9 @@ flowchart TB
 ### 6.2 与 integration 的分工
 
 - **坐标变换链、双机目标下发** → [integration 模式Ⅲ / §5.1](./robot_system_integration.md#51-跨机目标流模式ⅱ--ⅲ-合成)
-- **MoveIt 配置、检测模型选型、抓取策略** → 本篇
+- **MoveIt 配置、检测模型选型、抓取策略** → [MoveIt 专题](./moveit_manipulation.md) · 本篇
+
+👉 专题：[现场总线与 EtherCAT](./fieldbus_and_ethercat.md)（下位机通信）
 
 👉 实战：[6.visual_grasp](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/6.visual_grasp.md) · [4.4 真机](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/4.4real_visual_grasp.md) · [28 MoveIt](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/28.moveit_grasping.md)
 

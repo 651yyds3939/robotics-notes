@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>二次开发软件管线 · Mermaid 预览</title><style>
+    :root { color-scheme: light dark; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+      line-height: 1.65; max-width: 1200px; margin: 0 auto; padding: 24px 20px 80px; background: #fafafa; color: #222; }
+    @media (prefers-color-scheme: dark) { body { background: #1e1e1e; color: #ddd; } table, th, td { border-color: #444; }
+      blockquote { background: #2a2a2a; border-color: #555; } a { color: #6cb6ff; } hr { border-color: #444; } }
+    h1 { font-size: 1.8rem; border-bottom: 2px solid #ccc; padding-bottom: .4em; }
+    h2 { font-size: 1.35rem; margin-top: 2em; border-bottom: 1px solid #ddd; padding-bottom: .3em; }
+    h3 { font-size: 1.1rem; margin-top: 1.4em; }
+    blockquote { margin: 1em 0; padding: .6em 1em; border-left: 4px solid #888; background: #f0f0f0; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; font-size: .92rem; }
+    th, td { border: 1px solid #ccc; padding: 8px 10px; text-align: left; vertical-align: top; }
+    th { background: rgba(128,128,128,.12); }
+    pre.mermaid { background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 16px; overflow-x: auto; margin: 1.2em 0; }
+    @media (prefers-color-scheme: dark) { pre.mermaid { background: #2d2d2d; border-color: #555; } }
+    pre:not(.mermaid) { background: #f6f8fa; border: 1px solid #ddd; border-radius: 6px; padding: 12px; overflow-x: auto; }
+    a { color: #0969da; } hr { margin: 2em 0; border: none; border-top: 1px solid #ccc; }
+    .tip { position: sticky; top: 0; z-index: 9; background: #fff3cd; color: #664d03; border: 1px solid #ffecb5;
+      border-radius: 8px; padding: 10px 14px; margin-bottom: 20px; font-size: .9rem; }
+</style></head><body>
+<div class="tip">📊 Mermaid 可视化预览。修改 <code>robot_software_pipelines.md</code> 后重新运行对应 regenerate 脚本。</div>
+<article><h1>二次开发软件管线图 (Software Pipelines)</h1>
+<blockquote><p><strong>核心定位</strong>：二次开发者的<strong>操作手册</strong>——在已有硬件上，从环境搭好到某个 Demo 跑通，<strong>按什么顺序做、每步产出什么、失败回哪一步</strong>。</p><p><strong>与 <a href="./robot_system_integration.md">robot_system_integration.md</a> 的分工</strong>：</p></blockquote>
+<ul><li><strong>integration</strong> = 运行时数据/控制<strong>怎么闭环、怎么断、五种集成模式</strong>（交通网络原理图）</li></ul>
+<ul><li><strong>本篇 pipelines</strong> = 具体任务<strong>工序链、工具链、检查清单、实战链接</strong>（地铁路线图）</li></ul>
+<blockquote><p>👉 导航：<a href="../robot_knowledge_map.md">知识体系地图</a> · 运行时闭环：<a href="./robot_system_integration.md">integration</a> · 结构：<a href="../robot_system.md">robot_system.md</a> · 实战案例：<a href="https://github.com/651yyds3939/kuavo-dev-notes">kuavo-dev-notes</a></p></blockquote>
+<hr/>
+<h2 id="第-0-章-任务选型-要做的事走哪条管线">第 0 章：任务选型 — 要做的事走哪条管线</h2>
+<table>
+<tr><th>目标</th><th>主读章节</th><th>integration 对应模式</th><th>典型周期</th></tr>
+<tr><td>环境跑通、第一个节点</td><td><a href="#第-2-章环境部署与最小闭环">§2 环境部署</a></td><td>—</td><td>0.5–2 天</td></tr>
+<tr><td>仿真 / 真机 bringup</td><td><a href="#第-3-章launch-与-bringup-管线">§3 Launch</a></td><td>Ⅰ / Ⅱ</td><td>0.5–1 天</td></tr>
+<tr><td>RL 行走 / 舞蹈上真机</td><td><a href="#第-4-章sim2real-管线-rl-行走--舞蹈">§4 Sim2Real</a></td><td>Ⅱ + 横切 Sim2Real</td><td>1–4 周</td></tr>
+<tr><td>自主导航 Demo</td><td><a href="#第-5-章导航管线">§5 导航</a></td><td>Ⅰ</td><td>3–7 天</td></tr>
+<tr><td>视觉抓取 / MoveIt</td><td><a href="#第-6-章视觉抓取管线">§6 视觉抓取</a></td><td>Ⅲ（+Ⅱ 若双机）</td><td>3–10 天</td></tr>
+<tr><td>语音 / VLA / MCP 任务</td><td><a href="#第-7-章vla-分层管线">§7 VLA 分层</a></td><td>Ⅱ + Ⅲ + Ⅴ</td><td>1–3 周</td></tr>
+<tr><td>示教采集 → IL/VLA 训练</td><td><a href="#第-8-章数据采集与-ilvla-训练管线">§8 数据采集</a></td><td>Ⅴ</td><td>1–2 周</td></tr>
+<tr><td>模型导出与边缘部署</td><td><a href="#第-9-章模型部署管线">§9 模型部署</a></td><td>横切</td><td>1–3 天</td></tr>
+<tr><td>标定 / TF 排查</td><td><a href="#第-10-章标定与-tf-落地清单">§10 标定清单</a></td><td>Ⅲ</td><td>0.5–2 天</td></tr>
+<tr><td>联调 / 录包 / 回放</td><td><a href="#第-11-章联调排障与-rosbag-回放">§11 排障回放</a></td><td>全部</td><td>持续</td></tr>
+</table>
+<p><strong>双机拓扑、多速率原则、跨机目标流</strong>不在此重复展开 → <a href="./robot_system_integration.md#三五种集成模式模式详图">integration §三–§六</a>。</p>
+<hr/>
+<h2 id="第-1-章-二次开发软件栈-主要碰哪几层">第 1 章：二次开发软件栈（主要碰哪几层）</h2>
+<pre class="mermaid">flowchart TB
+    subgraph L5["L5 应用 · Demo"]
+        APP["VLA 抓取 · RL 舞蹈 · 导航 · 数据采集"]
+    end
+    subgraph L4["L4 决策/规划 · 常改"]
+        DEC["MoveIt · 行为树 · LLM Agent · Nav2"]
+    end
+    subgraph L3["L3 感知 · 常改"]
+        PER["检测/VFM · SLAM · 深度 · 语音 ASR"]
+    end
+    subgraph L2["L2 中间件 · 必会"]
+        MW["ROS 2 · TF2 · rosbag · Docker"]
+    end
+    subgraph L1["L1 控制/驱动 · 少改但需懂"]
+        CTL["策略部署 · WBC · ros2_control · 官方驱动"]
+    end
+    subgraph L0["L0 硬件 · 了解即可"]
+        HW["关节 · IMU · 相机 · 现场总线 · 急停"]
+    end
+    APP --> DEC --> PER --> MW --> CTL --> HW</pre>
+<table>
+<tr><th>层级</th><th>二次开发典型操作</th><th>少碰/别乱改</th><th>本篇相关章节</th></tr>
+<tr><td>L5–L3</td><td>写节点、训模型、调参</td><td>—</td><td>§4–§8</td></tr>
+<tr><td>L2</td><td>配 launch、网络、容器、录包</td><td>—</td><td>§2–§3、§11</td></tr>
+<tr><td>L1</td><td>部署 ONNX、对齐 obs、切换控制器</td><td>固件、FOC、WBC 内核</td><td>§4、§9</td></tr>
+<tr><td>L0</td><td>标定、读手册</td><td>PCB、机械装配</td><td>§10</td></tr>
+</table>
+<h3>1.1 双机部署速查（仅列「开发机放哪」，架构原理见 integration）</h3>
+<table>
+<tr><th>工作类型</th><th>常见部署位置</th><th>备注</th></tr>
+<tr><td>大模型 / VLA / Docker 推理</td><td>上位机 GPU</td><td>勿占实时核</td></tr>
+<tr><td>视觉检测 / 深度</td><td>上位机</td><td>结果变换后再下发</td></tr>
+<tr><td>RL 策略 / WBC / 关节伺服</td><td>下位机 / 实时核</td><td>与训练 obs 对齐</td></tr>
+<tr><td>训练 / 数据打包</td><td>离线 PC</td><td>不接入控制链路</td></tr>
+<tr><td>Nav2 / SLAM 建图</td><td>视平台；常上位或同机</td><td>见 §5</td></tr>
+</table>
+<p>👉 网络与通信：<a href="./ros_communication.md">ros_communication</a> · 实战：<a href="https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/16.Internet.md">16.Internet</a></p>
+<hr/>
+<h2 id="第-2-章-环境部署与最小闭环">第 2 章：环境部署与最小闭环</h2>
+<p><strong>产出</strong>：能在仿真或实机上 <code>launch</code> 一个官方栈，并确认至少一个节点在发数据。</p>
+<pre class="mermaid">flowchart TB
+    E1["① 基座系统<br/>Ubuntu + ROS 2 发行版"] --> E2["② 依赖<br/>驱动 · 编译工具 · 显卡/CUDA 可选"]
+    E2 --> E3{"③ 容器？"}
+    E3 -->|是| E4["Docker 镜像 + GPU 映射 + 网络模式"]
+    E3 -->|否| E5["原生工作空间"]
+    E4 --> E6["④ colcon/catkin 编译"]
+    E5 --> E6
+    E6 --> E7["⑤ source install/setup"]
+    E7 --> E8["⑥ launch 官方仿真或 standby 实机"]
+    E8 --> E9["⑦ 验证：topic 列表 / rviz / 关节状态"]
+    E9 --> E10{"通过？"}
+    E10 -->|否| E11["查依赖 / 版本 / 网络 / 权限"]
+    E11 --> E2
+    E10 -->|是| DONE["最小闭环 OK → §3"]</pre>
+<h3>2.1 每步检查清单</h3>
+<table>
+<tr><th>步骤</th><th>检查项</th><th>常见失败</th></tr>
+<tr><td>① 基座</td><td>发行版与官方要求一致</td><td>22.04/24.04 混用</td></tr>
+<tr><td>② 依赖</td><td>驱动、realtime、lib 齐全</td><td>CUDA/TensorRT 版本不匹配</td></tr>
+<tr><td>③ 容器</td><td><code>--net=host</code> 或正确 bridge；GPU <code>--gpus all</code></td><td>ROS 发现不到对端</td></tr>
+<tr><td>④ 编译</td><td>无 red error；package 在 list 里</td><td>混用 ROS1/2 工作空间</td></tr>
+<tr><td>⑤ source</td><td>每个新终端都 source</td><td>能找到包但 runtime 找不到 so</td></tr>
+<tr><td>⑥ launch</td><td>仿真切 <code>use_sim_time</code></td><td>实机误开 sim_time</td></tr>
+<tr><td>⑦ 验证</td><td><code>topic hz</code> 有关键流</td><td>驱动未起、IP 不对</td></tr>
+</table>
+<p>👉 <a href="./environment.md">environment</a> · <a href="./docker.md">docker</a> · 实战：<a href="https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/1.start.md">1.start</a> · <a href="https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/2.first_node.md">2.first_node</a></p>
+<hr/>
+<h2 id="第-3-章-launch-与-bringup-管线">第 3 章：Launch 与 bringup 管线</h2>
+<p><strong>产出</strong>：明确当前是仿真还是实机，所需节点全部起来，且控制链使能前处于安全姿态。</p>
+<pre class="mermaid">flowchart TB
+    B1["读 launch：启动了哪些节点？"] --> B2{"仿真 or 实机？"}
+    B2 -->|仿真| B3["Gazebo/Isaac/MuJoCo + ros2_control 插件"]
+    B2 -->|实机| B4["驱动 + 估计 + 控制器 + 安全互锁"]
+    B3 --> B5["统一：TF / 时钟 / 关节名与 URDF 一致"]
+    B4 --> B5
+    B5 --> B6["standby：零力矩或悬挂/急停可用"]
+    B6 --> B7["按 SOP 使能 · 单关节 → 单腿 → 全身"]
+    B7 --> B8["接入自主：导航 / RL / 抓取 子 launch"]</pre>
+<table>
+<tr><th>阶段</th><th>动作</th><th>禁止事项</th></tr>
+<tr><td>启动前</td><td>急停可用、龙门架/吊挂（双足）、线缆检查</td><td>直接上电满力矩</td></tr>
+<tr><td>启动后</td><td>看 joint state、IMU、无 error 刷屏</td><td>未看日志就切 RL</td></tr>
+<tr><td>使能</td><td>官方顺序：校准 → 站立 → 模式切换</td><td>跳过标定零点</td></tr>
+<tr><td>叠加自主</td><td>先开感知/定位，再开规划，最后开执行</td><td>规划先于定位</td></tr>
+</table>
+<hr/>
+<h2 id="第-4-章-sim2real-管线-rl-行走-舞蹈">第 4 章：Sim2Real 管线（RL 行走 / 舞蹈）</h2>
+<p><strong>产出</strong>：训练策略在真机上可重复站立/行走，观测与仿真一致，有回滚 SOP。</p>
+<pre class="mermaid">flowchart TB
+    A["① 资产对齐<br/>URDF/MJCF ↔ 真机质量/惯量/限位"] --> B["② 仿真训练<br/>PPO/SAC + 域随机化"]
+    B --> C["③ 导出<br/>ONNX / TorchScript"]
+    C --> D["④ Sim2Sim<br/>MuJoCo/Isaac 换引擎复验"]
+    D --> E{"关节顺序与 obs 维一致？"}
+    E -->|否| H["修 .info / CSV 顺序 / URDF"]
+    H --> B
+    E -->|是| F["⑤ 真机准备<br/>标定 · 龙门架 · 安全 SOP"]
+    F --> G["⑥ 下位机加载策略"]
+    G --> I{"真机通过？"}
+    I -->|否| J["对比 sim vs real obs 录包<br/>摩擦/延迟/IMU 偏置"]
+    J --> B
+    I -->|是| K["⑦ 迭代：地形/扰动/舞蹈序列"]</pre>
+<h3>4.1 关键产物清单</h3>
+<table>
+<tr><th>产物</th><th>用途</th><th>对齐要点</th></tr>
+<tr><td>URDF / MJCF</td><td>仿真与可视化</td><td>关节名、轴向、限位与真机一致</td></tr>
+<tr><td><code>.info</code> / obs 配置</td><td>策略输入维数</td><td>顺序错 1 个即失稳</td></tr>
+<tr><td>训练 checkpoint</td><td>继续训 / 导出</td><td>与导出脚本版本匹配</td></tr>
+<tr><td>ONNX</td><td>下位机推理</td><td>opset、输入名、batch=1</td></tr>
+<tr><td>启动 launch</td><td>加载策略</td><td>频率、话题 remap</td></tr>
+<tr><td>安全 SOP 文档</td><td>真机试机</td><td>急停、悬挂、回零</td></tr>
+</table>
+<h3>4.2 逐步验收标准</h3>
+<table>
+<tr><th>阶段</th><th>通过标准</th></tr>
+<tr><td>Sim2Sim</td><td>换引擎仍走 ≥30s 不摔</td></tr>
+<tr><td>悬挂试机</td><td>关节响应方向/幅值正确</td></tr>
+<tr><td>触地站立</td><td>可站 10s 无发散</td></tr>
+<tr><td>慢速行走</td><td>直线 2m、可停</td></tr>
+<tr><td>舞蹈/复杂</td><td>序列完整、无模式切换事故</td></tr>
+</table>
+<p>👉 <a href="./RL.md">RL</a> · <a href="./robot_modeling.md">robot_modeling</a> · <a href="./edge_deployment.md">edge_deployment</a> · 实战：<a href="https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/15.1.RL_lab_train.md">15.1</a> · <a href="https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/15.3RL_lab_sim_to_sim.md">15.3</a> · <a href="https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/15.4RL_lab_sim_to_real.md">15.4</a></p>
+<p>架构级 Sim2Real 折叠见 <a href="./robot_system_integration.md#63-仿真折叠与-sim2real">integration §6.3</a>。</p>
+<hr/>
+<h2 id="第-5-章-导航管线">第 5 章：导航管线</h2>
+<p><strong>产出</strong>：有地图、能定位、能发速度或路径跟随指令，RViz 中位姿与激光一致。</p>
+<pre class="mermaid">flowchart TB
+    N1["① 传感器：激光/深度 + 里程计"] --> N2["② 建图 or 加载 map"]
+    N2 --> N3["③ 定位：AMCL / SLAM 定位模式"]
+    N3 --> N4["④ TF：map→odom→base 不断链"]
+    N4 --> N5["⑤ Nav2：全局规划 + 局部规划"]
+    N5 --> N6["⑥ 输出 cmd_vel → 底盘控制器"]
+    N6 --> N7{"到点/避障 OK？"}
+    N7 -->|否| N8["调 costmap / 速度上限 / footprint"]
+    N8 --> N5
+    N7 -->|是| N9["⑦ 可选：航点 / 行为树任务"]</pre>
+<table>
+<tr><th>步骤</th><th>工具/模块</th><th>验收</th></tr>
+<tr><td>建图</td><td>SLAM Toolbox / Cartographer / 官方栈</td><td>回环后墙不双影</td></tr>
+<tr><td>定位</td><td>AMCL</td><td>人为挪动 1m 内能拉回</td></tr>
+<tr><td>规划</td><td>Nav2</td><td>窄道不撞、能绕障</td></tr>
+<tr><td>实机</td><td>速度平滑、急停</td><td>急停 0.5s 内停</td></tr>
+</table>
+<p>👉 <a href="./slam.md">slam</a> · <a href="./path_planning.md">path_planning</a> · <a href="./tf_tree.md">tf_tree</a> · 实战：<a href="https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/3.map_navigation.md">3.map_navigation</a></p>
+<p>integration 中轮式导航<strong>数据流原理</strong>见 <a href="./robot_system_integration.md#41-轮式自主导航">§4.1</a>。</p>
+<hr/>
+<h2 id="第-6-章-视觉抓取管线">第 6 章：视觉抓取管线</h2>
+<p><strong>产出</strong>：给定物体类别或位姿，能稳定完成「接近 → 抓取 → 抬起」至少 N 次成功。</p>
+<pre class="mermaid">flowchart TB
+    subgraph PRE["准备"]
+        P1["手眼标定 / 相机内参"] --> P2["仿真 grasp 验证"]
+    end
+    subgraph RUN["运行链"]
+        C1["RGB/Depth 采集"] --> C2["2D/6D 检测 或 点云分割"]
+        C2 --> C3["TF：camera → base → ee"]
+        C3 --> C4["IK / MoveIt plan"]
+        C4 --> C5["轨迹执行 + 夹爪"]
+        C5 --> C6["力/位置确认抓取"]
+    end
+    PRE --> RUN
+    C6 -->|失败| C7["重检测 / 调 approach 高度"]
+    C7 --> C2</pre>
+<h3>6.1 分阶段验收</h3>
+<table>
+<tr><th>阶段</th><th>内容</th><th>通过标准</th></tr>
+<tr><td>标定</td><td>相机内参 + 手眼</td><td>戳点误差 &lt; 阈值（如 1cm 级）</td></tr>
+<tr><td>仿真</td><td>MoveIt / 碰撞体</td><td>10 次 grasp 无碰撞 abort</td></tr>
+<tr><td>实机空抓</td><td>不开夹爪走轨迹</td><td>轨迹平滑、无奇异</td></tr>
+<tr><td>实机抓取</td><td>固定位置物体</td><td>≥8/10 成功</td></tr>
+<tr><td>泛化</td><td>随机摆放</td><td>按任务要求统计成功率</td></tr>
+</table>
+<h3>6.2 与 integration 的分工</h3>
+<ul><li><strong>坐标变换链、双机目标下发</strong> → <a href="./robot_system_integration.md#51-跨机目标流模式ⅱ--ⅲ-合成">integration 模式Ⅲ / §5.1</a></li></ul>
+<ul><li><strong>MoveIt 配置、检测模型选型、抓取策略</strong> → <a href="./moveit_manipulation.md">MoveIt 专题</a> · 本篇</li></ul>
+<p>👉 专题：<a href="./fieldbus_and_ethercat.md">现场总线与 EtherCAT</a>（下位机通信）</p>
+<p>👉 实战：<a href="https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/6.visual_grasp.md">6.visual_grasp</a> · <a href="https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/4.4real_visual_grasp.md">4.4 真机</a> · <a href="https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/28.moveit_grasping.md">28 MoveIt</a></p>
+<hr/>
+<h2 id="第-7-章-vla-分层管线">第 7 章：VLA 分层管线</h2>
+<p><strong>产出</strong>：语音或文本指令能触发正确的子技能（走、抓、放），慢环不阻塞快环。</p>
+<pre class="mermaid">flowchart TB
+    subgraph OFF["离线准备"]
+        direction TB
+        O1["子技能清单 · 走/抓/停/对话"] --> O2["每技能接口：输入/输出/超时"]
+        O2 --> O3["Tool/MCP 注册 或 行为树节点"]
+    end
+    subgraph ON["在线运行"]
+        direction TB
+        I1["ASR / 文本"] --> I2["LLM 意图 + Tool Call"]
+        I2 --> I3["任务分解 · JSON/行为树"]
+        S1["System 1：抓取链"]
+        S2["System 1：步态/导航"]
+        S3["System 1：纯对话/灯效"]
+        MON["监控：超时/失败 → 重试或中止"]
+        I3 --> S1
+        I3 --> S2
+        I3 --> S3
+        S1 --> MON
+        S2 --> MON
+    end
+    OFF --> ON</pre>
+<h3>7.1 工程要点</h3>
+<table>
+<tr><th>项</th><th>建议</th></tr>
+<tr><td>慢环频率</td><td>~1 Hz；只发<strong>子目标</strong>，不发力矩</td></tr>
+<tr><td>技能边界</td><td>每个 Tool 单一职责，带超时与取消</td></tr>
+<tr><td>状态机</td><td>显式 IDLE / EXEC / FAIL，防并发抓+走</td></tr>
+<tr><td>视觉</td><td>检测与 LLM 解耦；LLM 只选 skill id + 参数</td></tr>
+<tr><td>评测</td><td>固定指令集回归（如 20 条语音）</td></tr>
+</table>
+<p>👉 专题：<a href="./vla_landscape.md">vla_landscape</a> · <a href="./llm_for_robotics.md">llm_for_robotics</a> · 实战：<a href="https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.1VLA_grasping.md">22.1 VLA</a> · <a href="https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.3.MCP_VLA_grasp.md">22.3 MCP</a></p>
+<hr/>
+<h2 id="第-8-章-数据采集与-il-vla-训练管线">第 8 章：数据采集与 IL/VLA 训练管线</h2>
+<p><strong>产出</strong>：LeRobot / 自定义格式数据集，obs-action 对齐，可复现训练脚本。</p>
+<pre class="mermaid">flowchart TB
+    D1["① 定义任务与成功标准"] --> D2["② 选采集方式<br/>遥操作/VR/动捕/kinesthetic"]
+    D2 --> D3["③ 多机分工 · 见下表"]
+    D3 --> D4["④ 同步录制 · 时间戳对齐"]
+    D4 --> D5["⑤ episode 切分 · 50Hz 等"]
+    D5 --> D6["⑥ 质检：丢帧/零动作/越界"]
+    D6 --> D7["⑦ 训练 IL/VLA/RL"]
+    D7 --> D8["⑧ 仿真或真机回测"]
+    D8 -->|不够| D2
+    D8 -->|OK| D9["⑨ 部署 §9"]</pre>
+<h3>8.1 三机分工（常见工程布局）</h3>
+<table>
+<tr><th>角色</th><th>职责</th><th>录制内容</th></tr>
+<tr><td>下位机 / 实时</td><td>关节状态、IMU、动作</td><td>高频 state + action</td></tr>
+<tr><td>上位机 / 视觉</td><td>相机 RGB/Depth</td><td>图像流</td></tr>
+<tr><td>离线 PC</td><td>打包、转 LeRobot、训练</td><td>不介入控制</td></tr>
+</table>
+<h3>8.2 数据集字段（LeRobot v3 思路）</h3>
+<table>
+<tr><th>字段</th><th>说明</th></tr>
+<tr><td>observation.state</td><td>关节角/速度等，与部署 obs 一致</td></tr>
+<tr><td>observation.images.*</td><td>每路相机命名固定</td></tr>
+<tr><td>action</td><td>与 state 同频或插值到同频</td></tr>
+<tr><td>episode_index</td><td>可复现切分</td></tr>
+<tr><td>task</td><td>语言标签（VLA 用）</td></tr>
+</table>
+<p>👉 <a href="./benchmark_dataset.md">benchmark_dataset</a> · 实战：<a href="https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.4.Lerobot_grasp.md">22.4 LeRobot</a></p>
+<p>integration 中遥操作<strong>架构</strong>见 <a href="./robot_system_integration.md#47-遥操作与示教采集">§4.7 / 模式Ⅴ</a>。</p>
+<hr/>
+<h2 id="第-9-章-模型部署管线">第 9 章：模型部署管线</h2>
+<p><strong>产出</strong>：训练权重可在目标设备上以规定延迟运行，输入输出与训练一致。</p>
+<pre class="mermaid">flowchart TB
+    M1["训练权重<br/>PyTorch/JAX"] --> M2["导出<br/>ONNX/TorchScript"]
+    M2 --> M3["Sim/离线单测<br/>固定输入比输出"]
+    M3 --> M4{"目标设备？"}
+    M4 -->|CPU| M5["ONNX Runtime"]
+    M4 -->|NVIDIA| M6["TensorRT / ORT-CUDA"]
+    M4 -->|嵌入式| M7["NCNN / 厂商 SDK"]
+    M5 --> M8["集成进控制节点<br/>固定周期推理"]
+    M6 --> M8
+    M7 --> M8
+    M8 --> M9["延迟/精度验收"]</pre>
+<table>
+<tr><th>检查项</th><th>说明</th></tr>
+<tr><td>输入 shape / name</td><td>与 <code>.info</code> 或代码常量一致</td></tr>
+<tr><td>归一化</td><td>mean/std 与训练相同</td></tr>
+<tr><td>频率</td><td>推理耗时 &lt; 控制周期 × 70%</td></tr>
+<tr><td>回退</td><td>推理失败时进入安全模式</td></tr>
+</table>
+<p>👉 <a href="./edge_deployment.md">edge_deployment</a></p>
+<hr/>
+<h2 id="第-10-章-标定与-tf-落地清单">第 10 章：标定与 TF 落地清单</h2>
+<p><strong>不重复</strong>坐标变换原理（见 <a href="./robot_system_integration.md#33-模式ⅲ跨坐标系感知-操作">integration 模式Ⅲ</a>），本篇只列<strong>二次开发必做项</strong>。</p>
+<pre class="mermaid">flowchart TB
+    MAP["map"] --> ODOM["odom"]
+    ODOM --> BASE["base_link"]
+    BASE --> TORSO["torso / trunk"]
+    TORSO --> CAM["camera_link"]
+    TORSO --> EE["ee_link"]</pre>
+<table>
+<tr><th>标定项</th><th>方法</th><th>影响</th></tr>
+<tr><td>相机内参</td><td>棋盘格 / 官方工具</td><td>深度尺度、检测投影</td></tr>
+<tr><td>手眼</td><td>eye-in-hand / eye-to-hand</td><td>抓取系统性偏置</td></tr>
+<tr><td>关节零点</td><td>官方零位 SOP</td><td>RL obs、站立姿态</td></tr>
+<tr><td>IMU</td><td>静止偏置 / 六面法</td><td>估计发散</td></tr>
+<tr><td>激光外参</td><td>URDF 或手动 TF</td><td>导航撞墙</td></tr>
+</table>
+<p><strong>排查顺序</strong>：<code>tf2_tools view_frames</code> → 时间戳 → 关节名与 URDF → 再查算法。</p>
+<p>👉 <a href="./camera_calibration.md">camera_calibration</a> · <a href="./tf_tree.md">tf_tree</a> · 实战：<a href="https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/26.joint_calibration.md">26 关节标定</a></p>
+<hr/>
+<h2 id="第-11-章-联调排障与-rosbag-回放">第 11 章：联调排障与 rosbag 回放</h2>
+<p><strong>产出</strong>：能复现问题、定位断点属于哪一层，而不是盲目改参数。</p>
+<pre class="mermaid">flowchart TB
+    Q1["现象：摔/抓空/不动/飞 TF"] --> Q2["录 rosbag2<br/>传感+控制+TF"]
+    Q2 --> Q3["离线回放<br/>--clock 同频"]
+    Q3 --> Q4{"回放可复现？"}
+    Q4 -->|否| Q5["偶发：网络/线程/硬件"]
+    Q4 -->|是| Q6["二分：停节点/ remap"]
+    Q6 --> Q7["对照 integration 故障表"]
+    Q7 --> Q8["修配置/标定/代码 → 再录包验证"]</pre>
+<table>
+<tr><th>现象</th><th>先查管线层</th><th>integration 模式</th></tr>
+<tr><td>不动</td><td>§3 launch / 使能 / 控制器</td><td>Ⅰ</td></tr>
+<tr><td>抓空</td><td>§10 标定 → §6 检测</td><td>Ⅲ</td></tr>
+<tr><td>摔机</td><td>§4 obs 对齐 / §9 策略</td><td>Ⅱ</td></tr>
+<tr><td>飞 TF</td><td>§10 帧链 / 时钟</td><td>Ⅲ</td></tr>
+<tr><td>断连乱动</td><td>网络 + 看门狗</td><td>Ⅱ、Ⅴ</td></tr>
+</table>
+<p>👉 <a href="./robot_system_integration.md#八系统集成常见故障模式">integration §八 故障模式</a> · <a href="./doc_concept.md">doc_concept 工作空间</a></p>
+<hr/>
+<h2 id="附录-a-与思维导图九层的对应">附录 A：与思维导图九层的对应</h2>
+<table>
+<tr><th>软件管线章节</th><th>思维导图层级</th></tr>
+<tr><td>§1 软件栈</td><td>全栈 L0–L5</td></tr>
+<tr><td>§2–§3 环境/bringup</td><td>九 工程化</td></tr>
+<tr><td>§4 Sim2Real</td><td>三 控制 · 九 工程化</td></tr>
+<tr><td>§5 导航</td><td>一 感知 · 二 决策</td></tr>
+<tr><td>§6–§7 抓取/VLA</td><td>一 感知 · 二 决策 · 五 应用</td></tr>
+<tr><td>§8 数据采集</td><td>五 应用 · 九 工程化</td></tr>
+<tr><td>§9 部署</td><td>三 控制 · 九 工程化</td></tr>
+<tr><td>§10 标定</td><td>一 感知 · 五 机械(URDF)</td></tr>
+<tr><td>§11 排障</td><td>七 通信 · 八 安全</td></tr>
+</table>
+<hr/>
+<h2 id="附录-b-与-integration-章节对照">附录 B：与 integration 章节对照</h2>
+<table>
+<tr><th>本篇（工序）</th><th>integration（架构）</th></tr>
+<tr><td>§1.1 双机部署速查</td><td>§3.2 模式Ⅱ</td></tr>
+<tr><td>§4 Sim2Real 步骤</td><td>§6.3 仿真折叠</td></tr>
+<tr><td>§6 抓取工序</td><td>§4.4 + 模式Ⅲ</td></tr>
+<tr><td>§8 采集工序</td><td>§4.7 + 模式Ⅴ</td></tr>
+<tr><td>§11 排障</td><td>§八 故障表</td></tr>
+</table>
+<hr/>
+<blockquote><p><strong>备注</strong>：硬件制造见 <a href="../robot_development_lifecycle.md">lifecycle</a>；模块全貌见 <a href="../robot_system.md">robot_system.md</a>；<strong>运行时原理</strong>见 <a href="./robot_system_integration.md">robot_system_integration.md</a>。</p></blockquote></article>
+<script>
+(function () {
+  function boot() {
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: "default",
+      securityLevel: "loose",
+      flowchart: { useMaxWidth: true, htmlLabels: true, curve: "basis" },
+    });
+  }
+  var s = document.createElement("script");
+  s.src = "https://cdn.jsdelivr.net/npm/mermaid@11.4.0/dist/mermaid.min.js";
+  s.onload = boot;
+  s.onerror = function () {
+    var t = document.createElement("script");
+    t.src = "./assets/mermaid/mermaid.min.js";
+    t.onload = boot;
+    document.head.appendChild(t);
+  };
+  document.head.appendChild(s);
+})();
+</script>
+</body></html>
