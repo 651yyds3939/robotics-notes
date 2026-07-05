@@ -73,6 +73,7 @@
 - **ASR**（语音识别）：Faster-Whisper（本地离线）+ Gemini Live API（云端全双工）
 - **TTS**（语音合成）：VITS 离线 + Edge-TTS 云端
 - **全双工网关**：WebSocket 长连接 + 中断恢复
+- 👉 专题：[语音全链路详解](./robotics/speech_pipeline.md)
 - 👉 实战案例：[Gemini 全双工语音交互](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/21.3.gemini_model.md) · [本地大模型语音](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/21.2.local_AI_large_model.md)
 
 ### 1.4 高层感知算法【运行于：上位机】 👉 [AI与机器人学习笔记](./robotics/AI_learning_robotics.md) · [视觉基础模型 VFM 专题](./robotics/vision_foundation_models.md)
@@ -277,7 +278,7 @@
 
 ---
 
-## 五、机械结构层 (Mechanical Structure) 👉 [机器人建模（URDF/MJCF/USD）](./robotics/robot_modeling.md) · [研发全流程 · 机械设计子流程](./robot_development_lifecycle.md#第-2-章机械设计子流程solidworks-主线)
+## 五、机械结构层 (Mechanical Structure) 👉 [机器人建模（URDF/MJCF/USD）](./robotics/robot_modeling.md) · [研发全流程](./robot_development_lifecycle.md)（机械/电气/软件子流程）
 
 ### 5.1 移动底盘形态 👉 [机器人分类与特性对比](./robotics/robot_types.md)
 - 轮式（差速 / 全向 Mecanum / 阿克曼转向）
@@ -295,7 +296,7 @@
 
 ---
 
-## 六、系统安全与防护机制 (Safety & Security)
+## 六、系统安全与防护机制 (Safety & Security) 👉 [真机安全 SOP](./robotics/safety_sop.md)
 
 > 贯穿软硬件的底层红线。本章大量内容来自真机实战，非书本理论。
 

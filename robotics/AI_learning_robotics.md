@@ -1,3 +1,23 @@
+# AI 与机器人学习 —— 算法入口 Hub
+
+> **本文件定位**：机器人 AI 算法栈的**总览入口**。下面一张表讲清五种 AI 范式在机器人上的区别和协作关系。想深入某一方向，从这里跳出去。
+
+## 🤖 AI 子专题导航
+
+| 方向 | 专题笔记 | 实战案例 |
+|------|---------|---------|
+| **强化学习** | [RL.md](./RL.md) | [行走 RL](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/15.4RL_lab_sim_to_real.md) · [舞蹈 IL+RL](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/23.1.RL_dance_overview.md) |
+| **世界模型** | [world_model.md](./world_model.md) | [TD-MPC2 训练](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/31.1.world_model.md) |
+| **VLA 具身交互** | [vla_landscape.md](./vla_landscape.md) | [VLA 语音抓取](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.1VLA_grasping.md) · [MCP Tool Call](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.3.MCP_LeRobot_VLA_grasp.md) |
+| **LLM 机器人规划** | [llm_for_robotics.md](./llm_for_robotics.md) | [Gemini 全双工](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/21.3.gemini_model.md) · [行为树 VLA](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.2.tree_VLA_grasp.md) |
+| **视觉基础模型** | [vision_foundation_models.md](./vision_foundation_models.md) | [YOLO 真机](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/4.3.real_robot_yolo_environment.md) · [VLM 图像触发](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/30.AI_image_identification.md) |
+| **模仿学习** | [benchmark_dataset.md](./benchmark_dataset.md) | [LeRobot 数据采集](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.4.Lerobot_grasp.md) |
+| **模型边缘部署** | [edge_deployment.md](./edge_deployment.md) | [Sim2Real ONNX](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/15.4RL_lab_sim_to_real.md) |
+| **语音管线** | [speech_pipeline.md](./speech_pipeline.md) | [语音大模型](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/21.2.local_AI_large_model.md) |
+| **通用索引** | → [robot_system.md](../robot_system.md) | → [kuavo-dev-notes](https://github.com/651yyds3939/kuavo-dev-notes) |
+
+---
+
 > 👉 **实战案例**：[21.2 语音大模型](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/21.2.local_AI_large_model.md) · [22.x VLA 抓取](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.1VLA_grasping.md) · [30 图像识别](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/30.AI_image_identification.md) · [通用专题索引](https://github.com/651yyds3939/robotics-notes/blob/master/robot_system.md)
 
 ### 🤖 机器人全链路 AI 算法拓扑与工程对比图谱

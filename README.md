@@ -238,7 +238,7 @@ robotics-notes/
 ├── robot_development_lifecycle_preview.html  # 首页缩略图专用页
 ├── regenerate_all_previews.sh     # 一键重生 HTML + PNG 缩略图
 ├── robot_system_photo.html        # 思维导图 HTML 快照
-├── robotics/                      # 机器人通用专题（32 篇 .md）
+├── robotics/                      # 机器人通用专题（37 篇 .md）
 │   ├── robotics_architecture_master_guide.md   # 架构总览（含 Docker 实战）
 │   ├── robot_types.md             # 机器人形态对比
 │   ├── ros_*.md, tf_tree.md       # ROS 通信 / 架构 / ROS2 流程
@@ -260,9 +260,10 @@ robotics-notes/
 
 | 主题 | 文档 |
 |------|------|
-| 总览与架构 | [`robot_knowledge_map.md`](../robot_knowledge_map.md) · [`robotics_architecture_master_guide.md`](./robotics/robotics_architecture_master_guide.md) · [`robot_system_integration.md`](./robotics/robot_system_integration.md) · [`robot_software_pipelines.md`](./robotics/robot_software_pipelines.md) · [`robot_types.md`](./robotics/robot_types.md) |
+| 总览与架构 | [`robot_knowledge_map.md`](./robot_knowledge_map.md) · [`robotics_architecture_master_guide.md`](./robotics/robotics_architecture_master_guide.md) · [`robot_system_integration.md`](./robotics/robot_system_integration.md) · [`robot_software_pipelines.md`](./robotics/robot_software_pipelines.md) · [`robot_types.md`](./robotics/robot_types.md) |
 | ROS | [`ros_communication.md`](./robotics/ros_communication.md) · [`ros_logic.md`](./robotics/ros_logic.md) · [`ros2_process.md`](./robotics/ros2_process.md) · [`tf_tree.md`](./robotics/tf_tree.md) |
-| 感知与定位 | [`camera_calibration.md`](./robotics/camera_calibration.md) · [`state_estimation.md`](./robotics/state_estimation.md) · [`sensor_fusion.md`](./robotics/sensor_fusion.md) · [`slam.md`](./robotics/slam.md) · [`AI_learning_robotics.md`](./robotics/AI_learning_robotics.md) |
+| 感知与定位 | [`camera_calibration.md`](./robotics/camera_calibration.md) · [`state_estimation.md`](./robotics/state_estimation.md) · [`sensor_fusion.md`](./robotics/sensor_fusion.md) · [`slam.md`](./robotics/slam.md) |
+| AI 与具身智能 | [`AI_learning_robotics.md`](./robotics/AI_learning_robotics.md) · [`vla_landscape.md`](./robotics/vla_landscape.md) · [`llm_for_robotics.md`](./robotics/llm_for_robotics.md) · [`vision_foundation_models.md`](./robotics/vision_foundation_models.md) · [`benchmark_dataset.md`](./robotics/benchmark_dataset.md) |
 | 规划与控制 | [`path_planning.md`](./robotics/path_planning.md) · [`pid_control.md`](./robotics/pid_control.md) · [`dynamics_control.md`](./robotics/dynamics_control.md) · [`impedance_control.md`](./robotics/impedance_control.md) · [`optimization_theory.md`](./robotics/optimization_theory.md) |
 | 学习与部署 | [`RL.md`](./robotics/RL.md) · [`world_model.md`](./robotics/world_model.md) · [`edge_deployment.md`](./robotics/edge_deployment.md) |
 | 建模与执行 | [`robot_modeling.md`](./robotics/robot_modeling.md) · [`motor_foc.md`](./robotics/motor_foc.md) |
