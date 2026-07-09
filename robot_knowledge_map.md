@@ -47,7 +47,7 @@ flowchart LR
 | **双机架构 Mermaid** | 🆕 补在 integration + pipelines | 比 ASCII 更易读 |
 | 硬件工具链详图 | ⚪ 浅覆盖 | lifecycle 第 2–3 章表格；非二次开发主场 |
 | 岗位/角色矩阵 | ✅ lifecycle 第 7 章 | |
-| EtherCAT / 下位机 | integration § 执行层 | [fieldbus_and_ethercat](./robotics/fieldbus_and_ethercat.md) | kuavo 2.x 下位机 |
+| EtherCAT / 下位机 | ✅ 已有专题 | [fieldbus_and_ethercat](./robotics/fieldbus_and_ethercat.md) + kuavo 实机 |
 | 两仓库文件导航 | 🆕 本章 3 + pipelines | |
 
 ---
@@ -112,9 +112,11 @@ flowchart TB
 |------|-----------|---------|-----------|
 | RL 行走 Sim2Real | pipelines § Sim2Real | [RL.md](./robotics/RL.md) | [15.x](https://github.com/651yyds3939/kuavo-dev-notes/tree/master/kuavo_notes) |
 | 视觉抓取 | pipelines § Grasp | [moveit_manipulation](./robotics/moveit_manipulation.md) · [dynamics_control](./robotics/dynamics_control.md) | [4.4 / 28](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/4.4real_visual_grasp.md) |
-| VLA 语音抓取 | pipelines § VLA | [vla_landscape](./robotics/vla_landscape.md) | [22.x](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.1VLA_grasping.md) |
+| VLA 语音抓取 | pipelines § VLA | [vla_landscape](./robotics/vla_landscape.md) · [speech_pipeline](./robotics/speech_pipeline.md) | [22.x](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.1VLA_grasping.md) |
 | 大模型规划 | pipelines § LLM | [llm_for_robotics](./robotics/llm_for_robotics.md) | [21.x / 22.3 MCP](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.3.MCP_VLA_grasp.md) |
 | 数据采集 | pipelines § Data | [benchmark_dataset](./robotics/benchmark_dataset.md) | [22.4 LeRobot](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.4.Lerobot_grasp.md) |
+| 真机安全 | — | [safety_sop](./robotics/safety_sop.md) | [15.4 / 23.1 安全 SOP](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/15.4RL_lab_sim_to_real.md) |
+| 通信总线 | — | [fieldbus_and_ethercat](./robotics/fieldbus_and_ethercat.md) | [16 网络配置](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/16.Internet.md) |
 | Docker/环境 | — | [docker](./robotics/docker.md) · [environment](./robotics/environment.md) | [1.start](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/1.start.md) |
 
 ---
