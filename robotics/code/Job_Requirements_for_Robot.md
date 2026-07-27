@@ -1,3 +1,11 @@
+---
+> **📌 文档定位：** 地图 — 五个机器人岗位方向 + Kuavo 行为树项目四阶段路线
+> **适合：** 不确定学什么、想对齐职业目标或启动 Kuavo 行为树项目
+> **前置：** [Python_C++_bridge](Python_C++_bridge.md)（弄清 Python/C++ 分工）→ [README](README.md) 总索引
+> **后续：** 阶段一 → [C++_grammar_supplement](C++_grammar_supplement.md)；阶段二 → [DSA_tree](DSA_tree.md)；阶段三/四 → [robotics_C++](robotics_C++.md)
+> **预计时间：** 30 min 浏览地图，项目路线 4–8 周
+> **🏠 返回总索引：** [README.md](README.md)
+
 # 🤖 机器人研发全栈路线图与刷题指南
 
 ## 🛠️ 岗位一：机器人系统工程师 (Robotics System / Infra Engineer)
@@ -37,20 +45,15 @@
 
 不搞盲目海量死磕，用 2~3 天时间集中攻克行为树项目必须用到的三大 C++ 核心语法。
 
-### 1. 类与多态 (Class & Inheritance)
+> 📎 **详细语法请读专题文档，本文只保留「为何重要」：**
 
-* **核心概念：** 父类与子类的继承、虚函数（`virtual`）、重写（`override`）、纯虚函数（`= 0`）。
-* **为何重要：** 行为树的所有节点（如 Sequence, Action）都是从一个共同的基类 `TreeNode` 派生出来的，必须通过多态机制统一调用 `tick()` 函数。
+| 必学内容 | 为何重要（行为树场景） | 去哪学 |
+| --- | --- | --- |
+| **类与多态** | 所有节点从 `TreeNode` 派生，靠 `virtual tick()` 统一调用 | [C++_grammar_supplement § OOP](C++_grammar_supplement.md#-模块二面向对象编程oop) |
+| **智能指针** | 行为树是指针拓扑网络，`shared_ptr` 防泄漏和 Segfault | [C++_grammar_supplement § 智能指针](C++_grammar_supplement.md#3-现代-c-智能指针stdshared_ptr) |
+| **`std::vector`** | Sequence/Selector 节点管理多个子节点 | [C++_grammar_supplement § vector](C++_grammar_supplement.md#1-动态数组口袋stdvector) |
 
-### 2. 智能指针 (Smart Pointers)
-
-* **核心概念：** `std::shared_ptr`（共享智能指针）与 `std::make_shared`。
-* **为何重要：** 行为树在内存中是一个复杂的指针拓扑网络，使用智能指针可以彻底杜绝 Linux 下最致命的内存泄漏与段错误（Segmentation Fault）。
-
-### 3. 动态数组 (标准库容器)
-
-* **核心概念：** `std::vector` 的声明、元素添加（`push_back`）以及基于范围的 for 循环遍历。
-* **为何重要：** 行为树中的控制节点（如 Sequence, Selector）需要管理任意多个子节点，必须使用 `std::vector` 进行动态存储。
+*若 C++ 零基础，先花 1 天过* [DSA_C++_Basics](DSA_C++_Basics.md) *中的指针和 vector。*
 
 ---
 
@@ -65,12 +68,14 @@
 
 ### 2. LeetCode 精选必刷题
 
-* **LeetCode 144. 二叉树的前序遍历 (Easy)：**
-* *目的：* 掌握树的递归与遍历机制。前序遍历（根 -> 左 -> 右）正是行为树标准的执行顺序。
+> 📎 **完整树专题刷题计划（含视频 + 15 题分阶段）见** [DSA_tree.md](DSA_tree.md)
 
+本阶段**最低限度**完成以下两题（对应 DSA_tree 第一、二阶段）：
 
-* **LeetCode 104. 二叉树的最大深度 (Easy)：**
-* *目的：* 建立极其重要的“回溯与状态返回”思维。在行为树里，基层叶子节点将 `SUCCESS` 或 `RUNNING` 状态一层层向上传递，依靠的就是这种底层逻辑。
+| 题目 | 目的 |
+| --- | --- |
+| **144. 二叉树的前序遍历** | 前序遍历 = 行为树 Tick 向下传递顺序 |
+| **104. 二叉树的最大深度** | 回溯返回 `SUCCESS`/`RUNNING` 状态的基础思维 |
 
 
 
@@ -220,3 +225,35 @@
 
 *(注：🔴 = 死磕到底，🟢 = 需熟练掌握，🟡 = 掌握简单题型，⚪ = 战略放弃/看缘分)*
 
+---
+
+## 📍 文档导航
+
+| 方向 | 文档 |
+| --- | --- |
+| 🏠 总索引 | [README.md](README.md) |
+| Python/C++ 分工 | [Python_C++_bridge.md](Python_C++_bridge.md) |
+| Python 最小语法 | [python/python_for_robotics_basics.md](python/python_for_robotics_basics.md) |
+| 读 Python 源码 | [robotics_Python.md](robotics_Python.md) |
+| 读 C++ 源码 | [robotics_C++.md](robotics_C++.md) |
+| 刷题语法 (C++) | [DSA_C++_Basics.md](DSA_C++_Basics.md) |
+| 写 C++ 代码 | [C++_grammar_supplement.md](C++_grammar_supplement.md) |
+| 刷题方法论 | [data_stuctures_and_algorithms.md](data_stuctures_and_algorithms.md) |
+| 树专题刷题 | [DSA_tree.md](DSA_tree.md) |
+| 定方向 | [Job_Requirements_for_Robot.md](Job_Requirements_for_Robot.md) |
+---
+
+## 📍 文档导航
+
+| 方向 | 文档 |
+| --- | --- |
+| 🏠 总索引 | [README.md](README.md) |
+| Python/C++ 分工 | [Python_C++_bridge.md](Python_C++_bridge.md) |
+| Python 最小语法 | [python/python_for_robotics_basics.md](python/python_for_robotics_basics.md) |
+| 读 Python 源码 | [robotics_Python.md](robotics_Python.md) |
+| 读 C++ 源码 | [robotics_C++.md](robotics_C++.md) |
+| 刷题语法 (C++) | [DSA_C++_Basics.md](DSA_C++_Basics.md) |
+| 写 C++ 代码 | [C++_grammar_supplement.md](C++_grammar_supplement.md) |
+| 刷题方法论 | [data_stuctures_and_algorithms.md](data_stuctures_and_algorithms.md) |
+| 树专题刷题 | [DSA_tree.md](DSA_tree.md) |
+| 定方向 | [Job_Requirements_for_Robot.md](Job_Requirements_for_Robot.md) |

@@ -95,6 +95,12 @@ AIDER_MODEL=openai/claude-3-5-sonnet
 > 
 > ```
 > 
+> **🔑 为什么不能全部换成 Pro？背后的极客逻辑**：
+> 
+> - **主脑升级（前三行）**：`MODEL`、`OPUS_MODEL`、`SONNET_MODEL` 必须换成 Pro，并强烈建议带上 `[1m]` 后缀。这代表向服务器显式申请 1M（100 万）的超大上下文窗口，在通读整个机器人功能包（如下位机通信、步态控制等多文件架构）时才不会因长度不够而当场失忆。
+> - **小弟留守（后两行 Flash）**：`HAIKU_MODEL` 和 `SUBAGENT_MODEL` **务必坚决保留为 flash**。Claude Code 在后台运行时会自动分裂出很多"边缘小智能体（Sub-Agents）"去干杂活——例如高频统计当前目录下有几个文件、做简单的终端语法标点校验等。如果把这些杂活小弟也强行换成沉重的 Pro，不仅会让智能体运行的整体响应变慢，还会疯狂刷掉大量毫无意义的 Pro 额度。让 Flash 去干脏活，效率才是最高的。
+> - **加满思考马力（最后一行）**：`CLAUDE_CODE_EFFORT_LEVEL` 设为 `max`，会强制开启 DeepSeek 顶配的最大化深度思考（Thinking）模式，在面对高难度的 C++ 指针、ROS 状态机和底层段错误（Segmentation Fault）时，能用完整的逻辑推理链（Reasoning Chain）进行攻坚。
+> 
 > 
 > *注：日常常规聊天如嫌 `pro[1m]` 触发推理流（Thought）扣费稍快，可将上述前三项模型值降级改为 `deepseek-v4-flash`，资费将暴降至白菜价。*
 
@@ -165,3 +171,109 @@ AIDER_MODEL=openai/claude-3-5-sonnet
 1. **主力冲锋（Cursor 灰产无限流）**：开机日常写代码、手脑不停地实现常规业务逻辑时，死死留在 Cursor 界面内。利用其极强的补全心流，疯狂白嫖其底层的灰色灰字预测流。
 2. **重度排雷（Claude Code + DeepSeek 白产正规流）**：一旦遇到恶心的编译报错（如 C++ 库冲突、[ROS 节点通信](../robotics/ros_logic.md) 段错误等），不要自己人肉排雷。一键唤醒终端的 **Claude Code** 并交出接管权，烧着 DeepSeek 白菜价的代币，让 AI 在黑窗口里不计成本地自己试错编译，直到把报错彻底抹平。
 3. **外科手术（Continue + n1n中转站 顶级智商流）**：面对最核心、绝对不能出错的精密控制算法或矩阵推导，禁止让 Agent 全自动瞎改。用 **Continue** 精确框选该核心函数，搬出中转站里最昂贵高智商的 **GPT-5.5** 给出重构方案，双眼死死盯着右侧的**红绿代码 Diff 对比界面**，逐行人工审计通过，点击 Accept 完美收官。
+
+---
+
+## 六、 Continue 插件常见排障实战
+
+Continue 是 VS Code 生态中最灵活的开源 AI 插件，但 YAML 配置的严苛语法和不同模型的兼容性差异，常常让开发者在配置阶段踩坑。以下是从真实排障中提炼的常见问题与解决方案。
+
+### 6.1 Continue config.yaml 格式排障
+
+#### 问题一：右下角出现 `⚠️ Continue (config error)` 红色警告
+
+即使肉眼看缩进对齐了，YAML 解析器仍可能因**隐形的 Tab 字符、尾随空格、或缺少必填字段**而报错，导致前端虽然缓存了模型名，后端模型列表实际为空，任何请求都报 "No chat model selected"。
+
+**排查清单**：
+
+1. **缩进必须是纯空格，严禁 Tab**：`- name:` 前 2 空格，`provider:` / `model:` / `apiKey:` / `apiBase:` / `roles:` 前 4 空格，`- chat` / `- edit` / `- apply` 前 6 空格。
+2. **每个 models 条目必须包含 `model` 字段**：即使是本地的 `transformers.js` 项目索引，也必须写上 `model: "all-minilm-l6-v2"`，否则整个 YAML 校验挂科。
+3. **注释掉的废弃模型建议直接删除**：大段注释行容易造成解析歧义，保持文件清爽。
+
+#### 问题二：切换/刷新后模型选中状态被清空
+
+保存 `config.yaml` 时 Continue 会在后台自动刷新，导致聊天框底部的模型选中状态被重置。解决方法：关掉报错弹窗，从输入框下方的下拉菜单**重新手动勾选模型**即可。
+
+#### 问题三：DeepSeek 官方直连用 `provider: "openai"` 还是 `provider: "deepseek"`？
+
+两种写法都能通，但**推荐使用 Continue 原生自带的 `"deepseek"` 驱动**：
+
+```yaml
+- name: "DeepSeek-Chat(官方直连)"
+  provider: "deepseek"
+  model: "deepseek-chat"
+  apiKey: "你的官方sk-Key"
+  roles:
+    - chat
+    - edit
+    - apply
+```
+
+优势：无需写 `apiBase` 网址，底层驱动自动直连官方服务器，彻底规避因 URL 多斜杠/少斜杠导致的网络怪病。
+
+### 6.2 DeepSeek 在 Continue 中的兼容性注意
+
+#### DeepSeek 官方 API 命名澄清
+
+DeepSeek 官方 API 中**并没有一个叫 "DeepSeek V4 Pro" 的特定模型名称**。官方最核心的通用对话模型代号一直都是 **`deepseek-chat`**。官方采用"名称不变，后端升级"的策略——无论底层模型迭代到哪个版本，API 接口代号统一叫 `deepseek-chat`，官方会自动对接到当前最强的旗舰主力模型。所以在 Continue 的 `config.yaml` 中写 `model: "deepseek-chat"` 才是最稳妥的写法。
+
+#### DeepSeek 不支持 Continue 的自动改写文件（edit/apply）功能
+
+DeepSeek-Chat 在代码分析和逻辑推理方面很强，但 Continue 的自动改写功能要求模型输出极其精准的 Diff 格式（`<<<<<<< SEARCH` 标记）。DeepSeek 在流式输出这种格式时经常漏掉符号或输出成普通 Markdown 代码块，导致 Continue 底层解析器陷入死循环，界面卡死红叉。
+
+**正确使用姿势（手动挡策略）**：
+- **让 DeepSeek 出方案，手动复制粘贴**：在右侧聊天框让它写出具体修改代码，点击代码块右上角复制按钮，手动粘贴进源文件。这是配合 DeepSeek 最快最稳的方式。
+- **需要自动改写文件时切换模型**：如果依赖 `Ctrl + I` 行内修改或自动 Diff 应用，切换回 **Claude 3.5** 或 **GPT-5.5**，它们对 Continue 的自动修改指令对齐更好。
+
+### 6.3 机器人/工控机环境下 Continue 网络不通的排障
+
+同样的 `config.yaml` 和个人电脑上正常工作，换到机器人工控机（如 NUC）上就网络报错，通常是以下三个系统级原因：
+
+#### 1. 系统时间不同步（最常见）
+
+机器人车载电脑常在断网环境调试，系统时间与网络标准时间存在误差。中转站使用 HTTPS/TLS 加密连接，对时间极其敏感——偏差几分钟就会在 TLS 握手阶段判定证书失效，直接掐断连接。
+
+**检测命令**：
+```bash
+date
+```
+对比当前真实时间，若偏差超过 1 分钟，执行 `sudo ntpdate ntp.ubuntu.com` 或 `sudo timedatectl set-ntp true` 同步。
+
+#### 2. 双网卡默认网关路由冲突
+
+工控机通常同时连着外网 Wi-Fi 和机器人躯干局域网（静态 IP 如 `192.168.x.x`）。如果默认网关被设成了机器人内网网卡，发往外网的 API 请求包会直接"物理迷路"到没有互联网能力的局域网里。
+
+**检测命令**：
+```bash
+ip route show default
+# 或用 curl 测试外网可达性
+curl -I https://www.baidu.com
+```
+
+**解决方法**：在网络设置中把外网 Wi-Fi 的路由优先级（Metric）调高，或临时断开机器人内网网卡单独测试。
+
+#### 3. 系统环境变量中残留代理配置
+
+机器人的 Linux 系统可能被写入过全局代理变量（如 `~/.bashrc` 或 `/etc/environment` 中的 `http_proxy` / `https_proxy`）。VS Code 的 Node.js 后端会读取这些变量，若代理节点已失效，流量被拐带到错误端口，连接在握手前直接崩溃。
+
+**检测命令**：
+```bash
+env | grep -i proxy
+```
+若有输出，在 VS Code 设置中搜索 `proxy`，将 `Http: Proxy Support` 设为 `off`，然后 `Developer: Reload Window` 重载窗口。
+
+### 6.4 中转站网络连通性测试的正确命令
+
+直接用 `curl -I`（HEAD 请求）测试中转站往往被服务器的高防盾（如 Cloudflare）盲封——服务器检测到 curl 字样的 User-Agent 后直接丢弃数据包，终端无限期卡死，但这不代表网络不通。
+
+**正确的测试命令**（使用 GET 请求）：
+```bash
+# 测试中转站主页
+curl https://api.n1n.ai/
+
+# 或请求模型列表接口（不带 Key 会返回授权失败的 JSON，但不会卡死）
+curl https://api.n1n.ai/v1/models
+```
+正常情况应瞬间返回 HTML 代码或 `{"error":...}` 的 JSON 字符串。若仍然卡住或报 `Connection timed out`，说明网络在物理上被阻断。
+
+> 💡 **重要认知**：Continue 插件能正常通信不代表终端 `curl` 也能通——Continue 会自动走系统代理（如 Clash/VPN），而终端 `curl` 默认直连本地网络，不过代理。

@@ -1,11 +1,20 @@
-
 ---
+> **📌 文档定位：** 写代码手册 — 机器人 C++ OOP、智能指针、STL
+> **适合：** 要写 C++ 类、行为树节点、Kuavo 项目代码
+> **前置：** [DSA_C++_Basics](DSA_C++_Basics.md) 中的指针、引用、`vector` 基础
+> **后续：** [robotics_C++](robotics_C++.md) 读 ROS 源码 → [Job_Requirements](Job_Requirements_for_Robot.md) 行为树项目
+> **相关：** 指针/`nullptr` 基础详见 [DSA_C++_Basics § 三](DSA_C++_Basics.md#三-指针与自定义结构体通关链表和二叉树的钥匙)
+> **预计时间：** 2–3 天
+> **🏠 返回总索引：** [README.md](README.md)
 
 # 🤖 Modern C++ 机器人开发核心语法全景笔记
 
 ## 📂 模块一：指针与内存管理（Memory Management）
 
 ### 1. 指针基础与防御性判空
+
+> 📎 **刷题场景下的指针基础（主文档）见** [DSA_C++_Basics § 三](DSA_C++_Basics.md#三-指针与自定义结构体通关链表和二叉树的钥匙)
+> 本文侧重**写机器人代码**时的防御性用法。
 
 **核心语法**：
 
@@ -208,7 +217,7 @@ std::cout << "当前大小: " << actuators.size() << "\n"; // size() 获取当�
 
 ```cpp
 // 配合 auto 自动推导类型，顺次取出 vector 中的每一个元素
-for (auto actuator : actuators) {
+for (const auto& actuator : actuators) {  // 用 const auto& 避免拷贝 shared_ptr
  actuator->tick(); // 批量统一执行多态函数
 }
 
@@ -262,3 +271,36 @@ if (current_mode == RobotMode::MAPPING) {
 1. **极易调试 (Debug)**：打断点时，鼠标悬浮在中转变量上即可直观看到函数吐出的状态，无需肉眼猜测。
 2. **防止重复计算**：避免在多个 `if-else` 分支中重复调用含有耗时算法（如视觉识别、路径规划）的同一个函数，实现“只算一次，多处读取”。
 3. **代码赏心悦目**：避免单行代码过长，极大地提升了团队代码的可扫描度（Scannable）。
+
+---
+
+## 📍 文档导航
+
+| 方向 | 文档 |
+| --- | --- |
+| 🏠 总索引 | [README.md](README.md) |
+| Python/C++ 分工 | [Python_C++_bridge.md](Python_C++_bridge.md) |
+| Python 最小语法 | [python/python_for_robotics_basics.md](python/python_for_robotics_basics.md) |
+| 读 Python 源码 | [robotics_Python.md](robotics_Python.md) |
+| 读 C++ 源码 | [robotics_C++.md](robotics_C++.md) |
+| 刷题语法 (C++) | [DSA_C++_Basics.md](DSA_C++_Basics.md) |
+| 写 C++ 代码 | [C++_grammar_supplement.md](C++_grammar_supplement.md) |
+| 刷题方法论 | [data_stuctures_and_algorithms.md](data_stuctures_and_algorithms.md) |
+| 树专题刷题 | [DSA_tree.md](DSA_tree.md) |
+| 定方向 | [Job_Requirements_for_Robot.md](Job_Requirements_for_Robot.md) |
+---
+
+## 📍 文档导航
+
+| 方向 | 文档 |
+| --- | --- |
+| 🏠 总索引 | [README.md](README.md) |
+| Python/C++ 分工 | [Python_C++_bridge.md](Python_C++_bridge.md) |
+| Python 最小语法 | [python/python_for_robotics_basics.md](python/python_for_robotics_basics.md) |
+| 读 Python 源码 | [robotics_Python.md](robotics_Python.md) |
+| 读 C++ 源码 | [robotics_C++.md](robotics_C++.md) |
+| 刷题语法 (C++) | [DSA_C++_Basics.md](DSA_C++_Basics.md) |
+| 写 C++ 代码 | [C++_grammar_supplement.md](C++_grammar_supplement.md) |
+| 刷题方法论 | [data_stuctures_and_algorithms.md](data_stuctures_and_algorithms.md) |
+| 树专题刷题 | [DSA_tree.md](DSA_tree.md) |
+| 定方向 | [Job_Requirements_for_Robot.md](Job_Requirements_for_Robot.md) |

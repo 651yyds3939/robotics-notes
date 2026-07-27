@@ -190,15 +190,12 @@ alias proxy_on='export http_proxy=[http://127.0.0.1:7890](http://127.0.0.1:7890)
 # 关闭代理
 alias proxy_off='unset http_proxy https_proxy all_proxy && echo -e "Terminal Proxy: \033[31mOFF\033[0m"'
 
-
 ```
 
 ### 4.2 生效配置
 
 ```bash
 source ~/.bashrc
-
-
 ```
 
 ---

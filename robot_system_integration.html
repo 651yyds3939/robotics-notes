@@ -22,7 +22,7 @@
 </style></head><body>
 <div class="tip">📊 运行时数据流与控制闭环。修改 <code>robotics/robot_system_integration.md</code> 后运行 <code>./regenerate_integration_html.sh</code></div>
 <article><h1>机器人系统集成：数据流与控制流如何闭环</h1>
-<blockquote><p><strong>核心定位</strong>：单看「感知 / 决策 / 控制 / 执行」任一层都不够——系统集成关心的是<strong>谁把什么数据、在什么频率、通过什么中间层交给谁</strong>，以及断一环时系统如何降级。</p><p>👉 全链路索引：<a href="../robot_system.md">机器人全链路思维导图</a> · 研发全流程：<a href="../robot_development_lifecycle.md">robot_development_lifecycle.md</a> · 软件管线：<a href="./robot_software_pipelines.md">robot_software_pipelines.md</a> · 通信机制：<a href="./ros_communication.md">ROS 通信原理</a></p></blockquote>
+<blockquote><p><strong>核心定位</strong>：单看「感知与估计 / 应用、任务与规划 / 控制 / 执行」任一运行时环节都不够——系统集成关心的是<strong>谁把什么数据、在什么频率、通过什么中间层交给谁</strong>，以及断一环时系统如何降级。</p><p>👉 全链路索引：<a href="../robot_system.md">机器人全链路思维导图</a> · 研发全流程：<a href="../robot_development_lifecycle.md">robot_development_lifecycle.md</a> · 软件管线：<a href="./robot_software_pipelines.md">robot_software_pipelines.md</a> · 通信机制：<a href="./ros_communication.md">ROS 通信原理</a></p></blockquote>
 <hr/>
 <h2 id="一-阅读地图-两层闭环-五种集成模式-七个经典形态">一、阅读地图：两层闭环 × 五种集成模式 × 七个经典形态</h2>
 <h3>1.1 两条闭环（所有案例共用）</h3>
@@ -517,16 +517,18 @@
 <p>5. <strong>算法源码</strong> — 确认数据流无误后再读实现。</p>
 <p>文件类型说明：<a href="./doc_concept.md">ROS 工作空间速查</a>。机型实战案例：<a href="https://github.com/651yyds3939/kuavo-dev-notes">kuavo-dev-notes 仓库</a>（GitHub 跨库链接）。</p>
 <hr/>
-<h2 id="十-与思维导图九层的关系">十、与思维导图九层的关系</h2>
+<h2 id="十-与思维导图九大领域的关系">十、与思维导图九大领域的关系</h2>
 <table>
-<tr><th>思维导图层级</th><th>在集成中的角色</th><th>主要模式</th></tr>
-<tr><td>感知层</td><td>数据闭环输入</td><td>Ⅰ–Ⅴ</td></tr>
-<tr><td>决策层</td><td>任务与路径；不直接驱动电机</td><td>Ⅰ、Ⅱ、Ⅳ、Ⅴ</td></tr>
-<tr><td>控制层</td><td>多速率核心</td><td>Ⅰ、Ⅱ、Ⅲ</td></tr>
-<tr><td>执行层</td><td>驱动与机械</td><td>全部</td></tr>
-<tr><td>通信层</td><td>机间链路与断连</td><td>Ⅱ、Ⅳ、Ⅴ</td></tr>
-<tr><td>安全层</td><td>急停、互锁、限位</td><td>横切</td></tr>
-<tr><td>工程化</td><td>容器、版本、Sim2Real</td><td>横切</td></tr>
+<tr><th>思维导图领域</th><th>在集成中的角色</th><th>主要模式</th></tr>
+<tr><td>感知与估计</td><td>数据闭环输入，并形成机器人状态与环境表征</td><td>Ⅰ–Ⅴ</td></tr>
+<tr><td>应用、任务决策与规划</td><td>定义任务、编排技能并生成路径/轨迹；不直接驱动电机</td><td>Ⅰ、Ⅱ、Ⅳ、Ⅴ</td></tr>
+<tr><td>控制</td><td>多速率闭环核心</td><td>Ⅰ、Ⅱ、Ⅲ</td></tr>
+<tr><td>执行</td><td>驱动与物理做功</td><td>全部</td></tr>
+<tr><td>机械结构与整机工程</td><td>物理本体、布局、热和制造基础</td><td>全部</td></tr>
+<tr><td>电源与配电</td><td>能量、保护、线束和电源完整性</td><td>全部</td></tr>
+<tr><td>通信</td><td>机间链路、数据交换与断连处理</td><td>Ⅱ、Ⅳ、Ⅴ及横切</td></tr>
+<tr><td>安全工程</td><td>危险控制、互锁、安全状态与降级验证</td><td>横切</td></tr>
+<tr><td>系统软件与工程化</td><td>计算/中间件、容器、版本、仿真、Sim2Real 与系统工程</td><td>横切</td></tr>
 </table>
 <p>本篇是「<strong>竖切数据流</strong>」：总骨架（§二）→ 五种模式（§三）→ 七个经典形态（§四）→ 合成与横切（§五–§六）。<a href="../robot_system.md">思维导图</a> 是「<strong>横切全栈地图</strong>」。建议路径：<strong>总骨架 → 找对应经典形态 → 下钻模式详图 → 查横切与故障表</strong>。</p></article>
 <script>

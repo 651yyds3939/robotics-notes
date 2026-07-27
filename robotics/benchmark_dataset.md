@@ -2,7 +2,7 @@
 
 > **核心定位**：仿真器决定「能造什么世界」；**Benchmark** 决定「用什么任务、什么协议比好坏」；**Dataset** 决定「模型学到什么行为分布」。研究复现常需跑通 **一个仿真器 + 一个 Benchmark + 一个 Dataset** 最小闭环。
 >
-> 👉 思维导图位置：[9.2.1 评测基准与公开数据集](../robot_system.md) · [1.6 数据采集](../robot_system.md)
+> 👉 思维导图位置：[9.2.1 评测基准与公开数据集](../robot_system.md#921-评测基准与公开数据集--benchmark-与-dataset-专题) · [2.2.1 数据采集与遥操作](../robot_system.md#221-数据采集与遥操作-data-collection--benchmark-与-dataset-专题--aivla-数据工程) · [2.2.2 AI/VLA 数据闭环](../robot_system.md#222-aivla-数据闭环--aivla-与数据工程专题)
 >
 > 外部索引：[Embodied-AI-Guide · infrastructure.md](https://github.com/TianxingChen/Embodied-AI-Guide/blob/main/topics/infrastructure.md) · [Simulators Wiki](https://simulately.wiki/)
 
@@ -84,7 +84,7 @@ Dataset             →  训练用轨迹（obs, action, language…）
 | **DexMimicGen** | 双臂桌面；real2sim2real | [GitHub](https://github.com/NVlabs/dexmimicgen/) |
 | **RoboTwin 2.0** | 程序化合成双臂数据 | [GitHub](https://github.com/robotwin-Platform/robotwin) |
 
-### 4.3 采集范式（与 1.6 遥操作对应）
+### 4.3 采集范式（与思维导图 2.2.1 遥操作对应）
 
 | 范式 | 代表 | 特点 |
 |------|------|------|
@@ -112,6 +112,7 @@ Dataset             →  训练用轨迹（obs, action, language…）
 - [VLA 研究版图](./vla_landscape.md)
 - [机器人建模 / MuJoCo · URDF](./robot_modeling.md)
 - [环境部署](./environment.md)
+- [AI、VLA 与数据工程](./ai_vla_data_engineering.md)
 
 ---
 

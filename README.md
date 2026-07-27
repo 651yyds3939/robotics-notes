@@ -92,7 +92,7 @@ cd robotics-notes
 ### 推荐阅读顺序
 
 0. **知识体系导航** [`robot_knowledge_map.md`](./robot_knowledge_map.md) — 四种视角（结构/流程/运行时/软件管线）+ 二次开发阅读路径
-1. **先看思维导图** [`robot_system.md`](./robot_system.md) — 建立「感知 → 决策 → 控制 → 执行 → 通信 → 工程化」全链路**结构**地图；节点上的链接可跳到本仓库专题笔记，或 [`kuavo-dev-notes`](https://github.com/651yyds3939/kuavo-dev-notes) 里的对应实战文档。
+1. **先看思维导图** [`robot_system.md`](./robot_system.md) — 建立「运行时主链 + 物理本体 + 横切能力 + 研发支撑」全链路**领域结构**地图；节点上的链接可跳到本仓库专题笔记，或 [`kuavo-dev-notes`](https://github.com/651yyds3939/kuavo-dev-notes) 里的对应实战文档。
 2. **再看研发全流程** [`robot_development_lifecycle.md`](./robot_development_lifecycle.md) — 建立「需求 → 设计 → 制造 → 集成 → 验证 → 量产」**时间/流程**地图（含 SolidWorks、电气、Bring-up、Sim2Real 等 Mermaid 流程图）；与思维导图互补，不重复展开算法细节。
 3. **按链路查专题** — 在 [`robotics/`](./robotics/) 里找 ROS、SLAM、RL、动力学、Docker 等深度笔记。
 4. **环境/工具踩坑** — 在 [`ubuntu/`](./ubuntu/) 里查 Conda、Cursor、代理、磁盘清理等。
@@ -139,19 +139,20 @@ https://github.com/651yyds3939/robotics-notes/blob/master/robotics/<文件名>.m
 
 ## 思维导图：robot_system.md
 
-[`robot_system.md`](./robot_system.md) 是**机器人全链路系统**的主索引，按九大层组织：
+[`robot_system.md`](./robot_system.md) 是**机器人全链路系统**的主索引：先用第 0 章说明机器人形态与系统边界，再按九大领域组织系统知识；九大领域不是严格串行的九层协议栈，而是运行时主链、物理本体、横切能力和研发支撑四类互补内容：
 
-| 层级 | 内容概要 |
+| 领域 | 内容概要 |
 |------|----------|
-| 一、感知层 | 传感器、视觉/语音、状态估计、标定 |
-| 二、决策层 | ROS 中间件、SLAM/导航、机械臂规划、VLA/大模型 |
+| 零、机器人形态与系统边界 | 轮式、足式、机械臂、移动操作、飞行/水下形态及其物理约束 |
+| 一、感知层 | 传感器、视觉/语音、状态估计、世界表征与标定 |
+| 二、应用、任务决策与规划 | 应用/HRI、数据采集、任务编排、导航、机械臂规划、VLA/大模型 |
 | 三、控制层 | PID、WBC/MPC、阻抗控制、RL / 世界模型 |
-| 四、执行层 | FOC 电机、关节/末端执行器 |
-| 五、机械结构层 | URDF/MJCF、底盘形态 |
-| 六、安全 | 急停、限位、真机 SOP |
-| 七、通信 | ROS 话题/服务、上下位机、TF |
-| 八、电源 | 电池与配电（提纲） |
-| 九、工程化 | 仿真、Sim2Real、Docker、Git、AI 辅助开发 |
+| 四、执行层 | FOC、电机/传动、关节模组、末端执行器与标定维护 |
+| 五、机械结构与整机工程 | 形态/结构、整机预算、热/EMC、样机集成与制造质量 |
+| 六、安全工程 | 危险分析、安全需求、分层防护、故障响应、验证与真机 SOP |
+| 七、通信 | 上下位机、现场网络、ROS 通信与 QoS |
+| 八、电源与配电 | 电池/BMS、PDU/DC-DC、线束、保护和电源完整性 |
+| 九、系统软件与工程化 | OS/ROS、仿真与 Sim2Real、AI 开发与调试、Docker/Git、C++ 工程、CI/CD 与系统工程 |
 
 导图内已加入大量**可点击跳转链接**（本仓库专题 + kuavo-dev-notes 实战案例）。除 Markmap 外，也可在编辑器中打开该文件，用大纲视图（`Ctrl+Shift+O`）浏览树状结构。
 
@@ -246,6 +247,10 @@ robotics-notes/
 │   ├── slam.md, path_planning.md  # 导航与规划
 │   ├── dynamics_control.md, pid_control.md, impedance_control.md
 │   ├── RL.md, world_model.md      # 强化学习与世界模型
+│   ├── hardware_system_engineering.md  # 硬件与整机工程
+│   ├── safety_engineering.md        # 安全工程生命周期
+│   ├── ai_vla_data_engineering.md   # AI/VLA 数据与模型闭环
+│   ├── systems_engineering.md       # 系统工程与 V&V
 │   ├── motor_foc.md, robot_modeling.md, ...
 │   ├── code/                      # C++ / DSA 编程基础
 │   └── ros_code_template/         # ROS1 / ROS2 最小工作空间模板
@@ -264,11 +269,11 @@ robotics-notes/
 | 总览与架构 | [`robot_knowledge_map.md`](./robot_knowledge_map.md) · [`robotics_architecture_master_guide.md`](./robotics/robotics_architecture_master_guide.md) · [`robot_system_integration.md`](./robotics/robot_system_integration.md) · [`robot_software_pipelines.md`](./robotics/robot_software_pipelines.md) · [`robot_types.md`](./robotics/robot_types.md) |
 | ROS | [`ros_communication.md`](./robotics/ros_communication.md) · [`ros_logic.md`](./robotics/ros_logic.md) · [`ros2_process.md`](./robotics/ros2_process.md) · [`tf_tree.md`](./robotics/tf_tree.md) |
 | 感知与定位 | [`camera_calibration.md`](./robotics/camera_calibration.md) · [`state_estimation.md`](./robotics/state_estimation.md) · [`sensor_fusion.md`](./robotics/sensor_fusion.md) · [`slam.md`](./robotics/slam.md) |
-| AI 与具身智能 | [`AI_learning_robotics.md`](./robotics/AI_learning_robotics.md) · [`vla_landscape.md`](./robotics/vla_landscape.md) · [`llm_for_robotics.md`](./robotics/llm_for_robotics.md) · [`vision_foundation_models.md`](./robotics/vision_foundation_models.md) · [`speech_pipeline.md`](./robotics/speech_pipeline.md) · [`benchmark_dataset.md`](./robotics/benchmark_dataset.md) |
+| AI 与具身智能 | [`AI_learning_robotics.md`](./robotics/AI_learning_robotics.md) · [`vla_landscape.md`](./robotics/vla_landscape.md) · [`ai_vla_data_engineering.md`](./robotics/ai_vla_data_engineering.md) · [`llm_for_robotics.md`](./robotics/llm_for_robotics.md) · [`vision_foundation_models.md`](./robotics/vision_foundation_models.md) · [`speech_pipeline.md`](./robotics/speech_pipeline.md) · [`benchmark_dataset.md`](./robotics/benchmark_dataset.md) |
 | 规划与控制 | [`path_planning.md`](./robotics/path_planning.md) · [`moveit_manipulation.md`](./robotics/moveit_manipulation.md) · [`pid_control.md`](./robotics/pid_control.md) · [`dynamics_control.md`](./robotics/dynamics_control.md) · [`impedance_control.md`](./robotics/impedance_control.md) · [`optimization_theory.md`](./robotics/optimization_theory.md) |
 | 学习与部署 | [`RL.md`](./robotics/RL.md) · [`world_model.md`](./robotics/world_model.md) · [`edge_deployment.md`](./robotics/edge_deployment.md) |
-| 建模与执行 | [`robot_modeling.md`](./robotics/robot_modeling.md) · [`motor_foc.md`](./robotics/motor_foc.md) · [`fieldbus_and_ethercat.md`](./robotics/fieldbus_and_ethercat.md) · [`safety_sop.md`](./robotics/safety_sop.md) |
-| 工程化 | [`environment.md`](./robotics/environment.md) · [`docker.md`](./robotics/docker.md) · [`git_github.md`](./robotics/git_github.md) · [`git_pull.md`](./robotics/git_pull.md) · [`linux_C++_project.md`](./robotics/linux_C++_project.md) · [`terminal_command.md`](./robotics/terminal_command.md) · [`tools.md`](./robotics/tools.md) |
+| 建模、硬件与安全 | [`robot_modeling.md`](./robotics/robot_modeling.md) · [`motor_foc.md`](./robotics/motor_foc.md) · [`fieldbus_and_ethercat.md`](./robotics/fieldbus_and_ethercat.md) · [`hardware_system_engineering.md`](./robotics/hardware_system_engineering.md) · [`safety_engineering.md`](./robotics/safety_engineering.md) · [`safety_sop.md`](./robotics/safety_sop.md) |
+| 工程化 | [`systems_engineering.md`](./robotics/systems_engineering.md) · [`environment.md`](./robotics/environment.md) · [`docker.md`](./robotics/docker.md) · [`git_github.md`](./robotics/git_github.md) · [`git_pull.md`](./robotics/git_pull.md) · [`linux_C++_project.md`](./robotics/linux_C++_project.md) · [`terminal_command.md`](./robotics/terminal_command.md) · [`tools.md`](./robotics/tools.md) |
 | 阅读与文档 | [`code_read_skill.md`](./robotics/code_read_skill.md) · [`doc_concept.md`](./robotics/doc_concept.md)（工作空间文件速查） · [`doc_function.md`](./robotics/doc_function.md)（动手学 ROS2 索引，建设中） |
 
 编程基础与模板：[`robotics/code/`](./robotics/code/) · [`robotics/ros_code_template/`](./robotics/ros_code_template/)

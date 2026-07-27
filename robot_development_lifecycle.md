@@ -248,7 +248,7 @@ flowchart TB
 
 | 环节 | 关键决策 | 常见踩坑 | 相关笔记 |
 |------|---------|---------|---------|
-| 传动选型 | 扭矩密度 vs 背隙 vs 成本 | 谐波寿命与过载 | [执行层 · 传动](./robot_system.md#四执行层执行器--肌肉与神经末梢---actuators) |
+| 传动选型 | 扭矩密度 vs 背隙 vs 成本 | 谐波寿命与过载 | [硬件与整机工程 · 执行器](./robotics/hardware_system_engineering.md#三执行器与关节模组) |
 | 装配配合 | 关节轴线共面、零点可标定 | 装配公差→URDF 偏差 | [关节标定实战](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/26.joint_calibration.md) |
 | URDF 导出 | link 质量/惯量/关节 limit | 关节顺序不一致→RL 崩溃 | [机器人建模](./robotics/robot_modeling.md) |
 
@@ -282,8 +282,8 @@ flowchart TB
 
 | 环节 | 关键决策 | 常见踩坑 | 相关笔记 |
 |------|---------|---------|---------|
-| 总线选型 | EtherCAT vs CAN | 从站掉线→锁死 | [EtherCAT](./robot_system.md#七通信系统-communication) |
-| 电源架构 | 逻辑/动力电分离 | 急停后无日志 | [电源](./robot_system.md#八电源系统-power-system) |
+| 总线选型 | EtherCAT vs CAN | 从站掉线后无明确降级 | [现场总线与 EtherCAT](./robotics/fieldbus_and_ethercat.md) |
+| 电源架构 | 动力/逻辑/安全域划分 | 压降、预充或急停时序错误 | [硬件与整机工程 · 电源](./robotics/hardware_system_engineering.md#五电气电源与线束) |
 | FOC 调试 | 电流→速度→位置环 | 啸叫/暴走 | [FOC](./robotics/motor_foc.md) |
 
 ------
@@ -316,7 +316,7 @@ flowchart TB
 | 序号 | 检查项 | 通过标准 | 实战参考 |
 |------|--------|---------|---------|
 | 1 | 装配 | 力矩记录、线束无干涉 | Phase 4A SOP |
-| 2 | 急停 | 48V 切断、逻辑电保留 | [安全 SOP](./robot_system.md#六系统安全与防护机制-safety--security) |
+| 2 | 急停与安全状态 | 按风险评估验证断能/制动、响应时间与复位条件 | [安全工程](./robotics/safety_engineering.md) · [真机 SOP](./robotics/safety_sop.md) |
 | 3 | 关节零位 | 与 URDF 一致 | [关节标定](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/26.joint_calibration.md) |
 | 4 | IMU | 躯干垂直 | [RL 真机](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/15.4RL_lab_sim_to_real.md) |
 | 5 | 网络 | 千兆直连、MASTER_URI | [网络配置](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/16.Internet.md) |
@@ -337,7 +337,7 @@ flowchart TB
 | 系统架构 | 接口联调、通信压测 | ROS topic 带宽、延迟 |
 | 机械 CAD | FEA 仿真、样件试装 | SolidWorks Simulation |
 | URDF | Sim2Sim、Sim2Real | [MuJoCo/Isaac](./robotics/RL.md) |
-| 控制算法 | 台架 HIL、空载→负载 | RT-Preempt + 龙门架 |
+| 控制算法 | 台架 HIL、空载→负载 | PREEMPT_RT（按平台需要）+ 龙门架 |
 | 感知算法 | 数据集 mAP、真机抓取成功率 | [Benchmark 专题](./robotics/benchmark_dataset.md) |
 | 整机 | 耐久、EMC、安全认证 | 第三方检测机构 |
 
@@ -399,28 +399,28 @@ flowchart TB
 | 4 | **电机/减速器手册** | 采购 → 控制 | 额定/峰值力矩、减速比、编码器分辨率 |
 | 5 | **ROS 接口文档** | 系统 → 全员 | Topic/Service 名、消息类型、频率、QoS |
 | 6 | **标定数据包** | 集成 → 算法 | 零位偏移、相机内参/外参、IMU 零偏 |
-| 7 | **安全 SOP** | 系统 → 全员 | 急停、龙门架、双人操作、禁区 |
+| 7 | **安全工程包与 SOP** | 系统/安全 → 全员 | 危险日志、安全需求、状态机、验证证据、急停/真机操作与残余风险 |
 | 8 | **版本清单** | 系统 → 运维 | 固件版本、URDF hash、ONNX 模型版本、Docker tag |
 
 ---
 
-## 第 10 章：与思维导图九大层的映射
+## 第 10 章：与思维导图九大领域的映射
 
 | 研发阶段 | 主要涉及思维导图章节 |
 |---------|-------------------|
-| Phase 0–1 | 五（机械）、四（执行器）、八（电源）、六（安全） |
+| Phase 0–1 | 五（机械与整机）、四（执行器）、八（电源与配电）、六（安全工程） |
 | Phase 2 | 五、四、七（通信）、一（感知传感器选型） |
 | Phase 3 | 四、八 |
 | Phase 4 | 四（FOC/校准）、七、一（标定） |
-| Phase 5 | 一～三（感知/决策/控制）、九（仿真/DevOps） |
+| Phase 5 | 一～三（感知与估计 / 应用、任务与规划 / 控制）、九（系统软件与工程化） |
 | Phase 6 | 六、九 |
-| Phase 7 二次开发 | 一～三、九（应用/算法/工程化） |
+| Phase 7 二次开发 | 一～三、九（应用/算法/系统软件与工程化） |
 
 👉 结构视角完整索引：[robot_system.md](./robot_system.md)
 👉 运行时数据流/控制流：[robot_system_integration.md](./robotics/robot_system_integration.md)
 
 ---
 
-> **备注**：本流程图与 [`robot_system.md`](./robot_system.md) 思维导图互补，不重复展开各层算法细节。整机制造经验随项目迭代持续补充；软件/算法/集成部分已有大量 kuavo 实战支撑。
+> **备注**：本流程图与 [`robot_system.md`](./robot_system.md) 思维导图互补，不重复展开各领域算法细节。整机制造经验随项目迭代持续补充；软件/算法/集成部分已有大量 kuavo 实战支撑。
 >
 > 通用知识库：[robotics-notes](https://github.com/651yyds3939/robotics-notes) · 项目实战：[kuavo-dev-notes](https://github.com/651yyds3939/kuavo-dev-notes)

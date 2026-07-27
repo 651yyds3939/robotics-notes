@@ -1,8 +1,20 @@
-视频：https://space.bilibili.com/401399175/lists/3102780?type=season
-
-刷题：https://leetcode.cn/studyplan/top-100-liked/
+# 🌲 二叉树专题刷题执行清单
 
 ---
+> **📌 文档定位：** 树专题清单 — 视频 + 15 道 LeetCode 分阶段执行计划
+> **适合：** 已掌握 [DSA_C++_Basics](DSA_C++_Basics.md)，准备刷树相关 Hot 100
+> **前置：** [四步破局法](data_stuctures_and_algorithms.md)（建议先读方法论）
+> **后续：** [Job_Requirements](Job_Requirements_for_Robot.md) 阶段二（行为树思维衔接）
+> **预计时间：** 1–2 周
+> **🏠 返回总索引：** [README.md](README.md)
+
+**外部资源：**
+- 视频：[Bilibili 数据结构课程](https://space.bilibili.com/401399175/lists/3102780?type=season)
+- 刷题：[LeetCode Hot 100](https://leetcode.cn/studyplan/top-100-liked/)
+
+---
+
+> 💡 **刷题方法：** 每道题建议用 [四步破局法](data_stuctures_and_algorithms.md) 拆解，不要直接背答案。
 
 ### 第一阶段：基础建树与初识递归（3道简单题）
 
@@ -71,7 +83,7 @@
 * **543. 二叉树的直径（简单）** $\rightarrow$ *虽然是简单题，但很精妙。在算深度的同时，顺便把左深度+右深度拼成直径。*
 * **114. 二叉树展开为链表（中等）** $\rightarrow$ *考查指针的重定向，需要一点空间想象力。*
 * **236. 二叉树的最近公共祖先（中等）** $\rightarrow$ *经典的后序遍历。自底向上回溯，找两个节点的交汇点。*
-* **路径总和 III（中等）** $\rightarrow$ *树上的双重递归，或者是树上结合前缀和，难度较高。*
+* **437. 路径总和 III（中等）** $\rightarrow$ *树上的双重递归，或者是树上结合前缀和，难度较高。*
 * **124. 二叉树中的最大路径和（困难）** $\rightarrow$ *Hot 100 二叉树大 Boss。不要怕，它的本质和“二叉树直径”一模一样，只不过把计数变成了算节点分数的最大值。*
 
 
@@ -86,3 +98,36 @@ Hot 100 中约 **80% 使用递归**。实现时**不必逐层模拟完整调用�
 2. **单层逻辑（当前节点和左右儿子什么关系）：** 做好当前节点的事，剩下的放心抛给 `dfs(root->left)` 和 `dfs(root->right)`。
 
 建议先完成第一阶段视频，再练习 LeetCode [94. 二叉树的中序遍历](https://leetcode.cn/problems/binary-tree-inorder-traversal/)。
+
+---
+
+## 📍 文档导航
+
+| 方向 | 文档 |
+| --- | --- |
+| 🏠 总索引 | [README.md](README.md) |
+| Python/C++ 分工 | [Python_C++_bridge.md](Python_C++_bridge.md) |
+| Python 最小语法 | [python/python_for_robotics_basics.md](python/python_for_robotics_basics.md) |
+| 读 Python 源码 | [robotics_Python.md](robotics_Python.md) |
+| 读 C++ 源码 | [robotics_C++.md](robotics_C++.md) |
+| 刷题语法 (C++) | [DSA_C++_Basics.md](DSA_C++_Basics.md) |
+| 写 C++ 代码 | [C++_grammar_supplement.md](C++_grammar_supplement.md) |
+| 刷题方法论 | [data_stuctures_and_algorithms.md](data_stuctures_and_algorithms.md) |
+| 树专题刷题 | [DSA_tree.md](DSA_tree.md) |
+| 定方向 | [Job_Requirements_for_Robot.md](Job_Requirements_for_Robot.md) |
+---
+
+## 📍 文档导航
+
+| 方向 | 文档 |
+| --- | --- |
+| 🏠 总索引 | [README.md](README.md) |
+| Python/C++ 分工 | [Python_C++_bridge.md](Python_C++_bridge.md) |
+| Python 最小语法 | [python/python_for_robotics_basics.md](python/python_for_robotics_basics.md) |
+| 读 Python 源码 | [robotics_Python.md](robotics_Python.md) |
+| 读 C++ 源码 | [robotics_C++.md](robotics_C++.md) |
+| 刷题语法 (C++) | [DSA_C++_Basics.md](DSA_C++_Basics.md) |
+| 写 C++ 代码 | [C++_grammar_supplement.md](C++_grammar_supplement.md) |
+| 刷题方法论 | [data_stuctures_and_algorithms.md](data_stuctures_and_algorithms.md) |
+| 树专题刷题 | [DSA_tree.md](DSA_tree.md) |
+| 定方向 | [Job_Requirements_for_Robot.md](Job_Requirements_for_Robot.md) |

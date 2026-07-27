@@ -1,3 +1,14 @@
+---
+> **📌 文档定位：** 刷题刀 — LeetCode Hot 100 最小必要 C++ 语法
+> **适合：** 准备刷 Hot 100、C++ 零基础或从 Python 转来
+> **前置：** 无
+> **后续：** [四步破局法](data_stuctures_and_algorithms.md) → [树专题刷题](DSA_tree.md)
+> **相关：** 读 Python 应用层见 [robotics_Python](robotics_Python.md)；写 C++ 见 [C++_grammar_supplement](C++_grammar_supplement.md)；读 C++ 底层见 [robotics_C++](robotics_C++.md)
+> **预计时间：** 1–2 天
+> **🏠 返回总索引：** [README.md](README.md)
+
+> ⚠️ **路径说明：** 本文是「刷题专用最小语法」。若目标是读 Kuavo/ROS 源码或写行为树，请并行阅读 [C++_grammar_supplement](C++_grammar_supplement.md) 中的 OOP 和智能指针章节。两条路径会在 [robotics_C++](robotics_C++.md) 汇合。
+
 面向 LeetCode Hot 100 与机器人 C++ 开发的**最小必要语法清单**（跳过用不到的高阶特性）。
 
 掌握以下五个板块后，即可开始刷 LeetCode。
@@ -106,9 +117,14 @@ C++ STL 在 Hot 100 中高频出现。以下 5 类容器的常用 API 建议熟�
 3. **高级模板：** 模板元编程、`template<typename T>` 的复杂设计。
 4. **系统编程：** 多线程（`std::thread`）、互斥锁（`std::mutex`）、文件输入输出流（`fstream`）。
 
+> 📎 **何时学这些？** 刷完 Hot 100 前 20 题后，若目标是读 ROS/Kuavo 源码或写行为树，按 [README 路径 B/C](README.md#-三条推荐学习路径) 转读 [C++_grammar_supplement](C++_grammar_supplement.md) 和 [robotics_C++](robotics_C++.md)。
+
 ## 🏁 建议起步
 
-可对照上文清单自检。若已熟悉 `vector`、`if-else`、指针 `->` 等，可继续学习二叉树遍历并练习 LeetCode 第 94 题。
+可对照上文清单自检。若已熟悉 `vector`、`if-else`、指针 `->` 等：
+
+1. 先读 [四步破局法](data_stuctures_and_algorithms.md)（20 min）
+2. 再按 [DSA_tree 执行清单](DSA_tree.md) 从 LeetCode 94 开始刷题
 
 
 
@@ -156,10 +172,35 @@ C++ STL 在 Hot 100 中高频出现。以下 5 类容器的常用 API 建议熟�
 
 在砍树的过程中，若遇到 `vector` 的 `push_back` 报错等语法问题，这个 `vector` 的 `push_back` 我怎么写着写着报错了？”，这时候再回来专门磨这一下语法。可回头补对应语法点。
 
+---
 
+## 📍 文档导航
 
+| 方向 | 文档 |
+| --- | --- |
+| 🏠 总索引 | [README.md](README.md) |
+| Python/C++ 分工 | [Python_C++_bridge.md](Python_C++_bridge.md) |
+| Python 最小语法 | [python/python_for_robotics_basics.md](python/python_for_robotics_basics.md) |
+| 读 Python 源码 | [robotics_Python.md](robotics_Python.md) |
+| 读 C++ 源码 | [robotics_C++.md](robotics_C++.md) |
+| 刷题语法 (C++) | [DSA_C++_Basics.md](DSA_C++_Basics.md) |
+| 写 C++ 代码 | [C++_grammar_supplement.md](C++_grammar_supplement.md) |
+| 刷题方法论 | [data_stuctures_and_algorithms.md](data_stuctures_and_algorithms.md) |
+| 树专题刷题 | [DSA_tree.md](DSA_tree.md) |
+| 定方向 | [Job_Requirements_for_Robot.md](Job_Requirements_for_Robot.md) |
+---
 
+## 📍 文档导航
 
-
-
-
+| 方向 | 文档 |
+| --- | --- |
+| 🏠 总索引 | [README.md](README.md) |
+| Python/C++ 分工 | [Python_C++_bridge.md](Python_C++_bridge.md) |
+| Python 最小语法 | [python/python_for_robotics_basics.md](python/python_for_robotics_basics.md) |
+| 读 Python 源码 | [robotics_Python.md](robotics_Python.md) |
+| 读 C++ 源码 | [robotics_C++.md](robotics_C++.md) |
+| 刷题语法 (C++) | [DSA_C++_Basics.md](DSA_C++_Basics.md) |
+| 写 C++ 代码 | [C++_grammar_supplement.md](C++_grammar_supplement.md) |
+| 刷题方法论 | [data_stuctures_and_algorithms.md](data_stuctures_and_algorithms.md) |
+| 树专题刷题 | [DSA_tree.md](DSA_tree.md) |
+| 定方向 | [Job_Requirements_for_Robot.md](Job_Requirements_for_Robot.md) |

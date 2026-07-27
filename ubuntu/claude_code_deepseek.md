@@ -54,8 +54,6 @@
 > ]
 > 
 > ```
-> 
-> 
 
 选好模板后，选择以下**途径 1** 或**途径 2** 填入编辑器：
 
@@ -79,7 +77,6 @@
         ...
     ]
 }
-
 ```
 
 
@@ -115,7 +112,6 @@
         "CLAUDE_CODE_EFFORT_LEVEL": "max"
     }
 }
-
 ```
 
 
@@ -130,7 +126,6 @@ export ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic
 export ANTHROPIC_AUTH_TOKEN=你的_DEEPSEEK_API_KEY
 export ANTHROPIC_MODEL=deepseek-v4-flash
 claude
-
 ```
 
 
@@ -143,7 +138,6 @@ claude
 
 ```bash
 /status
-
 ```
 
 > **🎯 预期正常返回结果：**

@@ -237,7 +237,7 @@ flowchart TB
 <h3>2.3 机械阶段要点与链接</h3>
 <table>
 <tr><th>环节</th><th>关键决策</th><th>常见踩坑</th><th>相关笔记</th></tr>
-<tr><td>传动选型</td><td>扭矩密度 vs 背隙 vs 成本</td><td>谐波寿命与过载</td><td><a href="./robot_system.md#四执行层执行器--肌肉与神经末梢---actuators">执行层 · 传动</a></td></tr>
+<tr><td>传动选型</td><td>扭矩密度 vs 背隙 vs 成本</td><td>谐波寿命与过载</td><td><a href="./robotics/hardware_system_engineering.md#三执行器与关节模组">硬件与整机工程 · 执行器</a></td></tr>
 <tr><td>装配配合</td><td>关节轴线共面、零点可标定</td><td>装配公差→URDF 偏差</td><td><a href="https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/26.joint_calibration.md">关节标定实战</a></td></tr>
 <tr><td>URDF 导出</td><td>link 质量/惯量/关节 limit</td><td>关节顺序不一致→RL 崩溃</td><td><a href="./robotics/robot_modeling.md">机器人建模</a></td></tr>
 </table>
@@ -262,8 +262,8 @@ flowchart TB
 <h3>3.3 电气阶段要点与链接</h3>
 <table>
 <tr><th>环节</th><th>关键决策</th><th>常见踩坑</th><th>相关笔记</th></tr>
-<tr><td>总线选型</td><td>EtherCAT vs CAN</td><td>从站掉线→锁死</td><td><a href="./robot_system.md#七通信系统-communication">EtherCAT</a></td></tr>
-<tr><td>电源架构</td><td>逻辑/动力电分离</td><td>急停后无日志</td><td><a href="./robot_system.md#八电源系统-power-system">电源</a></td></tr>
+<tr><td>总线选型</td><td>EtherCAT vs CAN</td><td>从站掉线后无明确降级</td><td><a href="./robotics/fieldbus_and_ethercat.md">现场总线与 EtherCAT</a></td></tr>
+<tr><td>电源架构</td><td>动力/逻辑/安全域划分</td><td>压降、预充或急停时序错误</td><td><a href="./robotics/hardware_system_engineering.md#五电气电源与线束">硬件与整机工程 · 电源</a></td></tr>
 <tr><td>FOC 调试</td><td>电流→速度→位置环</td><td>啸叫/暴走</td><td><a href="./robotics/motor_foc.md">FOC</a></td></tr>
 </table>
 <p>------</p>
@@ -285,7 +285,7 @@ flowchart TB
 <table>
 <tr><th>序号</th><th>检查项</th><th>通过标准</th><th>实战参考</th></tr>
 <tr><td>1</td><td>装配</td><td>力矩记录、线束无干涉</td><td>Phase 4A SOP</td></tr>
-<tr><td>2</td><td>急停</td><td>48V 切断、逻辑电保留</td><td><a href="./robot_system.md#六系统安全与防护机制-safety--security">安全 SOP</a></td></tr>
+<tr><td>2</td><td>急停与安全状态</td><td>按风险评估验证断能/制动、响应时间与复位条件</td><td><a href="./robotics/safety_engineering.md">安全工程</a> · <a href="./robotics/safety_sop.md">真机 SOP</a></td></tr>
 <tr><td>3</td><td>关节零位</td><td>与 URDF 一致</td><td><a href="https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/26.joint_calibration.md">关节标定</a></td></tr>
 <tr><td>4</td><td>IMU</td><td>躯干垂直</td><td><a href="https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/15.4RL_lab_sim_to_real.md">RL 真机</a></td></tr>
 <tr><td>5</td><td>网络</td><td>千兆直连、MASTER_URI</td><td><a href="https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/16.Internet.md">网络配置</a></td></tr>
@@ -300,7 +300,7 @@ flowchart TB
 <tr><td>系统架构</td><td>接口联调、通信压测</td><td>ROS topic 带宽、延迟</td></tr>
 <tr><td>机械 CAD</td><td>FEA 仿真、样件试装</td><td>SolidWorks Simulation</td></tr>
 <tr><td>URDF</td><td>Sim2Sim、Sim2Real</td><td><a href="./robotics/RL.md">MuJoCo/Isaac</a></td></tr>
-<tr><td>控制算法</td><td>台架 HIL、空载→负载</td><td>RT-Preempt + 龙门架</td></tr>
+<tr><td>控制算法</td><td>台架 HIL、空载→负载</td><td>PREEMPT_RT（按平台需要）+ 龙门架</td></tr>
 <tr><td>感知算法</td><td>数据集 mAP、真机抓取成功率</td><td><a href="./robotics/benchmark_dataset.md">Benchmark 专题</a></td></tr>
 <tr><td>整机</td><td>耐久、EMC、安全认证</td><td>第三方检测机构</td></tr>
 </table>
@@ -349,25 +349,25 @@ flowchart TB
 <tr><td>4</td><td><strong>电机/减速器手册</strong></td><td>采购 → 控制</td><td>额定/峰值力矩、减速比、编码器分辨率</td></tr>
 <tr><td>5</td><td><strong>ROS 接口文档</strong></td><td>系统 → 全员</td><td>Topic/Service 名、消息类型、频率、QoS</td></tr>
 <tr><td>6</td><td><strong>标定数据包</strong></td><td>集成 → 算法</td><td>零位偏移、相机内参/外参、IMU 零偏</td></tr>
-<tr><td>7</td><td><strong>安全 SOP</strong></td><td>系统 → 全员</td><td>急停、龙门架、双人操作、禁区</td></tr>
+<tr><td>7</td><td><strong>安全工程包与 SOP</strong></td><td>系统/安全 → 全员</td><td>危险日志、安全需求、状态机、验证证据、急停/真机操作与残余风险</td></tr>
 <tr><td>8</td><td><strong>版本清单</strong></td><td>系统 → 运维</td><td>固件版本、URDF hash、ONNX 模型版本、Docker tag</td></tr>
 </table>
 <hr/>
-<h2 id="第-10-章-与思维导图九大层的映射">第 10 章：与思维导图九大层的映射</h2>
+<h2 id="第-10-章-与思维导图九大领域的映射">第 10 章：与思维导图九大领域的映射</h2>
 <table>
 <tr><th>研发阶段</th><th>主要涉及思维导图章节</th></tr>
-<tr><td>Phase 0–1</td><td>五（机械）、四（执行器）、八（电源）、六（安全）</td></tr>
+<tr><td>Phase 0–1</td><td>五（机械与整机）、四（执行器）、八（电源与配电）、六（安全工程）</td></tr>
 <tr><td>Phase 2</td><td>五、四、七（通信）、一（感知传感器选型）</td></tr>
 <tr><td>Phase 3</td><td>四、八</td></tr>
 <tr><td>Phase 4</td><td>四（FOC/校准）、七、一（标定）</td></tr>
-<tr><td>Phase 5</td><td>一～三（感知/决策/控制）、九（仿真/DevOps）</td></tr>
+<tr><td>Phase 5</td><td>一～三（感知与估计 / 应用、任务与规划 / 控制）、九（系统软件与工程化）</td></tr>
 <tr><td>Phase 6</td><td>六、九</td></tr>
-<tr><td>Phase 7 二次开发</td><td>一～三、九（应用/算法/工程化）</td></tr>
+<tr><td>Phase 7 二次开发</td><td>一～三、九（应用/算法/系统软件与工程化）</td></tr>
 </table>
 <p>👉 结构视角完整索引：<a href="./robot_system.md">robot_system.md</a></p>
 <p>👉 运行时数据流/控制流：<a href="./robotics/robot_system_integration.md">robot_system_integration.md</a></p>
 <hr/>
-<blockquote><p><strong>备注</strong>：本流程图与 <a href="./robot_system.md"><code>robot_system.md</code></a> 思维导图互补，不重复展开各层算法细节。整机制造经验随项目迭代持续补充；软件/算法/集成部分已有大量 kuavo 实战支撑。</p><p>通用知识库：<a href="https://github.com/651yyds3939/robotics-notes">robotics-notes</a> · 项目实战：<a href="https://github.com/651yyds3939/kuavo-dev-notes">kuavo-dev-notes</a></p></blockquote></article>
+<blockquote><p><strong>备注</strong>：本流程图与 <a href="./robot_system.md"><code>robot_system.md</code></a> 思维导图互补，不重复展开各领域算法细节。整机制造经验随项目迭代持续补充；软件/算法/集成部分已有大量 kuavo 实战支撑。</p><p>通用知识库：<a href="https://github.com/651yyds3939/robotics-notes">robotics-notes</a> · 项目实战：<a href="https://github.com/651yyds3939/kuavo-dev-notes">kuavo-dev-notes</a></p></blockquote></article>
 <script>
 (function () {
   function boot() {

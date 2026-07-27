@@ -294,7 +294,7 @@ flowchart TB
 | 视觉 | 检测与 LLM 解耦；LLM 只选 skill id + 参数 |
 | 评测 | 固定指令集回归（如 20 条语音） |
 
-👉 专题：[vla_landscape](./vla_landscape.md) · [llm_for_robotics](./llm_for_robotics.md) · 实战：[22.1 VLA](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.1VLA_grasping.md) · [22.3 MCP](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.3.MCP_VLA_grasp.md)
+👉 专题：[vla_landscape](./vla_landscape.md) · [llm_for_robotics](./llm_for_robotics.md) · [AI/VLA 工程闭环](./ai_vla_data_engineering.md) · 实战：[22.1 VLA](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.1VLA_grasping.md) · [22.3 MCP](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.3.MCP_VLA_grasp.md)
 
 ---
 
@@ -333,7 +333,7 @@ flowchart TB
 | episode_index | 可复现切分 |
 | task | 语言标签（VLA 用） |
 
-👉 [benchmark_dataset](./benchmark_dataset.md) · 实战：[22.4 LeRobot](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.4.Lerobot_grasp.md)
+👉 [AI/VLA 数据工程](./ai_vla_data_engineering.md) · [benchmark_dataset](./benchmark_dataset.md) · 实战：[22.4 LeRobot](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.4.Lerobot_grasp.md)
 
 integration 中遥操作**架构**见 [§4.7 / 模式Ⅴ](./robot_system_integration.md#47-遥操作与示教采集)。
 
@@ -364,7 +364,7 @@ flowchart TB
 | 频率 | 推理耗时 < 控制周期 × 70% |
 | 回退 | 推理失败时进入安全模式 |
 
-👉 [edge_deployment](./edge_deployment.md)
+👉 [AI/VLA 工程闭环](./ai_vla_data_engineering.md) · [edge_deployment](./edge_deployment.md)
 
 ---
 
@@ -422,19 +422,19 @@ flowchart TB
 
 ---
 
-## 附录 A：与思维导图九层的对应
+## 附录 A：与思维导图九大领域的对应
 
-| 软件管线章节 | 思维导图层级 |
+| 软件管线章节 | 思维导图领域 |
 |-------------|-------------|
-| §1 软件栈 | 全栈 L0–L5 |
-| §2–§3 环境/bringup | 九 工程化 |
-| §4 Sim2Real | 三 控制 · 九 工程化 |
-| §5 导航 | 一 感知 · 二 决策 |
-| §6–§7 抓取/VLA | 一 感知 · 二 决策 · 五 应用 |
-| §8 数据采集 | 五 应用 · 九 工程化 |
-| §9 部署 | 三 控制 · 九 工程化 |
-| §10 标定 | 一 感知 · 五 机械(URDF) |
-| §11 排障 | 七 通信 · 八 安全 |
+| §1 软件栈 | 跨领域软件分层 L0–L5 |
+| §2–§3 环境/bringup | 九 系统软件与工程化 |
+| §4 Sim2Real | 三 控制 · 九 系统软件与工程化 |
+| §5 导航 | 一 感知/估计 · 二 应用/任务/规划 |
+| §6–§7 抓取/VLA | 一 感知/估计 · 二 应用/任务/规划 · 三 控制 |
+| §8 数据采集 | 二 应用/任务/规划 · 九 系统软件与工程化 |
+| §9 部署 | 三 控制 · 九 系统软件与工程化 |
+| §10 标定 | 一 感知/估计 · 五 机械与整机（URDF） |
+| §11 排障 | 六 安全工程 · 七 通信 · 九 系统软件与工程化 |
 
 ---
 

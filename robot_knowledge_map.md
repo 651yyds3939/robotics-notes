@@ -38,14 +38,16 @@ flowchart LR
 
 | 图/文档 | 状态 | 说明 |
 |--------|------|------|
-| 全链路思维导图 | ✅ 已有 | 九层模块，Markmap 展开 |
+| 全链路思维导图 | ✅ 已有 | 第 0 章形态边界 + 九大领域，按四类系统视角组织，Markmap 展开 |
 | 研发全流程大图 | ✅ 已有 | Phase 0–7，含二次开发入口 |
 | 系统集成 ASCII 架构 | ✅ 已有 | 双机、多速率 |
-| VLA / VFM 专题流程图 | ✅ 已有 | 算法研究向 |
+| VLA / VFM 专题流程图 | ✅ 已有 | 研究版图 + [AI/VLA 数据与模型工程闭环](./robotics/ai_vla_data_engineering.md) |
 | **知识体系导航** | 🆕 本文件 | 说明「看哪个图」 |
 | **软件管线图集** | 🆕 pipelines | Sim2Real、抓取、VLA、TF、学习路径 |
 | **双机架构 Mermaid** | 🆕 补在 integration + pipelines | 比 ASCII 更易读 |
-| 硬件工具链详图 | ⚪ 浅覆盖 | lifecycle 第 2–3 章表格；非二次开发主场 |
+| 硬件与整机工程 | ✅ 已补 | [硬件与整机工程专题](./robotics/hardware_system_engineering.md) + lifecycle Phase 2–5 |
+| 安全工程 | ✅ 已补 | [安全工程专题](./robotics/safety_engineering.md) + [真机 SOP](./robotics/safety_sop.md) |
+| 系统工程 | ✅ 已补 | [需求、接口、预算、风险、V&V、配置与运维](./robotics/systems_engineering.md) |
 | 岗位/角色矩阵 | ✅ lifecycle 第 7 章 | |
 | EtherCAT / 下位机 | ✅ 已有专题 | [fieldbus_and_ethercat](./robotics/fieldbus_and_ethercat.md) + kuavo 实机 |
 | 两仓库文件导航 | 🆕 本章 3 + pipelines | |
@@ -59,7 +61,7 @@ flowchart LR
 ```mermaid
 flowchart TB
     START(["开始"]) --> M1["① robot_knowledge_map<br/>（本文件 · 5 分钟）"]
-    M1 --> M2["② robot_system.md 思维导图<br/>扫一眼九层 · 不必全记"]
+    M1 --> M2["② robot_system.md 思维导图<br/>扫一眼九大领域 · 不必全记"]
     M2 --> M3["③ robot_software_pipelines<br/>任务工序 · 检查清单"]
     M3 --> M4["④ robot_system_integration<br/>运行时闭环 · 五种模式"]
     M4 --> M5["⑤ 机型实战仓库<br/>环境 → RL → VLA 案例"]
@@ -112,13 +114,15 @@ flowchart TB
 |------|-----------|---------|-----------|
 | RL 行走 Sim2Real | pipelines § Sim2Real | [RL.md](./robotics/RL.md) | [15.x](https://github.com/651yyds3939/kuavo-dev-notes/tree/master/kuavo_notes) |
 | 视觉抓取 | pipelines § Grasp | [moveit_manipulation](./robotics/moveit_manipulation.md) · [dynamics_control](./robotics/dynamics_control.md) | [4.4 / 28](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/4.4real_visual_grasp.md) |
-| VLA 语音抓取 | pipelines § VLA | [vla_landscape](./robotics/vla_landscape.md) · [speech_pipeline](./robotics/speech_pipeline.md) | [22.x](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.1VLA_grasping.md) |
+| VLA 语音抓取 | pipelines § VLA | [vla_landscape](./robotics/vla_landscape.md) · [AI/VLA 工程闭环](./robotics/ai_vla_data_engineering.md) · [speech_pipeline](./robotics/speech_pipeline.md) | [22.x](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.1VLA_grasping.md) |
 | 大模型规划 | pipelines § LLM | [llm_for_robotics](./robotics/llm_for_robotics.md) | [21.x / 22.3 MCP](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.3.MCP_VLA_grasp.md) |
-| 数据采集 | pipelines § Data | [benchmark_dataset](./robotics/benchmark_dataset.md) | [22.4 LeRobot](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.4.Lerobot_grasp.md) |
+| 数据采集 | pipelines § Data | [AI/VLA 数据工程](./robotics/ai_vla_data_engineering.md) · [benchmark_dataset](./robotics/benchmark_dataset.md) | [22.4 LeRobot](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.4.Lerobot_grasp.md) |
+| 硬件与整机 | lifecycle Phase 2–5 | [hardware_system_engineering](./robotics/hardware_system_engineering.md) | — |
+| 系统与安全工程 | lifecycle 全阶段 | [systems_engineering](./robotics/systems_engineering.md) · [safety_engineering](./robotics/safety_engineering.md) | [真机 SOP](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/15.4RL_lab_sim_to_real.md) |
 | 真机安全 | — | [safety_sop](./robotics/safety_sop.md) | [15.4 / 23.1 安全 SOP](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/15.4RL_lab_sim_to_real.md) |
 | 通信总线 | — | [fieldbus_and_ethercat](./robotics/fieldbus_and_ethercat.md) | [16 网络配置](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/16.Internet.md) |
 | Docker/环境 | — | [docker](./robotics/docker.md) · [environment](./robotics/environment.md) | [1.start](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/1.start.md) |
 
 ---
 
-> **备注**：硬件「了解即可」——详见 lifecycle Phase 2–4 与思维导图第五层；软件二次开发以 **pipelines + integration + kuavo 实战** 为主战场。
+> **备注**：硬件制造与整机工程详见 lifecycle Phase 2–5、思维导图第四/五/八章及硬件专题；软件二次开发以 **pipelines + integration + kuavo 实战** 为主线。

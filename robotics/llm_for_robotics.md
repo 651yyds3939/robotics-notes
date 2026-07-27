@@ -2,7 +2,7 @@
 
 > **导读**：在可落地的机器人系统里，大语言模型（LLM）及多模态大模型（VLM）通常担任 **System 2（慢系统）**——理解、分解、编排、对话；**不直接承担高频关节控制**。低层执行仍由经典控制、运动规划、模仿学习或 VLA 策略承担。
 >
-> 👉 思维导图位置：[2.3.5 LLM for Robotics](../robot_system.md)
+> 👉 思维导图位置：[2.3.3 LLM for Robotics](../robot_system.md#233-llm-for-robotics高层规划与工具调用--llm-for-robotics-专题)
 >
 > 外部索引：[Embodied-AI-Guide · algorithm.md](https://github.com/TianxingChen/Embodied-AI-Guide/blob/main/topics/algorithm.md#llm_robot)
 >
@@ -395,10 +395,11 @@ Embodied-AI-Guide 结论：**LLM 做 System 2 + IL/VLA/经典控制做 System 1*
 
 ## 第 14 章：相关专题
 
-- [VLA 研究版图](./vla_landscape.md) — 端到端 VLA 与工程分层对照  
-- [视觉基础模型](./vision_foundation_models.md) — 检测/分割与 YOLO 选型  
-- [Benchmark 与 Dataset](./benchmark_dataset.md)  
-- [ROS 架构逻辑 / 行为树](./ros_logic.md)  
+- [VLA 研究版图](./vla_landscape.md) — 端到端 VLA 与工程分层对照
+- [视觉基础模型](./vision_foundation_models.md) — 检测/分割与 YOLO 选型
+- [AI、VLA 与数据工程](./ai_vla_data_engineering.md) — 数据、模型、评测、发布和运行闭环
+- [Benchmark 与 Dataset](./benchmark_dataset.md)
+- [ROS 架构逻辑 / 行为树](./ros_logic.md)
 - [AI 与机器人学习拓扑](./AI_learning_robotics.md)
 
 ---

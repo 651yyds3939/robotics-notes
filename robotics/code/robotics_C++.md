@@ -1,3 +1,13 @@
+---
+> **📌 文档定位：** 读源码 Survival Guide — 读 ROS/MPC/Kuavo 工业级 C++ 代码
+> **适合：** 能基本看懂指针和 vector，要开始读底层源码
+> **前置：** [Python_C++_bridge](Python_C++_bridge.md)（C++ 负责哪一层）→ [DSA_C++_Basics](DSA_C++_Basics.md)（指针、引用、vector）；写代码见 [C++_grammar_supplement](C++_grammar_supplement.md)
+> **后续：** [Job_Requirements](Job_Requirements_for_Robot.md) 行为树项目
+> **对称文档：** 读 Python 应用层 → [robotics_Python.md](robotics_Python.md)
+> **相关：** 刷题练算法见 [DSA_tree](DSA_tree.md)
+> **预计时间：** 1 天
+> **🏠 返回总索引：** [README.md](README.md)
+
 # 🤖 机器人底层 C++ 源码生存指南 (终极实战版)
 
 **核心心法**：宁可编译不过，不可运行出错。
@@ -40,7 +50,7 @@
 | **垃圾回收** | **GC 机制**：后台打扫垃圾，**会引发不可控的全局停顿（卡顿）**。 | **RAII 机制**：靠作用域和智能指针实现**无延迟的精确释放**。 |
 
 > ⚠️ **高危实战坑点：隐式截断**
-> 将小数（如 `2.8`）强塞入整数 `int` 变量中，C++ 不会报错，而是会**无声无息地截断为 `2**`。这在控制算法中极易导致 PID 参数失效。
+> 将小数（如 `2.8`）强塞入整数 `int` 变量中，C++ 不会报错，而是会**无声无息地截断为 `2`。这在控制算法中极易导致 PID 参数失效。
 
 ---
 
@@ -64,17 +74,22 @@
 
 ### 1. 黄金搭档：`const Type&` (常量引用)
 
-* **& (引用)**：给原数据起“别名”，直接操作物理内存，**零拷贝**。
-* **const (只读锁)**：承诺绝对不篡改原数据。
-* **应用场景**：源码函数参数中最常见（如 `void updateMap(const PointCloud& cloud)`），性能极速且绝对安全。
+> 📎 **引用基础见** [DSA_C++_Basics § 二](DSA_C++_Basics.md#二-函数与参数传递核心避免超时)
+
+* **& (引用)**：零拷贝别名，直接操作物理内存。
+* **const**：只读承诺，不篡改原数据。
+* **读源码时**：函数参数形如 `const Pose&` 即「只读 + 不复制」。
 
 ### 2. 现代内存管理：智能指针 (Smart Pointers)
 
+> 📎 **语法详解见** [C++_grammar_supplement § 智能指针](C++_grammar_supplement.md#3-现代-c-智能指针stdshared_ptr)
+> 本文只保留**读 ROS 源码**时的关键识别点：
+
 全面废弃手动 `new/delete`。
 
-* **`std::shared_ptr` (共享指针)**：ROS 绝对核心。内部有**引用计数器**，最后一个使用者释放时，内存瞬间自动回收。永远用 `std::make_shared<T>()` 创建。
-* **`std::unique_ptr` (独占指针)**：同一时刻只能有一个所有者，适合移交数据所有权。
-* **源码缩写 `ConstPtr**`：全拼为 `std::shared_ptr<const MessageType>`。意思是“共享的、只读的智能指针”，常用于 ROS 传感器回调函数。
+* **`std::shared_ptr`**：ROS 绝对核心，永远用 `std::make_shared<T>()` 创建。
+* **`std::unique_ptr`**：独占所有权，适合移交数据。
+* **源码缩写 `ConstPtr`**：即 `std::shared_ptr<const MessageType>`，传感器回调中常见。
 
 ---
 
@@ -82,11 +97,12 @@
 
 ### 1. 面向对象与多态 (Polymorphism)
 
-控制器通常需要适配不同的物理模型，靠“多态”解耦：
+> 📎 **语法详解见** [C++_grammar_supplement § 虚函数与多态](C++_grammar_supplement.md#3-千人千面虚函数与多态)
+> 读源码时只需识别三个关键字：
 
-* **定义插座 (基类)**：用 `virtual` 声明虚函数（或 `= 0` 纯虚函数）。
-* **制造电器 (派生类)**：用 `override` 明确重写具体逻辑。
-* **动态绑定**：通过**父类指针**调用，运行时会自动执行子类的代码。
+* **`virtual`**：基类虚函数（或 `= 0` 纯虚函数）
+* **`override`**：子类重写
+* **父类指针/智能指针调用**：运行时自动绑定到子类实现
 
 ### 2. 必须看懂的语法糖
 
@@ -171,7 +187,8 @@ Python 报错含行号，而 C++ 运行时崩溃通常只留下一句冰冷的�
 
 1. **访问了空指针 (Null Pointer)**
 * *场景：* 声明了雷达数据的指针，但**还没收到数据（未初始化）**，就直接用 `->` 去读坐标。
-* *自救：* 使用指针前，永远加一句判断 `if (lidar_ptr == nullptr) return;`。
+* *自救：* 使用指针前，永远加一句判断 `if (lidar_ptr == nullptr) return;`
+* 📎 *指针判空详解见* [C++_grammar_supplement § 指针基础](C++_grammar_supplement.md#1-指针基础与防御性判空)。
 
 
 2. **数组越界 (Out of Bounds)**
@@ -181,3 +198,36 @@ Python 报错含行号，而 C++ 运行时崩溃通常只留下一句冰冷的�
 
 3. **迭代器失效**
 * *场景：* 在 `for` 循环遍历一个 `vector` 时，又在循环内部往这个 `vector` 里 `push_back` 塞新数据，导致底层内存地址集体大搬家，循环指针瞬间迷路崩溃。
+
+---
+
+## 📍 文档导航
+
+| 方向 | 文档 |
+| --- | --- |
+| 🏠 总索引 | [README.md](README.md) |
+| Python/C++ 分工 | [Python_C++_bridge.md](Python_C++_bridge.md) |
+| Python 最小语法 | [python/python_for_robotics_basics.md](python/python_for_robotics_basics.md) |
+| 读 Python 源码 | [robotics_Python.md](robotics_Python.md) |
+| 读 C++ 源码 | [robotics_C++.md](robotics_C++.md) |
+| 刷题语法 (C++) | [DSA_C++_Basics.md](DSA_C++_Basics.md) |
+| 写 C++ 代码 | [C++_grammar_supplement.md](C++_grammar_supplement.md) |
+| 刷题方法论 | [data_stuctures_and_algorithms.md](data_stuctures_and_algorithms.md) |
+| 树专题刷题 | [DSA_tree.md](DSA_tree.md) |
+| 定方向 | [Job_Requirements_for_Robot.md](Job_Requirements_for_Robot.md) |
+---
+
+## 📍 文档导航
+
+| 方向 | 文档 |
+| --- | --- |
+| 🏠 总索引 | [README.md](README.md) |
+| Python/C++ 分工 | [Python_C++_bridge.md](Python_C++_bridge.md) |
+| Python 最小语法 | [python/python_for_robotics_basics.md](python/python_for_robotics_basics.md) |
+| 读 Python 源码 | [robotics_Python.md](robotics_Python.md) |
+| 读 C++ 源码 | [robotics_C++.md](robotics_C++.md) |
+| 刷题语法 (C++) | [DSA_C++_Basics.md](DSA_C++_Basics.md) |
+| 写 C++ 代码 | [C++_grammar_supplement.md](C++_grammar_supplement.md) |
+| 刷题方法论 | [data_stuctures_and_algorithms.md](data_stuctures_and_algorithms.md) |
+| 树专题刷题 | [DSA_tree.md](DSA_tree.md) |
+| 定方向 | [Job_Requirements_for_Robot.md](Job_Requirements_for_Robot.md) |
