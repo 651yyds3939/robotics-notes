@@ -27,8 +27,6 @@
 > 💡 不同形态机器人 👉 [机器人分类与特性对比](./robotics/robot_types.md)
 >
 > 🔧 研发流程 👉 [robot_development_lifecycle.md](./robot_development_lifecycle.md) · 软件管线 👉 [robot_software_pipelines.md](./robotics/robot_software_pipelines.md) · 导航 👉 [robot_knowledge_map.md](./robot_knowledge_map.md)
->
-> 🔧 从 0 到 1 造机器人 👉 [研发全流程（需求→SolidWorks→集成→量产）](./robot_development_lifecycle.md)
 
 ---
 
@@ -36,12 +34,17 @@
 
 > 机器人形态决定运动约束、自由度、感知配置、执行器、控制方法、安全状态与验证路线；面对新平台应先分析物理约束和环境交互，而不只是外形。
 
+### 0.0 机器人的定义
+- **机器人 = 自主感知 + 自主决策 + 自主执行**，三者缺一不可
+- 只有执行没有感知和决策 → 自动化设备；没有自主决策 → 遥控设备；没有物理执行 → 纯软件 AI
+
 ### 0.1 按运动与作业形态
 
 - **地面移动**：差速 / 全向 / 阿克曼轮式、履带式
 - **足式移动**：双足人形、四足及其他多足机器人
 - **操作机器人**：固定串联/并联机械臂、协作机器人、双臂与灵巧手
 - **移动操作**：轮式机械臂、轮式人形、双足人形等“移动 + 操作”组合
+- **自动驾驶**：乘用车/商用车/物流小车，涵盖纯视觉、视觉+激光雷达、多传感器融合方案
 - **特殊介质**：多旋翼/固定翼 UAV、水下 ROV/AUV，以及软体与微型机器人
 
 ### 0.2 形态决定系统约束
@@ -49,6 +52,7 @@
 - **轮式**：完整或非完整运动学约束，重点是定位、导航、轨迹跟踪与地面通过性
 - **足式/人形**：欠驱动浮动基座与离散接触，重点是状态估计、落足、平衡、WBC/RL 与防跌倒
 - **机械臂**：工作空间、奇异位形、IK、轨迹/力控制、碰撞和末端任务
+- **自动驾驶**：高速非完整约束，重点是多传感器融合、动态目标预测、功能安全与实时性
 - **飞行/水下**：六自由度运动、流体动力、能源约束，以及空中/水下通信和环境安全
 
 ### 0.3 选型与组合原则
@@ -73,9 +77,15 @@
 
 #### 1.1.2 距离与测距 (Proximity)
 - 超声波传感器
+- 毫米波雷达（测距+测速，全天候）
 - ToF 飞行时间传感器
 
-#### 1.1.3 环境状态 (Environmental)
+#### 1.1.3 自动驾驶传感器方案
+- **纯视觉**：多路相机 + 视觉 SLAM + BEV 感知
+- **视觉+激光雷达**：相机 + LiDAR + 毫米波雷达多传感器融合
+- **高精定位**：RTK-GPS + IMU + 轮速计组合导航
+
+#### 1.1.4 环境状态 (Environmental)
 - 温湿度、气压/高度计、气体传感器
 
 ### 1.2 本体感知 (Proprioception)
@@ -124,6 +134,7 @@
 - **预处理**：去噪、滤波、异常值剔除、坐标变换与数据新鲜度检查
 
 #### 1.5.2 机器人状态估计 (Robot State Estimation)
+- **里程计推算**：利用运动学模型（轮式/腿部）推算位姿变化，作为高频里程计观测源
 - **状态融合**：卡尔曼滤波 / EKF / UKF，融合 IMU + 关节里程计 + 视觉里程计（VIO）👉 [状态估计](./robotics/state_estimation.md) · [传感器融合](./robotics/sensor_fusion.md)
 - **输出状态**：基座位姿/速度、关节状态、接触状态及估计不确定性，供规划器与控制器使用
 - **双足/人形特有问题**：腿部里程计（接触检测 + 运动学推算）、浮动基座状态估计、触地判定（阈值依传感器和机型标定）
@@ -157,6 +168,10 @@
 - FPGA、AI NPU/TPU
 - 用于确定性预处理、视觉推理或特定算子加速；是否采用取决于功耗、时延和工具链
 
+#### 2.1.4 外部开发主机与 micro-ROS
+- **外部 PC/笔记本**：开发阶段可直接用个人电脑当上位机，通过以太网/WiFi 组网跑感知和规划节点，省去板载硬件
+- **micro-ROS**：ROS 2 在 MCU（STM32/ESP32 等）上的轻量实现，让传感器和简单控制直接作为 ROS 2 节点运行
+
 ### 2.2 应用与人机交互 (Applications & HRI)
 
 - **典型应用**：自主导航、视觉抓取、接触装配、巡检搬运、遥操作示教、具身交互与全身表演
@@ -170,8 +185,8 @@
 - **自采（实战案例）**：LeRobot v3.0 格式（observation 图像+关节状态 + action），三机分工（下位机录 npz + 上位机录 RGB + PC 离线打包），单条 episode ~1200 帧 @50Hz
 - **公开采集范式**：ALOHA 主从双臂遥操作 · UMI 可穿戴 retargeting · Ego-centric 第一人称视频（低成本、弱 action 标注）
 - **公开大规模 Dataset（训通用 VLA/IL）** 👉 [Benchmark 与 Dataset 专题](./robotics/benchmark_dataset.md)
- - [Open X-Embodiment (RT-X)](https://robotics-transformer-x.github.io/) · [DROID](https://droid-dataset.github.io/) · [BridgeData V2](https://rail-berkeley.github.io/bridgedata/) · [AgiBot World](https://agibot-world.com/)
- - 数据扩增：[MimicGen](https://github.com/NVlabs/mimicgen) · [RoboTwin 2.0 合成](https://github.com/robotwin-Platform/robotwin)
+    - [Open X-Embodiment (RT-X)](https://robotics-transformer-x.github.io/) · [DROID](https://droid-dataset.github.io/) · [BridgeData V2](https://rail-berkeley.github.io/bridgedata/) · [AgiBot World](https://agibot-world.com/)
+    - 数据扩增：[MimicGen](https://github.com/NVlabs/mimicgen) · [RoboTwin 2.0 合成](https://github.com/robotwin-Platform/robotwin)
 - 动捕系统（OptiTrack / Vicon）· VR 遥操作（Apple Vision Pro / Meta Quest）· rosbag2 多模态录制
 - 👉 实战案例：[LeRobot 数据采集](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.4.Lerobot_grasp.md) · [相机/动捕](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/27.camera_mtion_capture.md)
 
@@ -263,16 +278,16 @@
 - **级联控制**：电流环（20-100kHz）→ 速度环（1-5kHz）→ 位置环（100-1000Hz）
 - **前馈控制**：[逆动力学前馈](./robotics/dynamics_control.md) + [PID](./robotics/pid_control.md) 反馈 = 零延迟 + 误差纠正
 - 底盘运动学逆解（差速、全向轮）
-- 里程计推算
 - 抗积分饱和（Anti-windup）、低通滤波降噪
 
 #### 3.3.2 高阶动力学与平衡控制 👉 [经典动力学与运动控制](./robotics/dynamics_control.md)
 - **[全身控制 (WBC)](./robotics/dynamics_control.md)**：多任务层级优化，同时满足姿态/平衡/操作
-- **逆运动学 (IK)**：雅可比矩阵 $J$，速度映射 $\dot{x}=J\dot{q}$，静力映射 $\tau=J^T F$
+- **逆运动学 (IK)**：雅可比矩阵 $J$，速度映射 $\dot{x}=J\dot{q}$，静力映射 $\tau=J^T F$；冗余自由度通过零空间投影 (Null-space Projection) 在完成主任务的同时优化次要目标（避关节限位、避奇异等）
 - **[模型预测控制 (MPC)](./robotics/dynamics_control.md)**：有限时域优化
 - **ZMP** 动态平衡 / 质心规划 / 奇异点规避
 - **阻抗/导纳控制** 👉 [阻抗控制专题](./robotics/impedance_control.md)：虚拟弹簧-阻尼-质量模型，刚度/阻尼参数调优，柔顺交互物理底座
 - **双足平衡与抗扰动**：踝策略 → 髋策略 → 迈步策略（分级推恢复）、捕获点（Capture Point）理论
+- **CoT (Cost of Transport)**：单位质量单位距离的能量消耗，衡量移动效率的核心指标
 - **示教与重力补偿**：拖动示教 + 零力矩模式
 - 👉 实战案例：[示教/重力补偿](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/18.teaching_gravity_compensation.md) · [上下楼梯仿真](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/5.up_down_stair.md)
 - 👉 理论基础：[优化理论（QP/NLP在控制中的作用）](./robotics/optimization_theory.md)
@@ -282,6 +297,7 @@
 - **PPO 强化学习行走**：[Isaac Lab](./robotics/RL.md) 训练，87维 obs 跟踪 $(v_x, v_y, \omega)$，[ONNX 导出](./robotics/edge_deployment.md) → [MuJoCo Sim2Sim](./robotics/robot_modeling.md) → 真机部署
 - **IL+RL 全身舞蹈**：CSV 动作参考轨迹 + mimic 跟踪奖励，115维 obs，4096 并行环境（8GB 显存）
 - **TD-MPC2 世界模型**：隐式世界模型 + MPPI 规划，对比 model-based RL vs PPO 的样本效率
+- **训练技巧**：课程学习（由易到难逐步增加任务复杂度）、奖励塑形（Reward Shaping，引入辅助奖励引导策略收敛）
 - **混合级联架构**（现代人形常见方案之一）：[RL](./robotics/RL.md) 生成动作/姿态参考 → [MPC](./robotics/dynamics_control.md) 以较低频率优化预测轨迹（可选）→ 高频 [WBC](./robotics/dynamics_control.md) / 伺服控制满足动力学约束并执行安全限制；具体分工与频率依平台而异
 - **Sim2Real 核心痛点**：S49 机型 [URDF](./robotics/robot_modeling.md) 与训练资产版本撕裂，需手动缝合 `.info` 与 `humanoidController.cpp`；[ONNX](./robotics/edge_deployment.md) 观测空间对齐（CSV 关节顺序必须 100% 一致）
 - 👉 实战案例：[RL 行走 Sim2Real 真机部署](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/15.4RL_lab_sim_to_real.md) · [奖励函数/域随机化拆解](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/15.2RL_lab_analysis_code.md) · [IL+RL 舞蹈总览](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/23.1.RL_dance_overview.md) · [S49 舞蹈训练](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/23.3.RL_dance_train.md) · [TD-MPC2 世界模型](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/31.1.world_model.md)
@@ -303,6 +319,7 @@
 
 ### 4.3 传动与关节模组
 - 谐波 / RV / 行星减速器、同步带 / 绳驱：联合权衡减速比、效率、回差、刚度、背驱性和冲击寿命
+- **背驱性 (Backdrivability)**：输出端受力时能否反向驱动输入端——高背驱性关节能实现柔顺交互和被动抗冲击，是人形安全的关键指标
 - 一体化关节：电机 + 减速器 + 轴承 + 编码器 + 驱动器 + 温度检测
 - **模组保护**：位置/速度/力矩/电流/温度限值、机械限位与制动器；失电响应需按整机风险设计
 
@@ -444,7 +461,7 @@
 - **[MuJoCo](./robotics/robot_modeling.md)**：轻量级动力学，大规模 RL 训练首选
 - **Isaac Sim / Isaac Lab**：GPU 并行 + 光线追踪渲染，视觉模型与 Sim2Real 核心工具
 - **Gazebo**：经典 ROS 移动机器人仿真环境
-- **域随机化**：质量/摩擦/延迟随机噪声注入，Sim2Real 跨越虚实鸿沟的核心武器
+- **域随机化**：质量/摩擦/延迟随机噪声注入，Sim2Real 跨越虚实鸿沟的核心武器；其他迁移路线：域自适应 (Domain Adaptation)、系统辨识 (System ID)、在线自适应
 - 👉 实战案例：[Isaac Lab 行走训练](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/15.1.RL_lab_train.md) · [MuJoCo Sim2Sim](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/15.3RL_lab_sim_to_sim.md)
 
 #### 9.2.1 评测基准与公开数据集 👉 [Benchmark 与 Dataset 专题](./robotics/benchmark_dataset.md)
