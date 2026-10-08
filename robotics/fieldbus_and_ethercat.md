@@ -4,7 +4,7 @@
 >
 > 👉 相关：[电机 FOC](./motor_foc.md) · [PID 控制](./pid_control.md) · [系统集成](./robot_system_integration.md) · [软件管线 · 下位机](./robot_software_pipelines.md)
 >
-> 👉 实战：[下位机 EtherCAT 启动](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/2.1lower_computer.md) · [电机调试](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/2.2motor_debug.md)
+> 👉 实战：[下位机真机启动与模式切换](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/15.4RL_lab_sim_to_real.md) · [关节标定](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/26.joint_calibration.md)
 
 ---
 

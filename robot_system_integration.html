@@ -22,7 +22,7 @@
 </style></head><body>
 <div class="tip">📊 运行时数据流与控制闭环。修改 <code>robotics/robot_system_integration.md</code> 后运行 <code>./regenerate_integration_html.sh</code></div>
 <article><h1>机器人系统集成：数据流与控制流如何闭环</h1>
-<blockquote><p><strong>核心定位</strong>：单看「感知与估计 / 应用、任务与规划 / 控制 / 执行」任一运行时环节都不够——系统集成关心的是<strong>谁把什么数据、在什么频率、通过什么中间层交给谁</strong>，以及断一环时系统如何降级。</p><p>👉 全链路索引：<a href="../robot_system.md">机器人全链路思维导图</a> · 研发全流程：<a href="../robot_development_lifecycle.md">robot_development_lifecycle.md</a> · 软件管线：<a href="./robot_software_pipelines.md">robot_software_pipelines.md</a> · 通信机制：<a href="./ros_communication.md">ROS 通信原理</a></p></blockquote>
+<blockquote><p><strong>核心定位</strong>：单看「感知与估计 / 应用、任务与规划 / 控制 / 执行」任一运行时环节都不够——系统集成关心的是<strong>谁把什么数据、在什么频率、通过什么中间层交给谁</strong>，以及断一环时系统如何降级。</p><p>👉 全链路索引：<a href="https://github.com/651yyds3939/robotics-notes/blob/master/robot_system.md">机器人全链路思维导图</a> · 研发全流程：<a href="https://github.com/651yyds3939/robotics-notes/blob/master/robot_development_lifecycle.md">robot_development_lifecycle.md</a> · 软件管线：<a href="https://github.com/651yyds3939/robotics-notes/blob/master/robotics/robot_software_pipelines.md">robot_software_pipelines.md</a> · 通信机制：<a href="https://github.com/651yyds3939/robotics-notes/blob/master/robotics/ros_communication.md">ROS 通信原理</a></p></blockquote>
 <hr/>
 <h2 id="一-阅读地图-两层闭环-五种集成模式-七个经典形态">一、阅读地图：两层闭环 × 五种集成模式 × 七个经典形态</h2>
 <h3>1.1 两条闭环（所有案例共用）</h3>
@@ -58,90 +58,90 @@
 <h2 id="二-抽象总骨架-所有模式的总图">二、抽象总骨架（所有模式的总图）</h2>
 <p>下面是一张<strong>可实例化</strong>的总骨架：实线为主干，虚线为某模式专用支路。读任一经典形态时，先在此定位「走哪几条边」，再往下看对应模式详图与实例。</p>
 <pre class="mermaid">flowchart TB
-    subgraph SENSE["传感层 · 10 Hz–kHz"]
+    subgraph SENSE[&quot;传感层 · 10 Hz–kHz&quot;]
         direction TB
-        S1["本体传感 · 编码器 / 惯性 / 力矩"]
-        S2["环境传感 · 激光 / 深度 / 相机 / 触觉"]
+        S1[&quot;本体传感 · 编码器 / 惯性 / 力矩&quot;]
+        S2[&quot;环境传感 · 激光 / 深度 / 相机 / 触觉&quot;]
     end
 
-    subgraph EST["估计层 · 20–500 Hz"]
+    subgraph EST[&quot;估计层 · 20–500 Hz&quot;]
         direction TB
-        E1["里程计 / 浮动基座状态"]
-        E2["定位建图 / 占据表征"]
-        E3["坐标系关系树"]
+        E1[&quot;里程计 / 浮动基座状态&quot;]
+        E2[&quot;定位建图 / 占据表征&quot;]
+        E3[&quot;坐标系关系树&quot;]
     end
 
-    S1 --> E1
-    S2 --> E2
-    E1 --> E3
-    E2 --> E3
+    S1 --&gt; E1
+    S2 --&gt; E2
+    E1 --&gt; E3
+    E2 --&gt; E3
 
-    subgraph TASK["任务与规划层 · 1–50 Hz"]
+    subgraph TASK[&quot;任务与规划层 · 1–50 Hz&quot;]
         direction TB
-        T1["全局任务 / 行为调度"]
-        T2["全局路径 / 路点"]
-        T3["局部规划 / 避障 / 轨迹"]
-        T4["操作规划 / 逆解参考"]
+        T1[&quot;全局任务 / 行为调度&quot;]
+        T2[&quot;全局路径 / 路点&quot;]
+        T3[&quot;局部规划 / 避障 / 轨迹&quot;]
+        T4[&quot;操作规划 / 逆解参考&quot;]
     end
 
-    E3 --> T1
-    T1 --> T2
-    T1 --> T4
-    T2 --> T3
-    E1 --> T3
-    E2 --> T3
+    E3 --&gt; T1
+    T1 --&gt; T2
+    T1 --&gt; T4
+    T2 --&gt; T3
+    E1 --&gt; T3
+    E2 --&gt; T3
 
-    subgraph CTRL["控制层 · 50 Hz–1 kHz"]
+    subgraph CTRL[&quot;控制层 · 50 Hz–1 kHz&quot;]
         direction TB
-        C1["底盘 / 关节速度环"]
-        C2["学习或模型策略 · 行走姿态"]
-        C3["全身控制 / 模型预测 · 力矩映射"]
-        C4["阻抗 / 力控 / 导纳"]
+        C1[&quot;底盘 / 关节速度环&quot;]
+        C2[&quot;学习或模型策略 · 行走姿态&quot;]
+        C3[&quot;全身控制 / 模型预测 · 力矩映射&quot;]
+        C4[&quot;阻抗 / 力控 / 导纳&quot;]
     end
 
-    T3 --> C1
-    T4 --> C3
-    T4 --> C4
-    C2 --> C3
+    T3 --&gt; C1
+    T4 --&gt; C3
+    T4 --&gt; C4
+    C2 --&gt; C3
 
-    subgraph ACT["执行层 · kHz 内环"]
+    subgraph ACT[&quot;执行层 · kHz 内环&quot;]
         direction TB
-        A1["电机驱动 / 现场总线"]
-        A2["机械做功 · 轮足 / 臂爪"]
+        A1[&quot;电机驱动 / 现场总线&quot;]
+        A2[&quot;机械做功 · 轮足 / 臂爪&quot;]
     end
 
-    C1 --> A1
-    C3 --> A1
-    C4 --> A1
-    A1 --> A2
-    A2 --> S1
-    A2 -.-> S2
+    C1 --&gt; A1
+    C3 --&gt; A1
+    C4 --&gt; A1
+    A1 --&gt; A2
+    A2 --&gt; S1
+    A2 -.-&gt; S2
 
-    subgraph MODES["集成模式标注"]
+    subgraph MODES[&quot;集成模式标注&quot;]
         direction TB
-        M1["模式Ⅰ<br/>单机贯通"]
-        M2["模式Ⅱ<br/>慢环在此分叉至对端"]
-        M3["模式Ⅲ<br/>经坐标变换进入操作规划"]
-        M4["模式Ⅳ<br/>多机共享估计与任务"]
-        M5["模式Ⅴ<br/>主端注入任务/关节目标"]
+        M1[&quot;模式Ⅰ&lt;br/&gt;单机贯通&quot;]
+        M2[&quot;模式Ⅱ&lt;br/&gt;慢环在此分叉至对端&quot;]
+        M3[&quot;模式Ⅲ&lt;br/&gt;经坐标变换进入操作规划&quot;]
+        M4[&quot;模式Ⅳ&lt;br/&gt;多机共享估计与任务&quot;]
+        M5[&quot;模式Ⅴ&lt;br/&gt;主端注入任务/关节目标&quot;]
     end
 
-    M1 -.-> TASK
-    M2 -.-> TASK
-    M3 -.-> T4
-    M4 -.-> E2
-    M5 -.-> T1
+    M1 -.-&gt; TASK
+    M2 -.-&gt; TASK
+    M3 -.-&gt; T4
+    M4 -.-&gt; E2
+    M5 -.-&gt; T1
 
-    subgraph FEED["反馈与横切"]
+    subgraph FEED[&quot;反馈与横切&quot;]
         direction TB
-        F1["状态回传 · 日志 · 可视化"]
-        F2["看门狗 / 断连降级"]
-        F3["仿真↔实机映射"]
+        F1[&quot;状态回传 · 日志 · 可视化&quot;]
+        F2[&quot;看门狗 / 断连降级&quot;]
+        F3[&quot;仿真↔实机映射&quot;]
     end
 
-    E1 --> F1
-    TASK --> F2
-    ACT --> F3</pre>
+    E1 --&gt; F1
+    TASK --&gt; F2
+    ACT --&gt; F3</pre>
 <p><strong>读图口诀</strong>：</p>
 <p>1. 从上到下是<strong>时间尺度由慢到快</strong>，从执行回到传感是<strong>物理闭环</strong>。</p>
 <p>2. <strong>模式Ⅰ</strong> 走满一条竖切；<strong>模式Ⅱ</strong> 在任务/规划层拆成上下位；<strong>模式Ⅲ</strong> 在估计层之后插入坐标变换再进操作规划。</p>
@@ -152,12 +152,12 @@
 <h3>3.1 模式Ⅰ：单机单环</h3>
 <p>所有计算与通信在同一主机（或实时核）内完成；数据流是<strong>一条链</strong>，适合先建立闭环直觉。</p>
 <pre class="mermaid">flowchart TB
-    subgraph ONE["同一计算单元"]
-        O1["传感驱动"] --> O2["状态估计"]
-        O2 --> O3["规划 / 任务"]
-        O3 --> O4["运动控制"]
-        O4 --> O5["电机驱动"]
-        O5 --> O1
+    subgraph ONE[&quot;同一计算单元&quot;]
+        O1[&quot;传感驱动&quot;] --&gt; O2[&quot;状态估计&quot;]
+        O2 --&gt; O3[&quot;规划 / 任务&quot;]
+        O3 --&gt; O4[&quot;运动控制&quot;]
+        O4 --&gt; O5[&quot;电机驱动&quot;]
+        O5 --&gt; O1
     end</pre>
 <table>
 <tr><th>环节</th><th>典型频率</th><th>数据形态</th></tr>
@@ -170,259 +170,259 @@
 <h3>3.2 模式Ⅱ：双机快慢环</h3>
 <p>慢环（任务、视觉、大模型）与快环（平衡、力矩、安全）<strong>分机部署</strong>；机间只传<strong>低维意图与状态</strong>，不传每个力矩周期的高维原始数据。</p>
 <pre class="mermaid">flowchart TB
-    subgraph HOST["慢环主机 · ~1–30 Hz"]
-        H1["感知 / 语义 / 任务调度"]
-        H1 --> H2["意图包 · 目标位姿 / 路点 / 阶段 / 时效"]
+    subgraph HOST[&quot;慢环主机 · ~1–30 Hz&quot;]
+        H1[&quot;感知 / 语义 / 任务调度&quot;]
+        H1 --&gt; H2[&quot;意图包 · 目标位姿 / 路点 / 阶段 / 时效&quot;]
     end
 
-    subgraph LINK["机间链路 · 有线优先"]
-        L1["指令下发 + 状态回传 + 心跳"]
+    subgraph LINK[&quot;机间链路 · 有线优先&quot;]
+        L1[&quot;指令下发 + 状态回传 + 心跳&quot;]
     end
 
-    subgraph RT["快环实时机 · ~50 Hz–1 kHz"]
-        R1["全身传感融合"]
-        R1 --> R2["快环策略 / 平衡"]
-        R2 --> R3["全身控制 → 力矩"]
-        R3 --> R4["驱动"]
-        R4 --> R1
+    subgraph RT[&quot;快环实时机 · ~50 Hz–1 kHz&quot;]
+        R1[&quot;全身传感融合&quot;]
+        R1 --&gt; R2[&quot;快环策略 / 平衡&quot;]
+        R2 --&gt; R3[&quot;全身控制 → 力矩&quot;]
+        R3 --&gt; R4[&quot;驱动&quot;]
+        R4 --&gt; R1
     end
 
-    H2 --> L1 --> R2
-    R1 --> L1 --> H1</pre>
+    H2 --&gt; L1 --&gt; R2
+    R1 --&gt; L1 --&gt; H1</pre>
 <h3>3.3 模式Ⅲ：跨坐标系感知-操作</h3>
 <p>操作类集成的本质是：<strong>目标在哪个坐标系表达，经过几次变换才成为关节力矩</strong>。可与模式Ⅰ或Ⅱ叠加。</p>
 <pre class="mermaid">flowchart TB
-    subgraph PER["感知 · 慢环"]
-        P1["图像 / 点云 / 触觉"]
-        P1 --> P2["目标检测 / 位姿估计"]
-        P2 --> P3["目标 · 相机系"]
+    subgraph PER[&quot;感知 · 慢环&quot;]
+        P1[&quot;图像 / 点云 / 触觉&quot;]
+        P1 --&gt; P2[&quot;目标检测 / 位姿估计&quot;]
+        P2 --&gt; P3[&quot;目标 · 相机系&quot;]
     end
 
-    subgraph TF["坐标变换链"]
-        P3 --> T1["传感器 → 末端 / 头部"]
-        T1 --> T2["末端 → 基座 / 浮动基座"]
-        T2 --> TGT["基座系目标"]
+    subgraph TF[&quot;坐标变换链&quot;]
+        P3 --&gt; T1[&quot;传感器 → 末端 / 头部&quot;]
+        T1 --&gt; T2[&quot;末端 → 基座 / 浮动基座&quot;]
+        T2 --&gt; TGT[&quot;基座系目标&quot;]
     end
 
-    subgraph EXEC["执行 · 快环"]
-        TGT --> X1["逆解 / 轨迹插补"]
-        X1 --> X2["位置 / 阻抗 / 力控"]
-        X2 --> X3["夹爪 / 工具"]
-        X3 --> FB["力 / 触觉反馈"]
-        FB -->|失败重规划| P2
+    subgraph EXEC[&quot;执行 · 快环&quot;]
+        TGT --&gt; X1[&quot;逆解 / 轨迹插补&quot;]
+        X1 --&gt; X2[&quot;位置 / 阻抗 / 力控&quot;]
+        X2 --&gt; X3[&quot;夹爪 / 工具&quot;]
+        X3 --&gt; FB[&quot;力 / 触觉反馈&quot;]
+        FB --&gt;|失败重规划| P2
     end</pre>
 <h3>3.4 模式Ⅳ：多机协同</h3>
 <p>每台机器仍保留<strong>模式Ⅰ 的单机闭环</strong>，额外增加<strong>共享层</strong>：统一或对齐的环境表征、任务分配、冲突消解。</p>
 <pre class="mermaid">flowchart TB
-    subgraph FLEET["调度 / 监控 · ~1–10 Hz"]
-        F1["任务队列 / 订单"]
-        F1 --> F2["分配 · 哪台去哪"]
-        F2 --> F3["全局冲突检测"]
+    subgraph FLEET[&quot;调度 / 监控 · ~1–10 Hz&quot;]
+        F1[&quot;任务队列 / 订单&quot;]
+        F1 --&gt; F2[&quot;分配 · 哪台去哪&quot;]
+        F2 --&gt; F3[&quot;全局冲突检测&quot;]
     end
 
-    subgraph MAP["共享环境表征"]
-        M1["全局 / 局部地图"]
-        M2["各机位姿"]
-        M1 --> M2
+    subgraph MAP[&quot;共享环境表征&quot;]
+        M1[&quot;全局 / 局部地图&quot;]
+        M2[&quot;各机位姿&quot;]
+        M1 --&gt; M2
     end
 
-    subgraph R1["机器人 A · 模式Ⅰ"]
-        A1["估计"] --> A2["规划"] --> A3["控制"] --> A4["执行"]
-        A4 --> A1
+    subgraph R1[&quot;机器人 A · 模式Ⅰ&quot;]
+        A1[&quot;估计&quot;] --&gt; A2[&quot;规划&quot;] --&gt; A3[&quot;控制&quot;] --&gt; A4[&quot;执行&quot;]
+        A4 --&gt; A1
     end
 
-    subgraph R2["机器人 B · 模式Ⅰ"]
-        B1["估计"] --> B2["规划"] --> B3["控制"] --> B4["执行"]
-        B4 --> B1
+    subgraph R2[&quot;机器人 B · 模式Ⅰ&quot;]
+        B1[&quot;估计&quot;] --&gt; B2[&quot;规划&quot;] --&gt; B3[&quot;控制&quot;] --&gt; B4[&quot;执行&quot;]
+        B4 --&gt; B1
     end
 
-    F2 --> A2 &amp; B2
-    M1 --> A2 &amp; B2
-    A1 &amp; B1 --> M2
-    F3 --> A2 &amp; B2</pre>
+    F2 --&gt; A2 &amp; B2
+    M1 --&gt; A2 &amp; B2
+    A1 &amp; B1 --&gt; M2
+    F3 --&gt; A2 &amp; B2</pre>
 <h3>3.5 模式Ⅴ：人在回路</h3>
 <p>主端（人）产生连续或离散输入，经<strong>映射与限速</strong>后进入从端控制链；强调<strong>双向反馈</strong>与<strong>安全互锁</strong>，是示教、遥操作、数据采集的常见骨架。</p>
 <pre class="mermaid">flowchart TB
-    subgraph MASTER["主端 · 操作者"]
-        M1["手柄 / 主从臂 / 空间鼠标 / 语音"]
-        M1 --> M2["映射 · 尺度 / 偏置 / 死区"]
+    subgraph MASTER[&quot;主端 · 操作者&quot;]
+        M1[&quot;手柄 / 主从臂 / 空间鼠标 / 语音&quot;]
+        M1 --&gt; M2[&quot;映射 · 尺度 / 偏置 / 死区&quot;]
     end
 
-    M2 --> S1
+    M2 --&gt; S1
 
-    subgraph SLAVE["从端 · 机器人"]
-        S1["接收目标 · 关节 / 末端 / 底盘"]
-        S1 --> S2["限速 / 碰撞预测 / 互锁"]
-        S2 --> S3["控制 → 驱动 → 机械"]
+    subgraph SLAVE[&quot;从端 · 机器人&quot;]
+        S1[&quot;接收目标 · 关节 / 末端 / 底盘&quot;]
+        S1 --&gt; S2[&quot;限速 / 碰撞预测 / 互锁&quot;]
+        S2 --&gt; S3[&quot;控制 → 驱动 → 机械&quot;]
     end
 
-    S3 --> F1
+    S3 --&gt; F1
 
-    subgraph FB2["反馈"]
-        F1["从端状态 / 图像 / 力觉"]
+    subgraph FB2[&quot;反馈&quot;]
+        F1[&quot;从端状态 / 图像 / 力觉&quot;]
     end
 
-    F1 --> M1</pre>
+    F1 --&gt; M1</pre>
 <hr/>
 <h2 id="四-七个经典形态-实例化-映射到总骨架">四、七个经典形态（实例化 · 映射到总骨架）</h2>
 <p>各节在总骨架上<strong>高亮一条主路径</strong>；与模式详图重复处从简，只保留该形态特有的分支。</p>
 <h3>4.1 轮式自主导航</h3>
 <p><strong>主模式</strong>：Ⅰ · <strong>代表场景</strong>：AGV、扫地机、仓储 AMR 单机调度。</p>
 <pre class="mermaid">flowchart TB
-    subgraph NAV["轮式导航 · 模式Ⅰ 实例"]
+    subgraph NAV[&quot;轮式导航 · 模式Ⅰ 实例&quot;]
         direction TB
-        N1["编码器 + 惯性 + 激光/深度"] --> N2["里程计 + 定位建图"]
-        N2 --> N3["全局路径 + 局部避障"]
-        N3 --> N4["差速/全向 逆解 + 速度环"]
-        N4 --> N5["轮电机驱动"]
-        N5 --> N1
+        N1[&quot;编码器 + 惯性 + 激光/深度&quot;] --&gt; N2[&quot;里程计 + 定位建图&quot;]
+        N2 --&gt; N3[&quot;全局路径 + 局部避障&quot;]
+        N3 --&gt; N4[&quot;差速/全向 逆解 + 速度环&quot;]
+        N4 --&gt; N5[&quot;轮电机驱动&quot;]
+        N5 --&gt; N1
     end
-    N2 -.->|"环境变化"| N1</pre>
-<p>👉 <a href="./path_planning.md">路径规划</a> · <a href="./slam.md">SLAM</a> · <a href="./state_estimation.md">状态估计</a></p>
+    N2 -.-&gt;|&quot;环境变化&quot;| N1</pre>
+<p>👉 <a href="https://github.com/651yyds3939/robotics-notes/blob/master/robotics/path_planning.md">路径规划</a> · <a href="https://github.com/651yyds3939/robotics-notes/blob/master/robotics/slam.md">SLAM</a> · <a href="https://github.com/651yyds3939/robotics-notes/blob/master/robotics/state_estimation.md">状态估计</a></p>
 <h3>4.2 固定基座机械臂搬运</h3>
 <p><strong>主模式</strong>：Ⅰ（无视觉时）或 Ⅰ+Ⅲ（有视觉时）· <strong>代表场景</strong>：工业 pick-and-place、实验室桌面臂。</p>
 <pre class="mermaid">flowchart TB
-    subgraph ARM["固定基座臂 · 模式Ⅰ"]
+    subgraph ARM[&quot;固定基座臂 · 模式Ⅰ&quot;]
         direction TB
-        A1["关节编码器 + 可选六维力"] --> A2["正解 / 当前末端位姿"]
-        A2 --> A3["任务点序列 / 示教轨迹"]
-        A3 --> A4["逆解 + 轨迹插补"]
-        A4 --> A5["关节位置 / 力矩伺服"]
-        A5 --> A6["机械臂 + 夹爪"]
-        A6 --> A1
+        A1[&quot;关节编码器 + 可选六维力&quot;] --&gt; A2[&quot;正解 / 当前末端位姿&quot;]
+        A2 --&gt; A3[&quot;任务点序列 / 示教轨迹&quot;]
+        A3 --&gt; A4[&quot;逆解 + 轨迹插补&quot;]
+        A4 --&gt; A5[&quot;关节位置 / 力矩伺服&quot;]
+        A5 --&gt; A6[&quot;机械臂 + 夹爪&quot;]
+        A6 --&gt; A1
     end
 
-    VIS["可选：模式Ⅲ 视觉"] -.->|"抓取点位姿"| A3</pre>
+    VIS[&quot;可选：模式Ⅲ 视觉&quot;] -.-&gt;|&quot;抓取点位姿&quot;| A3</pre>
 <p>与轮式导航相比：<strong>无浮动基座</strong>，坐标变换链更短；集成重点在<strong>奇异点、限位、工具中心点标定</strong>。</p>
 <h3>4.3 双足行走与平衡</h3>
 <p><strong>主模式</strong>：Ⅱ · <strong>代表场景</strong>：双足人形、双足外骨骼的快环部分。</p>
 <pre class="mermaid">flowchart TB
-    subgraph BIP["双足 · 模式Ⅱ 快环主路径"]
+    subgraph BIP[&quot;双足 · 模式Ⅱ 快环主路径&quot;]
         direction TB
-        B1["关节 + 惯性 + 足端力"] --> B2["浮动基座 + 触地相位"]
-        B2 --> B3["行走 / 姿态策略"]
-        B3 --> B4["全身控制 → 关节力矩"]
-        B4 --> B5["腿部驱动"]
-        B5 --> B1
+        B1[&quot;关节 + 惯性 + 足端力&quot;] --&gt; B2[&quot;浮动基座 + 触地相位&quot;]
+        B2 --&gt; B3[&quot;行走 / 姿态策略&quot;]
+        B3 --&gt; B4[&quot;全身控制 → 关节力矩&quot;]
+        B4 --&gt; B5[&quot;腿部驱动&quot;]
+        B5 --&gt; B1
     end
 
-    subgraph SLOW["慢环 · 可选"]
-        S1["导航路点 / 姿态切换指令"]
-        S1 --> B3
+    subgraph SLOW[&quot;慢环 · 可选&quot;]
+        S1[&quot;导航路点 / 姿态切换指令&quot;]
+        S1 --&gt; B3
     end
 
-    B2 --> SLOW</pre>
+    B2 --&gt; SLOW</pre>
 <p><strong>级联原则</strong>：策略给参考，全身控制保物理可行；慢环超时则快环独立保活。详见 <a href="#51-跨机目标流模式ⅱ--ⅲ-合成">§五.1 跨机目标流</a> 与 <a href="#52-断连与降级">§5.2 断连降级</a>。</p>
-<p>👉 <a href="./dynamics_control.md">动力学与控制</a> · <a href="./RL.md">强化学习 / Sim2Real</a></p>
+<p>👉 <a href="https://github.com/651yyds3939/robotics-notes/blob/master/robotics/dynamics_control.md">动力学与控制</a> · <a href="https://github.com/651yyds3939/robotics-notes/blob/master/robotics/RL.md">强化学习 / Sim2Real</a></p>
 <h3>4.4 移动操作与视觉抓取</h3>
 <p><strong>主模式</strong>：Ⅱ + Ⅲ · <strong>代表场景</strong>：带臂移动底盘、人形上肢操作、「看到—走到—抓到」。</p>
 <pre class="mermaid">flowchart TB
-    subgraph MOB["移动操作 · Ⅱ+Ⅲ 叠加"]
+    subgraph MOB[&quot;移动操作 · Ⅱ+Ⅲ 叠加&quot;]
         direction TB
-        subgraph UP["慢环"]
-            U1["视觉流水线"] --> U2["基座系抓取目标"]
+        subgraph UP[&quot;慢环&quot;]
+            U1[&quot;视觉流水线&quot;] --&gt; U2[&quot;基座系抓取目标&quot;]
         end
-        subgraph DN["快环"]
-            D1["底盘/下肢平衡"] 
-            U2 --> D2["上肢逆解 + 全身协调"]
-            D2 --> D3["力矩输出"]
-            D1 --> D2
-            D3 --> D4["臂爪执行"]
+        subgraph DN[&quot;快环&quot;]
+            D1[&quot;底盘/下肢平衡&quot;]
+            U2 --&gt; D2[&quot;上肢逆解 + 全身协调&quot;]
+            D2 --&gt; D3[&quot;力矩输出&quot;]
+            D1 --&gt; D2
+            D3 --&gt; D4[&quot;臂爪执行&quot;]
         end
-        D4 --> U1
+        D4 --&gt; U1
     end</pre>
 <p><strong>要点</strong>：视觉在慢环算目标，<strong>不要</strong>每个力矩周期跨机传图；上肢与支撑腿在快环<strong>同一时钟</strong>内协调。</p>
-<p>👉 <a href="./tf_tree.md">TF 树</a> · <a href="./robot_modeling.md">机器人建模</a></p>
+<p>👉 <a href="https://github.com/651yyds3939/robotics-notes/blob/master/robotics/tf_tree.md">TF 树</a> · <a href="https://github.com/651yyds3939/robotics-notes/blob/master/robotics/robot_modeling.md">机器人建模</a></p>
 <h3>4.5 接触丰富装配与插孔</h3>
 <p><strong>主模式</strong>：Ⅲ（力闭环为主）· <strong>常叠加</strong> Ⅰ 或 Ⅱ · <strong>代表场景</strong>： peg-in-hole、插 USB、装配拧紧、擦拭。</p>
 <pre class="mermaid">flowchart TB
-    subgraph CONT["接触丰富操作 · 模式Ⅲ 力闭环"]
+    subgraph CONT[&quot;接触丰富操作 · 模式Ⅲ 力闭环&quot;]
         direction TB
-        C1["粗定位 · 视觉或示教"] --> C2["接近段 · 位置控制"]
-        C2 --> C3["接触段 · 阻抗/导纳/力控"]
-        C3 --> C4["六维力 / 触觉"]
-        C4 --> C5{"接触成功？"}
-        C5 -->|否| C6["搜索 / 微调 / 重新对齐"]
-        C6 --> C3
-        C5 -->|是| C7["完成 / 下一工步"]
+        C1[&quot;粗定位 · 视觉或示教&quot;] --&gt; C2[&quot;接近段 · 位置控制&quot;]
+        C2 --&gt; C3[&quot;接触段 · 阻抗/导纳/力控&quot;]
+        C3 --&gt; C4[&quot;六维力 / 触觉&quot;]
+        C4 --&gt; C5{&quot;接触成功？&quot;}
+        C5 --&gt;|否| C6[&quot;搜索 / 微调 / 重新对齐&quot;]
+        C6 --&gt; C3
+        C5 --&gt;|是| C7[&quot;完成 / 下一工步&quot;]
     end</pre>
 <p>与 <a href="#44-移动操作与视觉抓取">§4.4</a> 的区别：<strong>闭环变量从位姿误差变为力/阻抗误差</strong>；集成难点在<strong>接触突变、摩擦、延迟</strong>。</p>
-<p>👉 <a href="./impedance_control.md">阻抗控制</a></p>
+<p>👉 <a href="https://github.com/651yyds3939/robotics-notes/blob/master/robotics/impedance_control.md">阻抗控制</a></p>
 <h3>4.6 多车仓储与编队</h3>
 <p><strong>主模式</strong>：Ⅳ · <strong>每台车内部仍为</strong> Ⅰ · <strong>代表场景</strong>：多 AMR 仓库、编队巡航、协同搬运。</p>
 <pre class="mermaid">flowchart TB
-    subgraph WH["仓储多车 · 模式Ⅳ"]
+    subgraph WH[&quot;仓储多车 · 模式Ⅳ&quot;]
         direction TB
-        W1["订单 / 库位任务"]
-        W2["中央或分布式调度"]
-        W3["机器人 1..N 各自模式Ⅰ 导航环"]
-        W4["位姿 / 占用上报"]
-        W5["冲突消解 · 等待 / 改道 / 优先级"]
-        W1 --> W2
-        W2 --> W3
-        W3 --> W4
-        W4 --> W2
-        W2 --> W5
-        W5 --> W3
+        W1[&quot;订单 / 库位任务&quot;]
+        W2[&quot;中央或分布式调度&quot;]
+        W3[&quot;机器人 1..N 各自模式Ⅰ 导航环&quot;]
+        W4[&quot;位姿 / 占用上报&quot;]
+        W5[&quot;冲突消解 · 等待 / 改道 / 优先级&quot;]
+        W1 --&gt; W2
+        W2 --&gt; W3
+        W3 --&gt; W4
+        W4 --&gt; W2
+        W2 --&gt; W5
+        W5 --&gt; W3
     end</pre>
 <p><strong>断点</strong>：地图版本不一致、调度延迟导致路径交叉、通信分区导致「幽灵占用」。</p>
-<p>👉 <a href="./path_planning.md">路径规划</a> · <a href="./ros_communication.md">多机通信</a></p>
+<p>👉 <a href="https://github.com/651yyds3939/robotics-notes/blob/master/robotics/path_planning.md">路径规划</a> · <a href="https://github.com/651yyds3939/robotics-notes/blob/master/robotics/ros_communication.md">多机通信</a></p>
 <h3>4.7 遥操作与示教采集</h3>
 <p><strong>主模式</strong>：Ⅴ · <strong>常叠加</strong> Ⅱ / Ⅲ · <strong>代表场景</strong>：主从臂示教、VR 遥操作、模仿学习数据录制。</p>
 <pre class="mermaid">flowchart TB
-    subgraph TELE["遥操作 · 模式Ⅴ"]
+    subgraph TELE[&quot;遥操作 · 模式Ⅴ&quot;]
         direction TB
-        T1["主端操作"] --> T2["映射与限速"]
-        T2 --> T3["从端执行 · 模式Ⅰ 或 Ⅱ 快环"]
-        T3 --> T4["同步录制 · 观测 + 动作对"]
-        T3 --> T5["反馈 · 图像 / 力 / 状态"]
-        T5 --> T1
-        T4 --> T6["离线数据集 / 训练管线"]
+        T1[&quot;主端操作&quot;] --&gt; T2[&quot;映射与限速&quot;]
+        T2 --&gt; T3[&quot;从端执行 · 模式Ⅰ 或 Ⅱ 快环&quot;]
+        T3 --&gt; T4[&quot;同步录制 · 观测 + 动作对&quot;]
+        T3 --&gt; T5[&quot;反馈 · 图像 / 力 / 状态&quot;]
+        T5 --&gt; T1
+        T4 --&gt; T6[&quot;离线数据集 / 训练管线&quot;]
     end</pre>
-<p>与 <a href="#43-双足行走与平衡">§4.3</a> 慢环的区别：<strong>连续实时映射</strong> vs <strong>离散任务意图</strong>；与数据采集<strong>工序</strong>衔接见 <a href="./robot_software_pipelines.md#第-8-章数据采集与-ilvla-训练管线">pipelines §8</a>。</p>
+<p>与 <a href="#43-双足行走与平衡">§4.3</a> 慢环的区别：<strong>连续实时映射</strong> vs <strong>离散任务意图</strong>；与数据采集<strong>工序</strong>衔接见 <a href="https://github.com/651yyds3939/robotics-notes/blob/master/robotics/robot_software_pipelines.md#第-8-章数据采集与-ilvla-训练管线">pipelines §8</a>。</p>
 <hr/>
 <h2 id="五-合成视图-方案-1-2-3-综合">五、合成视图（方案 1+2+3 综合）</h2>
 <h3>5.1 跨机目标流（模式Ⅱ + Ⅲ 合成）</h3>
 <p>双机操作、视觉抓取、任务调度共用同一套「<strong>慢环产出目标 → 快环校验执行 → 状态回传</strong>」骨架；此处合并原先分散的跨机图。</p>
 <pre class="mermaid">flowchart TB
-    subgraph SLOW2["慢环 · 上位或 GPU 节点"]
+    subgraph SLOW2[&quot;慢环 · 上位或 GPU 节点&quot;]
         direction TB
-        S1["感知 / 语义 / 任务"]
-        S1 --> S2["生成目标包"]
-        S2 --> S3["字段：位姿 / 路点 / 阶段 / 时间戳 / 坐标系 / 有效期"]
+        S1[&quot;感知 / 语义 / 任务&quot;]
+        S1 --&gt; S2[&quot;生成目标包&quot;]
+        S2 --&gt; S3[&quot;字段：位姿 / 路点 / 阶段 / 时间戳 / 坐标系 / 有效期&quot;]
     end
 
-    subgraph LINK2["机间链路"]
-        L2["下发 + 回传 + 心跳"]
+    subgraph LINK2[&quot;机间链路&quot;]
+        L2[&quot;下发 + 回传 + 心跳&quot;]
     end
 
-    subgraph FAST2["快环 · 实时节点"]
+    subgraph FAST2[&quot;快环 · 实时节点&quot;]
         direction TB
-        F1["校验 · 范围 / 时效 / 坐标系"]
-        F1 -->|通过| F2["并入导航 / 步态 / 逆解规划器"]
-        F1 -->|拒绝| F3["保持安全状态"]
-        F2 --> F4["全身或局部控制 → 力矩"]
-        F4 --> F5["执行"]
-        F5 --> F6["状态包 · 模式 / 足端或末端 / 错误码"]
+        F1[&quot;校验 · 范围 / 时效 / 坐标系&quot;]
+        F1 --&gt;|通过| F2[&quot;并入导航 / 步态 / 逆解规划器&quot;]
+        F1 --&gt;|拒绝| F3[&quot;保持安全状态&quot;]
+        F2 --&gt; F4[&quot;全身或局部控制 → 力矩&quot;]
+        F4 --&gt; F5[&quot;执行&quot;]
+        F5 --&gt; F6[&quot;状态包 · 模式 / 足端或末端 / 错误码&quot;]
     end
 
-    S3 --> LINK2 --> F1
-    F6 --> LINK2 --> S1</pre>
+    S3 --&gt; LINK2 --&gt; F1
+    F6 --&gt; LINK2 --&gt; S1</pre>
 <h3>5.2 模式叠加：同一机器人上的多模式并存</h3>
 <p>真实平台常<strong>同时</strong>运行多种模式，而非互斥单选：</p>
 <pre class="mermaid">flowchart TB
-    ROOT["同一物理机器人"]
+    ROOT[&quot;同一物理机器人&quot;]
 
-    ROOT --> P1["模式Ⅰ 快环底座<br/>关节伺服 / 轮速环"]
-    ROOT --> P2["模式Ⅱ 慢环任务<br/>可选分机"]
-    ROOT --> P3["模式Ⅲ 视觉操作支路<br/>经变换链注入"]
-    ROOT --> P4["模式Ⅴ 示教/遥操作<br/>临时覆盖任务层"]
+    ROOT --&gt; P1[&quot;模式Ⅰ 快环底座&lt;br/&gt;关节伺服 / 轮速环&quot;]
+    ROOT --&gt; P2[&quot;模式Ⅱ 慢环任务&lt;br/&gt;可选分机&quot;]
+    ROOT --&gt; P3[&quot;模式Ⅲ 视觉操作支路&lt;br/&gt;经变换链注入&quot;]
+    ROOT --&gt; P4[&quot;模式Ⅴ 示教/遥操作&lt;br/&gt;临时覆盖任务层&quot;]
 
-    P2 -->|"意图包"| P1
-    P3 -->|"基座系目标"| P1
-    P4 -->|"映射后目标"| P1
+    P2 --&gt;|&quot;意图包&quot;| P1
+    P3 --&gt;|&quot;基座系目标&quot;| P1
+    P4 --&gt;|&quot;映射后目标&quot;| P1
 
-    XC["横切：看门狗 / Sim2Real"] -.-> P1 &amp; P2 &amp; P3</pre>
+    XC[&quot;横切：看门狗 / Sim2Real&quot;] -.-&gt; P1 &amp; P2 &amp; P3</pre>
 <table>
 <tr><th>典型组合</th><th>例子</th></tr>
 <tr><td>Ⅱ + Ⅲ</td><td>人形：下肢 Ⅱ 快环 + 上肢视觉抓取 Ⅲ</td></tr>
@@ -455,32 +455,32 @@
 <p><strong>层间接口</strong>：慢→快传递<strong>低维、带时效的目标</strong>；快→慢回传<strong>压缩状态</strong>（模式、错误码、关键标量），避免高频原始数据跨机。</p>
 <h3>6.2 断连与降级</h3>
 <pre class="mermaid">flowchart TB
-    Q{"机间或关键链路中断？"}
-    Q -->|否| OK["正常：意图下发 + 状态回传"]
-    Q -->|是| WD["看门狗超时"]
-    WD --> D1["丢弃过期意图"]
-    WD --> D2["快环独立保活 · 站立 / 阻尼 / 安全停止"]
-    WD --> D3["禁止未确认的新运动"]
-    D1 &amp; D2 &amp; D3 --> LOG["本地日志 · 恢复后对齐"]</pre>
+    Q{&quot;机间或关键链路中断？&quot;}
+    Q --&gt;|否| OK[&quot;正常：意图下发 + 状态回传&quot;]
+    Q --&gt;|是| WD[&quot;看门狗超时&quot;]
+    WD --&gt; D1[&quot;丢弃过期意图&quot;]
+    WD --&gt; D2[&quot;快环独立保活 · 站立 / 阻尼 / 安全停止&quot;]
+    WD --&gt; D3[&quot;禁止未确认的新运动&quot;]
+    D1 &amp; D2 &amp; D3 --&gt; LOG[&quot;本地日志 · 恢复后对齐&quot;]</pre>
 <p>适用于<strong>模式Ⅱ、Ⅳ、Ⅴ</strong>及任何跨进程/跨机集成。</p>
 <h3>6.3 仿真折叠与 Sim2Real</h3>
 <p>仿真不改变<strong>逻辑骨架</strong>，只折叠「控制→物理→传感」的实现：</p>
 <pre class="mermaid">flowchart TB
-    subgraph REAL2["实机"]
-        RA["传感驱动"] --> RB["估计/规划"]
-        RB --> RC["控制"]
-        RC --> RD["电机/机械"]
-        RD --> RA
+    subgraph REAL2[&quot;实机&quot;]
+        RA[&quot;传感驱动&quot;] --&gt; RB[&quot;估计/规划&quot;]
+        RB --&gt; RC[&quot;控制&quot;]
+        RC --&gt; RD[&quot;电机/机械&quot;]
+        RD --&gt; RA
     end
 
-    REAL2 ==>|结构等价| SIM2
+    REAL2 ==&gt;|结构等价| SIM2
 
-    subgraph SIM2["仿真 · 结构等价"]
-        SA["合成传感"] --> SB["估计/规划 · 同实机"]
-        SB --> SC["物理引擎积分"]
-        SC --> SA
+    subgraph SIM2[&quot;仿真 · 结构等价&quot;]
+        SA[&quot;合成传感&quot;] --&gt; SB[&quot;估计/规划 · 同实机&quot;]
+        SB --&gt; SC[&quot;物理引擎积分&quot;]
+        SC --&gt; SA
     end</pre>
-<p><strong>对齐优先级</strong>：规划以上逻辑尽量同构；<strong>观测统计、延迟、接触动力学</strong>必须单独标定。部署见 <a href="./edge_deployment.md">边缘模型部署</a> · <a href="./RL.md">RL / Sim2Real</a>。</p>
+<p><strong>对齐优先级</strong>：规划以上逻辑尽量同构；<strong>观测统计、延迟、接触动力学</strong>必须单独标定。部署见 <a href="https://github.com/651yyds3939/robotics-notes/blob/master/robotics/edge_deployment.md">边缘模型部署</a> · <a href="https://github.com/651yyds3939/robotics-notes/blob/master/robotics/RL.md">RL / Sim2Real</a>。</p>
 <hr/>
 <h2 id="七-数据形态与通道-概念级">七、数据形态与通道（概念级）</h2>
 <table>
@@ -492,20 +492,20 @@
 <tr><td>坐标系关系</td><td>多源广播</td><td>感知、抓取、导航</td><td>断链则模型漂移</td></tr>
 <tr><td>多机占用 / 位姿</td><td>各机 → 调度</td><td>冲突消解</td><td>模式Ⅳ 专用</td></tr>
 </table>
-<p>通信范式见 <a href="./ros_communication.md">ROS 通信原理</a>。</p>
+<p>通信范式见 <a href="https://github.com/651yyds3939/robotics-notes/blob/master/robotics/ros_communication.md">ROS 通信原理</a>。</p>
 <hr/>
 <h2 id="八-系统集成常见故障模式">八、系统集成常见故障模式</h2>
 <table>
 <tr><th>现象</th><th>可能断点</th><th>涉及模式</th><th>排查方向</th></tr>
-<tr><td>可视化里模型「飞走」</td><td>坐标系或时间戳</td><td>Ⅰ–Ⅲ</td><td><a href="./tf_tree.md">TF 树</a>、仿真时钟、时钟同步</td></tr>
+<tr><td>可视化里模型「飞走」</td><td>坐标系或时间戳</td><td>Ⅰ–Ⅲ</td><td><a href="https://github.com/651yyds3939/robotics-notes/blob/master/robotics/tf_tree.md">TF 树</a>、仿真时钟、时钟同步</td></tr>
 <tr><td>能规划不能动</td><td>规划未接控制或未使能</td><td>Ⅰ</td><td>启动项、控制器、安全互锁</td></tr>
-<tr><td>策略上实机失稳</td><td>观测与训练不一致</td><td>Ⅰ、Ⅱ</td><td><a href="./robot_modeling.md">URDF</a>、关节顺序、输入维度</td></tr>
+<tr><td>策略上实机失稳</td><td>观测与训练不一致</td><td>Ⅰ、Ⅱ</td><td><a href="https://github.com/651yyds3939/robotics-notes/blob/master/robotics/robot_modeling.md">URDF</a>、关节顺序、输入维度</td></tr>
 <tr><td>抓取系统性偏置</td><td>变换链错误</td><td>Ⅲ</td><td>手眼标定、浮动基座补偿</td></tr>
 <tr><td>插孔反复顶死</td><td>力控相位或延迟</td><td>Ⅲ</td><td>阻抗参数、控制频率</td></tr>
 <tr><td>多车路口死锁</td><td>调度 / 占用不一致</td><td>Ⅳ</td><td>地图版本、优先级策略</td></tr>
 <tr><td>主从遥操作抖动</td><td>映射或时延</td><td>Ⅴ</td><td>限速、预测显示、缓冲</td></tr>
 <tr><td>上位掉线下位乱动</td><td>无看门狗</td><td>Ⅱ、Ⅴ</td><td><a href="#62-断连与降级">§6.2</a></td></tr>
-<tr><td>编译通过运行缺模块</td><td>环境未加载</td><td>通用</td><td><a href="./environment.md">环境笔记</a></td></tr>
+<tr><td>编译通过运行缺模块</td><td>环境未加载</td><td>通用</td><td><a href="https://github.com/651yyds3939/robotics-notes/blob/master/robotics/environment.md">环境笔记</a></td></tr>
 </table>
 <hr/>
 <h2 id="九-从集成视角读工作空间">九、从集成视角读工作空间</h2>
@@ -515,7 +515,7 @@
 <p>3. <strong>机器人模型</strong> — 关节名是否与控制、训练配置一致。</p>
 <p>4. <strong>驱动与控制器</strong> — 力矩 / 位置接口是否匹配硬件。</p>
 <p>5. <strong>算法源码</strong> — 确认数据流无误后再读实现。</p>
-<p>文件类型说明：<a href="./doc_concept.md">ROS 工作空间速查</a>。机型实战案例：<a href="https://github.com/651yyds3939/kuavo-dev-notes">kuavo-dev-notes 仓库</a>（GitHub 跨库链接）。</p>
+<p>文件类型说明：<a href="https://github.com/651yyds3939/robotics-notes/blob/master/robotics/doc_concept.md">ROS 工作空间速查</a>。机型实战案例：<a href="https://github.com/651yyds3939/kuavo-dev-notes">kuavo-dev-notes 仓库</a>（GitHub 跨库链接）。</p>
 <hr/>
 <h2 id="十-与思维导图九大领域的关系">十、与思维导图九大领域的关系</h2>
 <table>
@@ -530,24 +530,37 @@
 <tr><td>安全工程</td><td>危险控制、互锁、安全状态与降级验证</td><td>横切</td></tr>
 <tr><td>系统软件与工程化</td><td>计算/中间件、容器、版本、仿真、Sim2Real 与系统工程</td><td>横切</td></tr>
 </table>
-<p>本篇是「<strong>竖切数据流</strong>」：总骨架（§二）→ 五种模式（§三）→ 七个经典形态（§四）→ 合成与横切（§五–§六）。<a href="../robot_system.md">思维导图</a> 是「<strong>横切全栈地图</strong>」。建议路径：<strong>总骨架 → 找对应经典形态 → 下钻模式详图 → 查横切与故障表</strong>。</p></article>
+<p>本篇是「<strong>竖切数据流</strong>」：总骨架（§二）→ 五种模式（§三）→ 七个经典形态（§四）→ 合成与横切（§五–§六）。<a href="https://github.com/651yyds3939/robotics-notes/blob/master/robot_system.md">思维导图</a> 是「<strong>横切全栈地图</strong>」。建议路径：<strong>总骨架 → 找对应经典形态 → 下钻模式详图 → 查横切与故障表</strong>。</p></article>
 <script>
 (function () {
-  function boot() {
+  window.__diagramRenderStatus = "loading";
+  function fail(error) {
+    window.__diagramRenderStatus = "error";
+    console.error("Mermaid render failed", error);
+    var notice = document.createElement("p");
+    notice.textContent = "图表加载失败，请检查本地 assets/mermaid 文件或重新生成页面。";
+    document.body.prepend(notice);
+  }
+  async function boot() {
+    try {
     mermaid.initialize({
-      startOnLoad: true,
+      startOnLoad: false,
       theme: "default",
       securityLevel: "loose",
       flowchart: { useMaxWidth: true, htmlLabels: true, curve: "basis" },
     });
+    await mermaid.run({ querySelector: ".mermaid" });
+    window.__diagramRenderStatus = "ready";
+    } catch (error) { fail(error); }
   }
   var s = document.createElement("script");
-  s.src = "https://cdn.jsdelivr.net/npm/mermaid@11.4.0/dist/mermaid.min.js";
+  s.src = "./assets/mermaid/mermaid.min.js";
   s.onload = boot;
   s.onerror = function () {
     var t = document.createElement("script");
-    t.src = "./assets/mermaid/mermaid.min.js";
+    t.src = "https://cdn.jsdelivr.net/npm/mermaid@11.4.0/dist/mermaid.min.js";
     t.onload = boot;
+    t.onerror = fail;
     document.head.appendChild(t);
   };
   document.head.appendChild(s);

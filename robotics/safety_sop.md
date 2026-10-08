@@ -2,7 +2,7 @@
 
 > **核心定位**：本文件记录 Kuavo 4 Pro 特定机型和当前测试配置下的真机操作经验，用于补充[安全工程专题](./safety_engineering.md)，不能替代项目风险评估、制造商说明书或适用标准。人形机器人真机调试存在关节爆冲、摔机、电池脱落和人身伤害风险；具体余绳、阈值、站位、按键与响应时间必须按机型、场地和安全评估确认。
 >
-> 👉 实战：[RL 行走 Sim2Real 安全部署](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/15.4RL_lab_sim_to_real.md) · [舞蹈真机安全红线](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/23.1.RL_dance_overview.md)
+> 👉 实战：[RL 行走 Sim2Real 安全部署](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/15.4RL_lab_sim_to_real.md) · [舞蹈真机安全红线](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/23.2.RL_dance_overview.md)
 
 ---
 

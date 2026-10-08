@@ -2,6 +2,10 @@
 
 > **导航**：[`robot_knowledge_map.md`](./robot_knowledge_map.md) — 四种视角、阅读路径与两库分工（完整版）
 
+这是我维护的机器人知识与工程笔记库。**知识整理、通用设计方法与真机完成项不混为一谈**：本库负责梳理系统关系和工具链，已实现的代码、训练配置、真机验证及问题复盘在 [kuavo-dev-notes](https://github.com/651yyds3939/kuavo-dev-notes) 中查看。
+
+**快速了解作品**：[在线导航](https://651yyds3939.github.io/robotics-notes/) → 系统结构 / 运行时闭环 → [Kuavo 双臂旋拧](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/34.two_arm_coordination.md)、[ACT 数据与训练](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.4.Lerobot_grasp.md)、[RL Sim2Sim 排障](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/23.8.RL_dance_pure_rl_sim2sim_debug.md)。专题笔记用于解释方法，具体完成状态以对应实验记录为准。
+
 ```mermaid
 flowchart LR
     subgraph VIEWS["四种视角 · 互不替代"]
@@ -19,12 +23,26 @@ flowchart LR
     end
 ```
 
-| **结构 · 全链路思维导图** | **流程 · 研发生命周期** |
-| :---: | :---: |
-| [<img src="./assets/robot_system_preview.png" width="100%" alt="机器人全链路思维导图"/>](https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/robot_system_preview.html) | [<img src="./assets/lifecycle_preview.png" width="100%" alt="研发全流程 Mermaid 大图"/>](https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/robot_development_lifecycle.html) |
-| [robot_system.md](./robot_system.md) · [交互版](https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/robot_system_preview.html) | [robot_development_lifecycle.md](./robot_development_lifecycle.md) · [完整 HTML](https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/robot_development_lifecycle.html) |
+## 结构 · 全链路思维导图（完整展开）
 
-> **缩略图说明**：上表两张 PNG 由 [`regenerate_all_previews.sh`](./regenerate_all_previews.sh) 自动生成（已裁边、同高；GitHub 请用 Markdown 表格 + width="100%" 并排）。**点击图片**打开 GitHub Pages 交互页。
+[<img src="./assets/robot_system_preview.png" width="100%" alt="机器人全链路思维导图：全部分支与节点完整展开"/>](./assets/robot_system_preview.png)
+
+[robot_system.md](./robot_system.md) · [查看高清原图](./assets/robot_system_preview.png) · [可缩放交互版](https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/robot_system_preview.html)
+
+> 上图包含全部展开节点，独占整行，不再只显示大分支。README 会按页面宽度缩放长图；点击图片打开高清原图，可放大查看细节。
+
+## 流程 · 研发生命周期
+
+[<img src="./assets/lifecycle_preview.png" width="100%" alt="研发全流程 Mermaid 大图"/>](https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/robot_development_lifecycle.html)
+
+[robot_development_lifecycle.md](./robot_development_lifecycle.md) · [完整 HTML](https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/robot_development_lifecycle.html)
+
+| **运行时 · 系统集成闭环** | **软件 · 二次开发管线** |
+| :---: | :---: |
+| [<img src="./assets/integration_preview.png" width="100%" alt="系统集成闭环概览"/>](https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/robot_system_integration.html) | [<img src="./assets/pipelines_preview.png" width="100%" alt="二次开发软件管线概览"/>](https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/robot_software_pipelines.html) |
+| [专题源文件](./robotics/robot_system_integration.md) · [完整 HTML](https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/robot_system_integration.html) | [专题源文件](./robotics/robot_software_pipelines.md) · [完整 HTML](https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/robot_software_pipelines.html) |
+
+> **图片说明**：四张 PNG 由 [`regenerate_all_previews.sh`](./regenerate_all_previews.sh) 自动生成。思维导图按完整 SVG 内容范围截图，保留原始文字分辨率，不折叠、不裁掉节点，也不缩小到缩略图尺寸；其余图片展示首张总览图。思维导图点击打开高清原图，其余图片点击打开完整交互页面。
 >
 > **多图文档**：[运行时闭环 · integration HTML](https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/robot_system_integration.html) · [软件管线 · pipelines HTML](https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/robot_software_pipelines.html)（亦可在 GitHub 打开 `.md` 原生渲染 Mermaid）。
 
@@ -58,7 +76,7 @@ README 缩略图与「交互版」链接默认走 **[htmlpreview](https://htmlpr
 **GitHub Pages** 已通过 [`.github/workflows/deploy-pages.yml`](./.github/workflows/deploy-pages.yml) 部署。子路径 HTML（如 `robot_development_lifecycle.html`）可直接访问；**站点根路径**需 [`index.html`](./index.html) 作为入口：
 
 - [站点首页](https://651yyds3939.github.io/robotics-notes/)（index.html 导航）
-- 与 htmlpreview 内容相同，任选其一即可离线友好访问
+- 与 htmlpreview 展示相同的生成文件。真正离线浏览需要下载仓库并保留 `assets/`，再打开本地 HTML；在线入口本身仍需要网络
 
 根目录含 `.nojekyll`，确保 `assets/markmap/`、`assets/mermaid/` 在 Pages 上可加载。
 
@@ -95,9 +113,24 @@ cd robotics-notes
 1. **先看思维导图** [`robot_system.md`](./robot_system.md) — 建立「运行时主链 + 物理本体 + 横切能力 + 研发支撑」全链路**领域结构**地图；节点上的链接可跳到本仓库专题笔记，或 [`kuavo-dev-notes`](https://github.com/651yyds3939/kuavo-dev-notes) 里的对应实战文档。
 2. **再看研发全流程** [`robot_development_lifecycle.md`](./robot_development_lifecycle.md) — 建立「需求 → 设计 → 制造 → 集成 → 验证 → 量产」**时间/流程**地图（含 SolidWorks、电气、Bring-up、Sim2Real 等 Mermaid 流程图）；与思维导图互补，不重复展开算法细节。
 3. **按链路查专题** — 在 [`robotics/`](./robotics/) 里找 ROS、SLAM、RL、动力学、Docker 等深度笔记。
-4. **环境/工具踩坑** — 在 [`ubuntu/`](./ubuntu/) 里查 Conda、Cursor、代理、磁盘清理等。
+4. **环境/工具踩坑（辅助资料）** — 在 [`ubuntu/`](./ubuntu/) 里查 Conda、代理、磁盘等。个人工具记录和历史 AI 对话不是项目成果，涉及价格、隐私、版本的信息需另行核实。
 5. **二次开发软件管线** [`robotics/robot_software_pipelines.md`](./robotics/robot_software_pipelines.md) — 环境部署、Sim2Real、导航、抓取、VLA、采集、部署与排障工序
-6. **要写代码时** — 用 [`robotics/ros_code_template/`](./robotics/ros_code_template/) 里的 ROS1/ROS2 模板；C++ 基础见 [`robotics/code/`](./robotics/code/)。
+6. **要写代码时** — 用 [`robotics/ros_code_template/`](./robotics/ros_code_template/) 里的 ROS2 模板；ROS1 通信/工作空间见 [ROS 架构逻辑](./robotics/ros_logic.md)，C++ 基础见 [`robotics/code/`](./robotics/code/)。
+
+### 本地检查与重新生成
+
+```bash
+python3 scripts/check_docs.py
+bash regenerate_all_previews.sh
+```
+
+检查覆盖本地 Markdown 文件目标、可用的同级仓库跨库目标、未闭合代码块及疑似凭据，不验证外部服务可用性或锚点，也不是完整的安全扫描。预览生成需要 **Node.js 22+**、Python 3（Pillow、NumPy）和 Chrome/Chromium；截图脚本通过 Chrome 调试协议等待 SVG 渲染完成后保存，失败时直接报错，不复用旧图。Markmap 与 Mermaid 使用随库资源。修改源文件后重新生成，不直接手改生成的 HTML/PNG。
+
+### 文档状态与安全
+
+- 空白或尚未整理的文档保留为学习入口，不视为已完成能力；学习计划在文首标记，性能目标与实测结果分开描述。
+- 通用架构图覆盖的知识范围不等于本人已实现的模块；简历成果应对应代码、配置、实验记录或演示证据。
+- 不提交 API key、Token、密码或私人配置。脱敏工作区不等于撤销密钥，也不清除 Git 历史；若凭据曾公开，先到服务端撤销/轮换，再按需要处理历史副本。
 
 ### 与 kuavo-dev-notes 的分工
 

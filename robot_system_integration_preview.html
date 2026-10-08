@@ -6,113 +6,127 @@
     html, body { margin: 0; padding: 8px; background: #fff; color: #222; height: auto; overflow: hidden;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif; }
     h1 { font-size: 11px; font-weight: 600; margin: 0 0 6px; color: #666; }
-    pre.mermaid { margin: 0; padding: 0; background: transparent; border: none; display: inline-block; }
+    pre.mermaid { margin: 0; padding: 0; background: transparent; border: none; display: block; width: 100%; }
+    pre.mermaid svg { display: block; width: 100%; max-width: none !important; height: auto; }
     .foot { display: none; }
 </style></head><body>
 <h1>机器人系统集成 · Mermaid 预览</h1>
 <pre class="mermaid">flowchart TB
-    subgraph SENSE["传感层 · 10 Hz–kHz"]
+    subgraph SENSE[&quot;传感层 · 10 Hz–kHz&quot;]
         direction TB
-        S1["本体传感 · 编码器 / 惯性 / 力矩"]
-        S2["环境传感 · 激光 / 深度 / 相机 / 触觉"]
+        S1[&quot;本体传感 · 编码器 / 惯性 / 力矩&quot;]
+        S2[&quot;环境传感 · 激光 / 深度 / 相机 / 触觉&quot;]
     end
 
-    subgraph EST["估计层 · 20–500 Hz"]
+    subgraph EST[&quot;估计层 · 20–500 Hz&quot;]
         direction TB
-        E1["里程计 / 浮动基座状态"]
-        E2["定位建图 / 占据表征"]
-        E3["坐标系关系树"]
+        E1[&quot;里程计 / 浮动基座状态&quot;]
+        E2[&quot;定位建图 / 占据表征&quot;]
+        E3[&quot;坐标系关系树&quot;]
     end
 
-    S1 --> E1
-    S2 --> E2
-    E1 --> E3
-    E2 --> E3
+    S1 --&gt; E1
+    S2 --&gt; E2
+    E1 --&gt; E3
+    E2 --&gt; E3
 
-    subgraph TASK["任务与规划层 · 1–50 Hz"]
+    subgraph TASK[&quot;任务与规划层 · 1–50 Hz&quot;]
         direction TB
-        T1["全局任务 / 行为调度"]
-        T2["全局路径 / 路点"]
-        T3["局部规划 / 避障 / 轨迹"]
-        T4["操作规划 / 逆解参考"]
+        T1[&quot;全局任务 / 行为调度&quot;]
+        T2[&quot;全局路径 / 路点&quot;]
+        T3[&quot;局部规划 / 避障 / 轨迹&quot;]
+        T4[&quot;操作规划 / 逆解参考&quot;]
     end
 
-    E3 --> T1
-    T1 --> T2
-    T1 --> T4
-    T2 --> T3
-    E1 --> T3
-    E2 --> T3
+    E3 --&gt; T1
+    T1 --&gt; T2
+    T1 --&gt; T4
+    T2 --&gt; T3
+    E1 --&gt; T3
+    E2 --&gt; T3
 
-    subgraph CTRL["控制层 · 50 Hz–1 kHz"]
+    subgraph CTRL[&quot;控制层 · 50 Hz–1 kHz&quot;]
         direction TB
-        C1["底盘 / 关节速度环"]
-        C2["学习或模型策略 · 行走姿态"]
-        C3["全身控制 / 模型预测 · 力矩映射"]
-        C4["阻抗 / 力控 / 导纳"]
+        C1[&quot;底盘 / 关节速度环&quot;]
+        C2[&quot;学习或模型策略 · 行走姿态&quot;]
+        C3[&quot;全身控制 / 模型预测 · 力矩映射&quot;]
+        C4[&quot;阻抗 / 力控 / 导纳&quot;]
     end
 
-    T3 --> C1
-    T4 --> C3
-    T4 --> C4
-    C2 --> C3
+    T3 --&gt; C1
+    T4 --&gt; C3
+    T4 --&gt; C4
+    C2 --&gt; C3
 
-    subgraph ACT["执行层 · kHz 内环"]
+    subgraph ACT[&quot;执行层 · kHz 内环&quot;]
         direction TB
-        A1["电机驱动 / 现场总线"]
-        A2["机械做功 · 轮足 / 臂爪"]
+        A1[&quot;电机驱动 / 现场总线&quot;]
+        A2[&quot;机械做功 · 轮足 / 臂爪&quot;]
     end
 
-    C1 --> A1
-    C3 --> A1
-    C4 --> A1
-    A1 --> A2
-    A2 --> S1
-    A2 -.-> S2
+    C1 --&gt; A1
+    C3 --&gt; A1
+    C4 --&gt; A1
+    A1 --&gt; A2
+    A2 --&gt; S1
+    A2 -.-&gt; S2
 
-    subgraph MODES["集成模式标注"]
+    subgraph MODES[&quot;集成模式标注&quot;]
         direction TB
-        M1["模式Ⅰ<br/>单机贯通"]
-        M2["模式Ⅱ<br/>慢环在此分叉至对端"]
-        M3["模式Ⅲ<br/>经坐标变换进入操作规划"]
-        M4["模式Ⅳ<br/>多机共享估计与任务"]
-        M5["模式Ⅴ<br/>主端注入任务/关节目标"]
+        M1[&quot;模式Ⅰ&lt;br/&gt;单机贯通&quot;]
+        M2[&quot;模式Ⅱ&lt;br/&gt;慢环在此分叉至对端&quot;]
+        M3[&quot;模式Ⅲ&lt;br/&gt;经坐标变换进入操作规划&quot;]
+        M4[&quot;模式Ⅳ&lt;br/&gt;多机共享估计与任务&quot;]
+        M5[&quot;模式Ⅴ&lt;br/&gt;主端注入任务/关节目标&quot;]
     end
 
-    M1 -.-> TASK
-    M2 -.-> TASK
-    M3 -.-> T4
-    M4 -.-> E2
-    M5 -.-> T1
+    M1 -.-&gt; TASK
+    M2 -.-&gt; TASK
+    M3 -.-&gt; T4
+    M4 -.-&gt; E2
+    M5 -.-&gt; T1
 
-    subgraph FEED["反馈与横切"]
+    subgraph FEED[&quot;反馈与横切&quot;]
         direction TB
-        F1["状态回传 · 日志 · 可视化"]
-        F2["看门狗 / 断连降级"]
-        F3["仿真↔实机映射"]
+        F1[&quot;状态回传 · 日志 · 可视化&quot;]
+        F2[&quot;看门狗 / 断连降级&quot;]
+        F3[&quot;仿真↔实机映射&quot;]
     end
 
-    E1 --> F1
-    TASK --> F2
-    ACT --> F3</pre>
+    E1 --&gt; F1
+    TASK --&gt; F2
+    ACT --&gt; F3</pre>
 <p class="foot">完整文档：<a href="./robot_system_integration.html">./robot_system_integration.html</a></p>
 <script>
 (function () {
-  function boot() {
+  window.__diagramRenderStatus = "loading";
+  function fail(error) {
+    window.__diagramRenderStatus = "error";
+    console.error("Mermaid render failed", error);
+    var notice = document.createElement("p");
+    notice.textContent = "图表加载失败，请检查本地 assets/mermaid 文件或重新生成页面。";
+    document.body.prepend(notice);
+  }
+  async function boot() {
+    try {
     mermaid.initialize({
-      startOnLoad: true,
+      startOnLoad: false,
       theme: "default",
       securityLevel: "loose",
       flowchart: { useMaxWidth: true, htmlLabels: true, curve: "basis" },
     });
+    await mermaid.run({ querySelector: ".mermaid" });
+    window.__diagramRenderStatus = "ready";
+    } catch (error) { fail(error); }
   }
   var s = document.createElement("script");
-  s.src = "https://cdn.jsdelivr.net/npm/mermaid@11.4.0/dist/mermaid.min.js";
+  s.src = "./assets/mermaid/mermaid.min.js";
   s.onload = boot;
   s.onerror = function () {
     var t = document.createElement("script");
-    t.src = "./assets/mermaid/mermaid.min.js";
+    t.src = "https://cdn.jsdelivr.net/npm/mermaid@11.4.0/dist/mermaid.min.js";
     t.onload = boot;
+    t.onerror = fail;
     document.head.appendChild(t);
   };
   document.head.appendChild(s);

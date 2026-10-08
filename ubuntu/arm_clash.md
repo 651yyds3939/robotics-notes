@@ -1,15 +1,24 @@
 # 🤖 机器人上位机全局代理 (Mihomo) 纯净部署指南
-**适用环境**：NVIDIA Jetson Orin NX 等 ARM 架构设备 / Ubuntu 20.04**开发场景**：ROS 2 机器人（如双足人形 ROS 2 平台），需要外网拉取依赖且不能干扰本地局域网和 ROS 组播通信。
+**适用环境**：NVIDIA Jetson Orin NX 等 ARM 架构设备 / Ubuntu 20.04。
+
+**开发场景**：拉取依赖时配置代理，并验证本地局域网与 ROS 组播通信不受影响。本文是历史环境记录，版本、下载源与配置应重新核对，不代表当前最优方案。
 ---
 
-## 📌 核心思路在老版本的 Ubuntu 系统中，强行安装最新版图形化代理软件（如 Clash Verge）极易引发底层依赖冲突（`libwebkit2gtk` 等）。**最稳妥、零性能损耗的方案是：** `纯二进制内核 (Mihomo) 后台运行` + `Web 网页端可视化控制`。
+## 核心思路
+
+旧系统上的图形化工具可能有依赖兼容问题，可考虑后台内核与网页管理界面。任何代理方式都可能影响资源占用和网络行为，应检查路由、DNS、LAN 放行与 ROS 通信，不称为“零性能损耗”。
 ---
 
 ## 🚀 部署步骤
-### Step 1: 获取并升级 ARM64 最新内核（解决新协议不支持问题）*老版本内核无法识别 VLESS/Hysteria2 等新协议，会导致 `unsupported` 报错并闪退，必须升级到最新 ARM64 专属内核。*
-1. 停止当前服务并下载最新内核：   ```bash
+### Step 1: 获取适配 ARM64 的内核
+
+选择与系统及配置兼容的版本；下文 v1.18.4 是历史示例，不表示最新版本。备份现有配置并核对官方发布来源后再替换服务。
+
+1. 停止当前服务并下载所选版本：
+
+```bash
    sudo systemctl stop mihomo
-   sudo wget -O /tmp/mihomo.gz [https://mirror.ghproxy.com/https://github.com/MetaCubeX/mihomo/releases/download/v1.18.4/mihomo-linux-arm64-v1.18.4.gz](https://mirror.ghproxy.com/https://github.com/MetaCubeX/mihomo/releases/download/v1.18.4/mihomo-linux-arm64-v1.18.4.gz)
+   sudo wget -O /tmp/mihomo.gz https://github.com/MetaCubeX/mihomo/releases/download/v1.18.4/mihomo-linux-arm64-v1.18.4.gz
 
 ```
 
@@ -312,4 +321,3 @@ sudo systemctl restart systemd-resolved
 
 ```
 > **💡 未来复活指南**：日后需要再次翻墙时，只需按照 **Step 3** 准备好新的 `config.yaml` 并放入 `/etc/mihomo/` 系统目录下，然后执行 `sudo systemctl enable mihomo` 和 `sudo systemctl start mihomo` 即可一键满血复活！
-

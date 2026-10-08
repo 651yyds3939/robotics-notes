@@ -1,5 +1,7 @@
 # AI 中转站：价格、功能与隐私
 
+> **归档说明**：这是个人工具使用的历史对话记录，不是机器人项目成果或当前服务推荐。价格、模型名称和隐私判断可能过时，不能直接作为事实引用；原截图未归档，相关位置保留缺图说明。文中的凭据已脱敏，实际配置应通过环境变量或本地密钥管理提供，不应提交到 Git。
+
 **Date**: July 14, 2026 at 06:51 AM
 **Turns**: 16
 **Source**: [Gemini Chat](https://gemini.google.com/app/26a7b09826d25c2b)
@@ -12,7 +14,7 @@
 
 *[This turn includes uploaded images]*
 
-![所上传图片的预览图](assets/img-001.jpg)
+> 原截图未随笔记归档（img-001.jpg）；保留文字记录。
 
 如果要用pro是把里面的flash全部换成pro吗
 
@@ -20,7 +22,7 @@
 
 **⚠️ 紧急警报：哥们先停一下手！！！**
 盯着你发来的这张 `eeb10543-f4fb-4733-8eaf-c71a49b1e100` 截图，第 21 行：
-`"value": "sk-bbb9d705a98243b6bbfebda2d476948c"`
+`"value": "REDACTED_API_KEY"`
 **你把刚办好的明文 API Key 又直接在截图里暴露出来了！** 听我一句劝，这会儿千万别心疼或嫌麻烦，**现在、立刻、马上**登录 DeepSeek 官方后台把这个尾号是 `d476948c` 的旧 Key 彻底点击 **Revoke（废弃/销毁）**，然后重新生成一个！互联网上有无数自动化爬虫在死盯着各类图片和文本流，要是去晚了，你这钱包估计又要变成黑产的免费午餐了。
 接下来回答你的硬核配置问题：**如果要换成 Pro，千万不要盲目地把里面的 flash 全部无脑替换成 pro！**
 
@@ -86,7 +88,7 @@
 
 *[This turn includes uploaded images]*
 
-![所上传图片的预览图](assets/img-002.jpg)
+> 原截图未随笔记归档（img-002.jpg）；保留文字记录。
 
 怎么这个也不行
 
@@ -129,7 +131,7 @@
 
 *[This turn includes uploaded images]*
 
-![所上传图片的预览图](assets/img-003.jpg)
+> 原截图未随笔记归档（img-003.jpg）；保留文字记录。
 
 我选了啊，你看看我后面，选了模型啊
 
@@ -297,9 +299,9 @@ models:
 
 *[This turn includes uploaded images]*
 
-![所上传图片的预览图](assets/img-004.jpg)
+> 原截图未随笔记归档（img-004.jpg）；保留文字记录。
 
-![所上传图片的预览图](assets/img-005.jpg)
+> 原截图未随笔记归档（img-005.jpg）；保留文字记录。
 
 还是不行，拍给你之前我把key删掉了，之前是可以的
 
@@ -419,7 +421,7 @@ models:
 
 *[This turn includes uploaded images]*
 
-![所上传图片的预览图](assets/img-006.jpg)
+> 原截图未随笔记归档（img-006.jpg）；保留文字记录。
 
 怎么我用deepseek结果卡死在这里了
 
@@ -455,7 +457,7 @@ Continue 的自动改代码功能，要求大模型必须输出一种极度精�
 
 *[This turn includes uploaded images]*
 
-![所上传图片的预览图](assets/img-007.jpg)
+> 原截图未随笔记归档（img-007.jpg）；保留文字记录。
 
 我还是要用中转站，为什么我自己的电脑用continue就不会卡死，正常对话。但是同样的yaml文件放到机器人里面就会这样
 
@@ -578,7 +580,7 @@ curl -I https://www.baidu.com
 
 *[This turn includes uploaded images]*
 
-![所上传图片的预览图](assets/img-008.jpg)
+> 原截图未随笔记归档（img-008.jpg）；保留文字记录。
 
 有联网能力，然后我能不能换个地址试一下
 
@@ -647,7 +649,7 @@ models:
 
 *[This turn includes uploaded images]*
 
-![所上传图片的预览图](assets/img-009.jpg)
+> 原截图未随笔记归档（img-009.jpg）；保留文字记录。
 
 这是怎么回事，compact conversation
 

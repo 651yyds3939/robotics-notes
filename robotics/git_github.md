@@ -1,17 +1,17 @@
-# 🌿 Git 与 GitHub 工业级代码管理与多分支操作指南
+# Git 与 GitHub 版本管理、多分支与子模块操作
 
 > 👉 日常速查：[Git 拉取与子模块](./git_pull.md) · 架构实战：[架构总览](./robotics_architecture_master_guide.md)
 >
-> **核心摘要**：在大型协作项目（如机器人二次开发、算法迭代）中，Git 不仅仅是用来备份的，它是管理代码冲突、追溯 Bug 责任的“司法系统”。本笔记详细记录了 Git 底层架构、GitHub 纯净仓库的构建、多分支的安全切换以及子模块（Submodule）的连环陷阱防范。
+> **范围**：版本追踪、协作、分支切换与子模块管理。下文重建仓库和放弃修改仅是特定场景方案，不是默认操作；先确认备份、上游来源及许可证，再执行删除或推送命令。
 
 ---
 
 ## 一、 Git 三层架构与快照机制
 
-与 Windows 的复制粘贴不同，Git 采用的是**快照（Snapshot）加差分**机制，极度轻量。代码在本地存在于三个核心区域：
+Git 的提交在逻辑上记录项目快照，底层存储还会进行压缩等优化。日常操作涉及三个区域：
 1. **工作区（Working Directory）**：工作区中正在编辑的文件。
 2. **暂存区（Staging Area / Index）**：执行 `git add` 后，文件被打包准备上车。可在提交前调整。
-3. **本地仓库（Local Repository）**：执行 `git commit` 后，代码正式写入 `.git` 隐藏目录，生成了一个不可篡改的 SHA-1 哈希值（如 `3cd6834`）。
+3. **本地仓库（Local Repository）**：执行 `git commit` 后创建提交对象及其内容标识（如短提交号 `3cd6834`）；内容改变会对应不同标识，但分支引用和可见历史仍可重写，不等于不可篡改存证。
 * **GitHub 的角色**：它只是一个装有 Git 环境的远端服务器，`git push` 就是把本地 `.git` 里的历史记录同步过去。
 
 ---
@@ -74,15 +74,14 @@ git branch -M main
 
 ### 2.5 GitHub 绑定与推送 (Token 认证)
 * **创建仓库**：在 GitHub 创建私有仓库，**不要勾选** README/gitignore/license 初始化。
-* **Token 登录**：GitHub 已禁止密码推送，必须生成 `Tokens (classic)`（勾选 `repo` 权限）。
+* **认证**：按组织要求选择 SSH、凭据管理器或最小权限的个人访问令牌；不将 Token 写入命令、笔记或 Git 远端 URL。
 * **推流**：
 ```bash
-git remote add origin [https://github.com/<用户名>/<仓库名>.git](https://github.com/<用户名>/<仓库名>.git)
+git remote add origin https://github.com/<用户名>/<仓库名>.git
 git push -u origin main
 # 登录时 Password 输入 Token
 
-# 强烈建议保存 Token 免密登录：
-git config --global credential.helper store
+# 按系统配置受支持的凭据管理器；不要默认使用明文 store
 ```
 
 ---
@@ -98,11 +97,12 @@ git diff
 ```
 
 ### 第一阶段：处理当前现场（根据需求二选一）
-* **方案 A：纯净重置（放弃修改）**
+* **方案 A：放弃修改（仅在已备份并确认不要这些改动时）**
  ```bash
- sudo chown -R $USER:$USER . # 解决 Docker 遗留的权限锁
+ # 权限问题先检查具体文件和容器 UID/GID，不递归修改整个仓库所有者
  git checkout . # 清除追踪文件修改
- git clean -fd # 强制清理未追踪的新文件（慎用！）
+ git clean -nd # 先预览将删除的未跟踪项
+ # 确认预览中的文件均可删除后，才执行 git clean -fd
  ```
 * **方案 B：打包带走（暂存本地修改）**
  ```bash
@@ -132,7 +132,7 @@ git stash pop # 弹出修改并应用（若有 Merge conflict 需去 VSCode 解�
 
 ## 四、 细节警惕：大小写的绝对严谨
 * Windows 不区分大小写（`readme.md` = `README.md`）。
-* Linux 的 Ext4 文件系统严格校验 ASCII 码。因此，官方的 `readme.md` 与自建 `READEME.md` 可以完美并存在同一个文件夹里，只是在红锁权限遮蔽下，图形界面可能未显示新建文件。
+* 常见 Linux 文件系统区分文件名大小写，`readme.md` 与 `README.md` 可以是不同文件；这与权限问题是两个概念。项目中文件名应保持一致，避免跨平台冲突。
 
 ---
 
@@ -140,7 +140,7 @@ git stash pop # 弹出修改并应用（若有 Merge conflict 需去 VSCode 解�
 
 ```bash
 # 1. 克隆时顺便把所有嵌套的子模块（如别人写的驱动）一起拉下来
-git clone --recursive [https://github.com/xxxxx.git](https://github.com/xxxxx.git)
+git clone --recursive https://github.com/xxxxx.git
 
 # 2. 如果克隆时忘了加 recursive，用这行命令亡羊补牢
 git submodule update --init --recursive
@@ -156,6 +156,7 @@ sudo find ~/ -iname "*READ*" -ls
 
 # 6. 查找最近 60 分钟内被修改过的所有文件（破案专用）
 find ~/ -mmin -60 -type f
+```
 
 
 

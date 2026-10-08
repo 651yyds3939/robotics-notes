@@ -2,7 +2,7 @@
 
 > **核心定位**：[`ros_communication.md`](./ros_communication.md) 讲**节点之间怎么说话**（Topic/Service/Action/参数）；[`ros2_process.md`](./ros2_process.md) 讲**怎么建包、编译、跑起来**。本篇讲中间层——**为什么这样拆节点、包和工作空间**，以及 ROS 1 / ROS 2 在架构上的根本差异。
 >
-> 👉 入门代码模板：[ROS2 最小工作空间](./ros_code_template/ros2_code_ws/) · [ROS1 工作空间](./ros_code_template/ros1_code_ws/)
+> 👉 入门代码模板：[ROS2 最小工作空间](./ros_code_template/ros2_code_ws/) · [ROS1 通信与工作空间](./doc_concept.md)
 
 ---
 

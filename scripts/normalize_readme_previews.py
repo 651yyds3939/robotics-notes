@@ -1,60 +1,30 @@
 #!/usr/bin/env python3
-"""将 README 两张缩略图紧裁空白，并统一画布尺寸便于并排展示。"""
-from __future__ import annotations
-
-import sys
+"""Tight-crop all four generated previews without stretching or center clipping."""
 from pathlib import Path
-
-sys.path.insert(0, str(Path(__file__).resolve().parent))
 from trim_preview_png import process
 
 ROOT = Path(__file__).resolve().parent.parent
-MINDMAP = ROOT / "assets" / "robot_system_preview.png"
-LIFECYCLE = ROOT / "assets" / "lifecycle_preview.png"
-BORDER = 16
-CANVAS_W = 580
-CONTENT_W = CANVAS_W - 2 * BORDER
-CANVAS_H = 2502
-CONTENT_H = CANVAS_H - 2 * BORDER
 
 
-def main() -> None:
-    if not MINDMAP.is_file():
-        raise SystemExit(f"missing {MINDMAP}")
-    if not LIFECYCLE.is_file():
-        raise SystemExit(f"missing {LIFECYCLE}")
-
-    # 横向全展开思维导图：按高度撑满同高画布，宽出部分居中裁切
-    process(
-        MINDMAP,
-        border=BORDER,
-        col_peak_frac=0.07,
-        pad_left=28,
-        pad_right=4,
-        trim_right=8,
-        pad_top=10,
-        pad_bottom=10,
-        canvas_width=CONTENT_W,
-        canvas_height=CONTENT_H,
-        content_scale=0.94,
-        offset_x=18,
-        fit_height=True,
-    )
-
-    process(
-        LIFECYCLE,
-        border=BORDER,
-        col_peak_frac=0.05,
-        canvas_width=CONTENT_W,
-        canvas_height=CONTENT_H,
-        content_scale=0.98,
-        fit_width=True,
-    )
-
-    from PIL import Image
-    mw = Image.open(MINDMAP).size
-    lw = Image.open(LIFECYCLE).size
-    print(f"README previews: mindmap {mw[0]}x{mw[1]}, lifecycle {lw[0]}x{lw[1]}")
+def main():
+    for name in ("robot_system_preview.png", "lifecycle_preview.png",
+                 "integration_preview.png", "pipelines_preview.png"):
+        path = ROOT / "assets" / name
+        if not path.is_file():
+            raise SystemExit(f"Missing preview: {path}")
+        if name == "robot_system_preview.png":
+            # Full Markmap export already uses the exact SVG bounds and padding.
+            # Density-based cropping or downscaling can hide small/deep nodes.
+            from PIL import Image
+            with Image.open(path) as image:
+                width, height = image.size
+            print(f"Full mindmap preserved: {name} {width}x{height}")
+            continue
+        width, height = process(path, border=16, col_peak_frac=0,
+                                pad_left=12, pad_right=12,
+                                pad_top=12, pad_bottom=12,
+                                max_width=1600, max_height=4200)
+        print(f"Preview: {name} {width}x{height}")
 
 
 if __name__ == "__main__":

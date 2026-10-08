@@ -124,7 +124,7 @@
 | **排障 / 数据分析** | rosbag 解析、Python 分析脚本 | [代码阅读技能](../code_read_skill.md) |
 | **多终端编排** | launch、IP 配置、点火序列 | [robot_software_pipelines](../robot_software_pipelines.md) |
 
-👉 **实战案例**：[YOLO 仿真](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/4.2yolov8_sim.md) · [真机 YOLO 环境](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/4.3.real_robot_yolo_environment.md) · [VLA 22.1–22.4 系列](https://github.com/651yyds3939/kuavo-dev-notes/tree/master/kuavo_notes) · [LeRobot 数据采集](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.4.Lerobot_grasp.md) · [Isaac Lab 行走训练](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/15.1.RL_lab_train.md) · [舞蹈 RL 训练](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/23.3.RL_dance_train.md)
+👉 **实战案例**：[YOLO 仿真](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/4.2yolov8_sim.md) · [真机 YOLO 环境](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/4.3.real_robot_yolo_environment.md) · [VLA 22.1–22.4 系列](https://github.com/651yyds3939/kuavo-dev-notes/tree/master/kuavo_notes) · [LeRobot 数据采集](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.4.Lerobot_grasp.md) · [Isaac Lab 行走训练](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/15.1.RL_lab_train.md) · [舞蹈 RL 训练](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/23.4.RL_dance_train.md)
 
 ---
 
@@ -165,7 +165,7 @@ C++ 控制器加载 ONNX     →  50~100Hz 真机推理
 Python 脚本            →  终端点火、遥控、bag 分析
 ```
 
-👉 **实战案例**：[行走 Sim2Real 真机部署](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/15.4RL_lab_sim_to_real.md) · [舞蹈真机混合部署](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/23.5.RL_dance_deploy_hybrid.md) · [仿真环境部署](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/1.start.md) · [仓库结构导读](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/0.doc.md)
+👉 **实战案例**：[行走 Sim2Real 真机部署](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/15.4RL_lab_sim_to_real.md) · [舞蹈真机混合部署](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/23.7.RL_dance_deploy_hybrid.md) · [仿真环境部署](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/1.start.md) · [仓库结构导读](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/0.doc.md)
 
 ---
 
@@ -244,7 +244,7 @@ pub.publish(msg)   # 发给 C++ 控制器执行
 | 改 WBC/力矩环算法 | **通常不可行**（闭源） | — |
 | 用 C++ 重写任务调度 | **C++**（工程优化方向） | [C++ 语法补充](C++_grammar_supplement.md) |
 
-👉 **实战案例**：[视觉抓取路线概览](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/4.1.visual_grasping_route.md) · [行为树版 VLA](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.2.tree_VLA_grasp.md) · [决策树专题](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/29decision_tree.md) · [舞蹈终端命令全集](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/23.7.RL_dance_terminal_commands.md)
+👉 **实战案例**：[视觉抓取路线概览](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/4.1.visual_grasping_route.md) · [行为树版 VLA](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.2.tree_VLA_grasp.md) · [决策树专题](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/29decision_tree.md) · [舞蹈终端命令全集](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/23.1.RL_dance_terminal_commands.md)
 
 ---
 

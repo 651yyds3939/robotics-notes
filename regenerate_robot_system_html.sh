@@ -197,4 +197,5 @@ rm -f "$JSON_TMP"
 
 # shellcheck source=scripts/preview_png.sh
 source "$ROOT/scripts/preview_png.sh"
-screenshot_html "$PREVIEW_HTML" "$PREVIEW_PNG" 2000 2600 30000 || true
+# Export every expanded node at native resolution instead of a viewport-sized overview.
+screenshot_html "$PREVIEW_HTML" "$PREVIEW_PNG" 2000 1800 --full-markmap

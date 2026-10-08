@@ -2,7 +2,7 @@
 
 > **核心定位**：机器人模型是仿真与真机之间的**唯一桥梁**。URDF 定义了运动学链、惯量、碰撞几何、关节限位——一个错位的关节或错误的惯量参数，直接导致仿真训出来的策略在真机上崩溃。
 >
-> 👉 实战笔记：[Sim2Real URDF 缝合](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/15.4RL_lab_sim_to_real.md) · [S49 舞蹈 RL 训练](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/23.3.RL_dance_train.md)
+> 👉 实战笔记：[Sim2Real URDF 缝合](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/15.4RL_lab_sim_to_real.md) · [S49 舞蹈 RL 训练](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/23.4.RL_dance_train.md)
 
 ---
 

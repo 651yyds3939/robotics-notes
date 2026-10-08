@@ -6,9 +6,9 @@
 
 | 方向 | 专题笔记 | 实战案例 |
 |------|---------|---------|
-| **强化学习** | [RL.md](./RL.md) | [行走 RL](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/15.4RL_lab_sim_to_real.md) · [舞蹈 IL+RL](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/23.1.RL_dance_overview.md) |
+| **强化学习** | [RL.md](./RL.md) | [行走 RL](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/15.4RL_lab_sim_to_real.md) · [舞蹈 IL+RL](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/23.2.RL_dance_overview.md) |
 | **世界模型** | [world_model.md](./world_model.md) | [TD-MPC2 训练](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/31.1.world_model.md) |
-| **VLA 具身交互** | [vla_landscape.md](./vla_landscape.md) | [VLA 语音抓取](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.1VLA_grasping.md) · [MCP Tool Call](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.3.MCP_LeRobot_VLA_grasp.md) |
+| **VLA 具身交互** | [vla_landscape.md](./vla_landscape.md) | [VLA 语音抓取](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.1VLA_grasping.md) · [MCP Tool Call](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.3.MCP_VLA_grasp.md) |
 | **LLM 机器人规划** | [llm_for_robotics.md](./llm_for_robotics.md) | [Gemini 全双工](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/21.3.gemini_model.md) · [行为树 VLA](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.2.tree_VLA_grasp.md) |
 | **视觉基础模型** | [vision_foundation_models.md](./vision_foundation_models.md) | [YOLO 真机](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/4.3.real_robot_yolo_environment.md) · [VLM 图像触发](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/30.AI_image_identification.md) |
 | **模仿学习** | [benchmark_dataset.md](./benchmark_dataset.md) | [LeRobot 数据采集](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.4.Lerobot_grasp.md) |

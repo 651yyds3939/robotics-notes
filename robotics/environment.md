@@ -118,6 +118,7 @@
  MAKEFLAGS="-j4" colcon build
  # 或顺序编译
  colcon build --executor sequential
+ ```
 
 ### 5.4 传输卡顿/丢包解决 (ROS 2 中间件切换)
 * **痛点**：大流量数据在默认的 FastDDS 下掉帧、节点假死。
@@ -149,3 +150,4 @@ export PATH=$PATH:/opt/ros/noetic/bin
 
 # 5. 验证算法是否成功被 ROS 识别
 rospack find fast_lio
+```

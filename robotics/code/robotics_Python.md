@@ -179,7 +179,7 @@ Launch **不写业务**，只负责：起哪些节点、传哪些参数、命名
 | **感知节点** | `yolo` · `detect` · `cv_bridge` · `tf2` | 输入图像 topic，输出检测/坐标 topic |
 | **大模型网关** | `flask` · `asr` · `tts` · `llm` | HTTP/ROS 边界，Prompt 解析逻辑 |
 
-👉 **实战案例**：[LeRobot 数据采集](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.4.Lerobot_grasp.md) · [舞蹈训练终端命令](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/23.7.RL_dance_terminal_commands.md) · [行为树版 VLA](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.2.tree_VLA_grasp.md) · [Isaac Lab 训练](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/15.1.RL_lab_train.md)
+👉 **实战案例**：[LeRobot 数据采集](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.4.Lerobot_grasp.md) · [舞蹈训练终端命令](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/23.1.RL_dance_terminal_commands.md) · [行为树版 VLA](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.2.tree_VLA_grasp.md) · [Isaac Lab 训练](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/15.1.RL_lab_train.md)
 
 ---
 

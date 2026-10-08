@@ -320,7 +320,7 @@ flowchart TB
 | 3 | 关节零位 | 与 URDF 一致 | [关节标定](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/26.joint_calibration.md) |
 | 4 | IMU | 躯干垂直 | [RL 真机](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/15.4RL_lab_sim_to_real.md) |
 | 5 | 网络 | 千兆直连、MASTER_URI | [网络配置](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/16.Internet.md) |
-| 6 | RL 切换 | E/F 档、B 键 3 秒窗口 | [舞蹈安全](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/23.1.RL_dance_overview.md) |
+| 6 | RL 切换 | E/F 档、B 键 3 秒窗口 | [舞蹈安全](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/23.2.RL_dance_overview.md) |
 
 ------
 

@@ -35,8 +35,8 @@
 > 机器人形态决定运动约束、自由度、感知配置、执行器、控制方法、安全状态与验证路线；面对新平台应先分析物理约束和环境交互，而不只是外形。
 
 ### 0.0 机器人的定义
-- **机器人 = 自主感知 + 自主决策 + 自主执行**，三者缺一不可
-- 只有执行没有感知和决策 → 自动化设备；没有自主决策 → 遥控设备；没有物理执行 → 纯软件 AI
+- **广义机器人**是可编程的机电系统：通过执行机构与物理环境交互，并可按任务接收感知、状态或人工指令。
+- **自主机器人**通常形成“感知/状态估计 → 决策/规划 → 执行”的闭环；工业自动化设备、遥操作机器人和纯软件 AI 分别处在这一能力谱的不同位置，边界取决于任务自主性与物理交互能力。
 
 ### 0.1 按运动与作业形态
 
@@ -182,7 +182,7 @@
 
 #### 2.2.1 数据采集与遥操作 (Data Collection) 👉 [Benchmark 与 Dataset 专题](./robotics/benchmark_dataset.md) · [AI/VLA 数据工程](./robotics/ai_vla_data_engineering.md)
 
-- **自采（实战案例）**：LeRobot v3.0 格式（observation 图像+关节状态 + action），三机分工（下位机录 npz + 上位机录 RGB + PC 离线打包），单条 episode ~1200 帧 @50Hz
+- **自采（实战案例）**：LeRobot v3.0 格式（observation 图像+关节状态 + action），三机分工（NUC 采集同步数据、Orin 打包、PC 训练）；[ACT 实验记录](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/22.4.Lerobot_grasp.md)包含 88 条示范、27,137 帧，具体采样与打包参数以对应配置为准
 - **公开采集范式**：ALOHA 主从双臂遥操作 · UMI 可穿戴 retargeting · Ego-centric 第一人称视频（低成本、弱 action 标注）
 - **公开大规模 Dataset（训通用 VLA/IL）** 👉 [Benchmark 与 Dataset 专题](./robotics/benchmark_dataset.md)
     - [Open X-Embodiment (RT-X)](https://robotics-transformer-x.github.io/) · [DROID](https://droid-dataset.github.io/) · [BridgeData V2](https://rail-berkeley.github.io/bridgedata/) · [AgiBot World](https://agibot-world.com/)
@@ -300,7 +300,7 @@
 - **训练技巧**：课程学习（由易到难逐步增加任务复杂度）、奖励塑形（Reward Shaping，引入辅助奖励引导策略收敛）
 - **混合级联架构**（现代人形常见方案之一）：[RL](./robotics/RL.md) 生成动作/姿态参考 → [MPC](./robotics/dynamics_control.md) 以较低频率优化预测轨迹（可选）→ 高频 [WBC](./robotics/dynamics_control.md) / 伺服控制满足动力学约束并执行安全限制；具体分工与频率依平台而异
 - **Sim2Real 核心痛点**：S49 机型 [URDF](./robotics/robot_modeling.md) 与训练资产版本撕裂，需手动缝合 `.info` 与 `humanoidController.cpp`；[ONNX](./robotics/edge_deployment.md) 观测空间对齐（CSV 关节顺序必须 100% 一致）
-- 👉 实战案例：[RL 行走 Sim2Real 真机部署](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/15.4RL_lab_sim_to_real.md) · [奖励函数/域随机化拆解](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/15.2RL_lab_analysis_code.md) · [IL+RL 舞蹈总览](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/23.1.RL_dance_overview.md) · [S49 舞蹈训练](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/23.3.RL_dance_train.md) · [TD-MPC2 世界模型](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/31.1.world_model.md)
+- 👉 实战案例：[RL 行走 Sim2Real 真机部署](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/15.4RL_lab_sim_to_real.md) · [奖励函数/域随机化拆解](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/15.2RL_lab_analysis_code.md) · [IL+RL 舞蹈总览](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/23.2.RL_dance_overview.md) · [S49 舞蹈训练](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/23.4.RL_dance_train.md) · [TD-MPC2 世界模型](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/31.1.world_model.md)
 
 ---
 
@@ -454,12 +454,12 @@
 - **ROS 1（Noetic）**：Master 负责节点注册与发现；节点建立连接后通常通过 TCPROS/UDPROS 直接交换数据
 - **ROS 2（Humble/Iron 等）**：基于 DDS 的分布式发现与通信，通过 QoS 配置可靠性、历史、截止期限和存活性
 - `ros2_control`：硬件抽象与控制器管理框架，支持真实硬件与仿真后端复用
-- 👉 入门模板：[ROS2 最小工作空间](./robotics/ros_code_template/ros2_code_ws/) · [ROS1 工作空间](./robotics/ros_code_template/ros1_code_ws/) · [工作空间文件速查](./robotics/doc_concept.md)
+- 👉 入门模板：[ROS2 最小工作空间](./robotics/ros_code_template/ros2_code_ws/) · [ROS1 通信与工作空间](./robotics/ros_logic.md) · [工作空间文件速查](./robotics/doc_concept.md)
 
 ### 9.2 仿真与 Sim-to-Real 👉 [RL 笔记](./robotics/RL.md) · [环境笔记](./robotics/environment.md) · [模型部署](./robotics/edge_deployment.md) · [Benchmark 与 Dataset 专题](./robotics/benchmark_dataset.md)
 
-- **[MuJoCo](./robotics/robot_modeling.md)**：轻量级动力学，大规模 RL 训练首选
-- **Isaac Sim / Isaac Lab**：GPU 并行 + 光线追踪渲染，视觉模型与 Sim2Real 核心工具
+- **[MuJoCo](./robotics/robot_modeling.md)**：轻量、稳定的动力学仿真，适合控制验证、快速迭代与中小规模并行训练
+- **Isaac Sim / Isaac Lab**：GPU 并行与高保真传感器/渲染能力，适合大规模并行 RL、视觉模型开发与 Sim2Real；具体选型取决于任务、资产、算力和工具链
 - **Gazebo**：经典 ROS 移动机器人仿真环境
 - **域随机化**：质量/摩擦/延迟随机噪声注入，Sim2Real 跨越虚实鸿沟的核心武器；其他迁移路线：域自适应 (Domain Adaptation)、系统辨识 (System ID)、在线自适应
 - 👉 实战案例：[Isaac Lab 行走训练](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/15.1.RL_lab_train.md) · [MuJoCo Sim2Sim](https://github.com/651yyds3939/kuavo-dev-notes/blob/master/kuavo_notes/15.3RL_lab_sim_to_sim.md)
@@ -487,7 +487,7 @@
 ### 9.5 C++ 工程化与代码模板
 
 - **C++ 工程化**（读/写机器人底层源码）👉 [Linux C++ 工业级项目方向](./robotics/linux_C++_project.md) · [机器人底层 C++ 指南](./robotics/code/robotics_C++.md) · [C++ 语法补充](./robotics/code/C++_grammar_supplement.md) · [DSA 基础](./robotics/code/DSA_C++_Basics.md) · [DSA 树专题](./robotics/code/DSA_tree.md) · [机器人岗位技能对照](./robotics/code/Job_Requirements_for_Robot.md)
-- **ROS 代码模板**：[ROS2 最小工作空间](./robotics/ros_code_template/ros2_code_ws/) · [ROS1 工作空间](./robotics/ros_code_template/ros1_code_ws/) 👉 [工作空间文件速查](./robotics/doc_concept.md)
+- **ROS 代码模板**：[ROS2 最小工作空间](./robotics/ros_code_template/ros2_code_ws/) · [ROS1 通信与工作空间](./robotics/ros_logic.md) 👉 [工作空间文件速查](./robotics/doc_concept.md)
 - **代码阅读**：[代码阅读技巧](./robotics/code_read_skill.md)
 
 ### 9.6 CI/CD 与系统工程 👉 [系统工程专题](./robotics/systems_engineering.md) · [系统集成笔记](./robotics/robot_system_integration.md)

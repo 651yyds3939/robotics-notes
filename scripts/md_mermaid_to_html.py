@@ -5,6 +5,7 @@ import html
 import re
 import sys
 from pathlib import Path
+from urllib.parse import urlsplit, quote
 
 MERMAID_CDN = "https://cdn.jsdelivr.net/npm/mermaid@11.4.0/dist/mermaid.min.js"
 MERMAID_LOCAL = "./assets/mermaid/mermaid.min.js"
@@ -24,27 +25,41 @@ def inline(s: str) -> str:
 
 
 def escape_mermaid(body: str) -> str:
-    return body.replace("&", "&amp;").replace("</pre>", "<\\/pre>")
+    # Preserve literal <br/> in Mermaid source instead of creating DOM elements.
+    return html.escape(body)
 
 
 def mermaid_boot_script() -> str:
     return f"""<script>
 (function () {{
-  function boot() {{
+  window.__diagramRenderStatus = "loading";
+  function fail(error) {{
+    window.__diagramRenderStatus = "error";
+    console.error("Mermaid render failed", error);
+    var notice = document.createElement("p");
+    notice.textContent = "图表加载失败，请检查本地 assets/mermaid 文件或重新生成页面。";
+    document.body.prepend(notice);
+  }}
+  async function boot() {{
+    try {{
     mermaid.initialize({{
-      startOnLoad: true,
+      startOnLoad: false,
       theme: "default",
       securityLevel: "loose",
       flowchart: {{ useMaxWidth: true, htmlLabels: true, curve: "basis" }},
     }});
+    await mermaid.run({{ querySelector: ".mermaid" }});
+    window.__diagramRenderStatus = "ready";
+    }} catch (error) {{ fail(error); }}
   }}
   var s = document.createElement("script");
-  s.src = "{MERMAID_CDN}";
+  s.src = "{MERMAID_LOCAL}";
   s.onload = boot;
   s.onerror = function () {{
     var t = document.createElement("script");
-    t.src = "{MERMAID_LOCAL}";
+    t.src = "{MERMAID_CDN}";
     t.onload = boot;
+    t.onerror = fail;
     document.head.appendChild(t);
   }};
   document.head.appendChild(s);
@@ -93,7 +108,8 @@ def md_to_html(md: str) -> str:
             if line.strip() == "```":
                 body = "\n".join(code_buf)
                 if code_lang == "mermaid":
-                    out.append(f'<pre class="mermaid">{escape_mermaid(body)}</pre>')
+                    diagram = "\n".join(part.rstrip() for part in code_buf)
+                    out.append(f'<pre class="mermaid">{escape_mermaid(diagram)}</pre>')
                 else:
                     out.append(f"<pre><code>{html.escape(body)}</code></pre>")
                 code_buf, in_code, code_lang = [], False, ""
@@ -124,6 +140,9 @@ def md_to_html(md: str) -> str:
         if stripped == "---":
             flush_quote()
             out.append("<hr/>")
+        elif re.fullmatch(r'<a id="[^"<>]+"></a>', stripped):
+            flush_quote()
+            out.append(stripped)
         elif content.startswith("# "):
             flush_quote()
             out.append(f"<h1>{inline(content[2:])}</h1>")
@@ -184,7 +203,8 @@ PREVIEW_CSS = """
     html, body { margin: 0; padding: 8px; background: #fff; color: #222; height: auto; overflow: hidden;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif; }
     h1 { font-size: 11px; font-weight: 600; margin: 0 0 6px; color: #666; }
-    pre.mermaid { margin: 0; padding: 0; background: transparent; border: none; display: inline-block; }
+    pre.mermaid { margin: 0; padding: 0; background: transparent; border: none; display: block; width: 100%; }
+    pre.mermaid svg { display: block; width: 100%; max-width: none !important; height: auto; }
     .foot { display: none; }
 """
 
@@ -211,9 +231,35 @@ def build_preview_page(mermaid_body, title, full_href):
 </body></html>"""
 
 
+def rewrite_document_links(body, md_path, out_path):
+    """Markdown moves from robotics/ to root HTML; keep its targets meaningful."""
+    root = Path(__file__).resolve().parent.parent
+
+    def rewrite(match):
+        href = html.unescape(match.group(1))
+        parsed = urlsplit(href)
+        if parsed.scheme or parsed.netloc or not parsed.path:
+            return match.group(0)
+        resolved = (md_path.parent / parsed.path).resolve()
+        try:
+            relative = resolved.relative_to(root)
+        except ValueError:
+            return match.group(0)
+        fragment = "#" + parsed.fragment if parsed.fragment else ""
+        if resolved.suffix == ".md" or resolved.is_dir():
+            kind = "tree" if resolved.is_dir() else "blob"
+            target = f"https://github.com/651yyds3939/robotics-notes/{kind}/master/{quote(relative.as_posix())}{fragment}"
+        else:
+            import os
+            target = Path(os.path.relpath(resolved, out_path.parent)).as_posix() + fragment
+        return f'href="{html.escape(target, quote=True)}"'
+
+    return re.sub(r'href="([^"]+)"', rewrite, body)
+
+
 def convert(md_path, out_path, title=None, tip=None, preview_path=None, preview_href=None):
     md_text = md_path.read_text(encoding="utf-8")
-    body = md_to_html(md_text)
+    body = rewrite_document_links(md_to_html(md_text), md_path, out_path)
     page_title = title or md_path.stem
     page_tip = tip or f'📊 Mermaid 可视化预览。修改 <code>{md_path.name}</code> 后重新运行对应 regenerate 脚本。'
     out_path.write_text(build_full_page(body, page_title, page_tip), encoding="utf-8")
