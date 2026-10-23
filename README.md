@@ -25,11 +25,11 @@ flowchart LR
 
 ## 结构 · 全链路思维导图（完整展开）
 
-[<img src="./assets/robot_system_preview.png" width="100%" alt="机器人全链路思维导图：全部分支与节点完整展开"/>](./assets/robot_system_preview.png)
+[<img src="./assets/robot_system_preview.png" width="100%" alt="机器人全链路思维导图：全部分支与节点完整展开"/>](https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/robot_system_preview.html)
 
 [robot_system.md](./robot_system.md) · [查看高清原图](./assets/robot_system_preview.png) · [可缩放交互版](https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/robot_system_preview.html)
 
-> 上图包含全部展开节点，独占整行，不再只显示大分支。README 会按页面宽度缩放长图；点击图片打开高清原图，可放大查看细节。
+> 上图包含全部展开节点，独占整行，不再只显示大分支。README 会按页面宽度缩放长图；点击图片打开可缩放交互版，可缩放、拖动查看细节；高清原图可通过上方「查看高清原图」链接打开。
 
 ## 流程 · 研发生命周期
 
@@ -42,7 +42,7 @@ flowchart LR
 | [<img src="./assets/integration_preview.png" width="100%" alt="系统集成闭环概览"/>](https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/robot_system_integration.html) | [<img src="./assets/pipelines_preview.png" width="100%" alt="二次开发软件管线概览"/>](https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/robot_software_pipelines.html) |
 | [专题源文件](./robotics/robot_system_integration.md) · [完整 HTML](https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/robot_system_integration.html) | [专题源文件](./robotics/robot_software_pipelines.md) · [完整 HTML](https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/robot_software_pipelines.html) |
 
-> **图片说明**：四张 PNG 由 [`regenerate_all_previews.sh`](./regenerate_all_previews.sh) 自动生成。思维导图按完整 SVG 内容范围截图，保留原始文字分辨率，不折叠、不裁掉节点，也不缩小到缩略图尺寸；其余图片展示首张总览图。思维导图点击打开高清原图，其余图片点击打开完整交互页面。
+> **图片说明**：四张 PNG 由 [`regenerate_all_previews.sh`](./regenerate_all_previews.sh) 自动生成。思维导图按完整 SVG 内容范围截图，保留原始文字分辨率，不折叠、不裁掉节点，也不缩小到缩略图尺寸；其余图片展示首张总览图。四张图片点击均打开对应的完整交互页面。
 >
 > **多图文档**：[运行时闭环 · integration HTML](https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/robot_system_integration.html) · [软件管线 · pipelines HTML](https://htmlpreview.github.io/?https://raw.githubusercontent.com/651yyds3939/robotics-notes/master/robot_software_pipelines.html)（亦可在 GitHub 打开 `.md` 原生渲染 Mermaid）。
 
